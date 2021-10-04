@@ -16,4 +16,11 @@ public class BookServiceImpl implements BookService{
         List<Book> books = factory.bookDAO().getAllToBooksTable();
         return books;
     }
+
+    @Override
+    public Book findBookByISBN(Long isbn) {
+        factory = DAOFactory.getDAOFactory(1);
+        Book book = factory.bookDAO().findBookByISBN(isbn);
+        return book;
+    }
 }

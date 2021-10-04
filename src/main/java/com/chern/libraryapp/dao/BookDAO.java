@@ -8,4 +8,5 @@ public interface BookDAO {
     //interfaces of methods for concrete realization of BookDAO
 
     public List<Book> getAllToBooksTable();
+    public Book findBookByISBN(Long isbn);
 }

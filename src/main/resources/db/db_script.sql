@@ -13,7 +13,7 @@ create table books (
 );
 create table authors(
                         id serial unique not null,
-                        book_isbn bigint unique not null,
+                        book_isbn bigint not null,
                         firstName varchar(30) not null,
                         lastName varchar(30) not null,
                         primary key(id),

@@ -3,13 +3,11 @@ package com.chern.libraryapp.dao.impl;
 import com.chern.libraryapp.dao.BookDAO;
 import com.chern.libraryapp.dao.DAOFactory;
 import com.chern.libraryapp.dao.PostgreSQLDAOFactory;
+import com.chern.libraryapp.enums.BookStatus;
 import com.chern.libraryapp.model.Author;
 import com.chern.libraryapp.model.Book;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +17,8 @@ public class PostgreBookDAO implements BookDAO {
 
     private static final String QUERY_SELECT_TO_BOOKS_TABLE =
             "SELECT isbn, title, publishdate, totalamount from books";
+    public static final String QUERY_FIND_BOOK_BY_ID =
+            "SELECT * FROM books WHERE isbn=?";
 
 
     @Override
@@ -43,6 +43,33 @@ public class PostgreBookDAO implements BookDAO {
             throwables.printStackTrace();
         } finally {
             return bookList;
+        }
+    }
+
+    @Override
+    public Book findBookByISBN(Long isbn) {
+        Book book = null;
+        try {
+            Connection connection = PostgreSQLDAOFactory.createConnection();
+            PreparedStatement statement = connection.prepareStatement(QUERY_FIND_BOOK_BY_ID);
+            statement.setLong(1, isbn);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                book = new Book();
+                book.setIsbn(resultSet.getLong("isbn"));
+                book.setCover(resultSet.getBytes("cover"));
+                book.setTitle(resultSet.getString("title"));
+                book.setPublisher(resultSet.getString("publisher"));
+                book.setPageCount(resultSet.getInt("pageCount"));
+                book.setDescription(resultSet.getString("description"));
+                book.setTotalAmount(resultSet.getInt("totalAmount"));
+                book.setStatus(BookStatus.valueOf(resultSet.getString("status")));
+                book.setPublishDate(resultSet.getDate("publishDate"));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            return book;
         }
     }
 }

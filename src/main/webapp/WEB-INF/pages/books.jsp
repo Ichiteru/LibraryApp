@@ -19,13 +19,17 @@
         </tr>
         </thead>
         <tbody>
-            <tr>
                 <c:forEach items="${bookList}" var="book">
-                    <td><c:out value="${book.title}"/> </td>
+                <tr>
+                    <td>
+                        <a href="/books/${book.isbn}"><c:out value="${book.title}"/></a>
+                    </td>
                     <td>
                             <c:forEach items="${book.authors}" var="author">
+                                <p>
                                     <c:out value="${author.firstName}"/>
-                                    <c:out value="${author.lastName}"/> <br/>
+                                    <c:out value="${author.lastName}"/>
+                                </p>
                             </c:forEach>
                     </td>
                     <td><c:out value="${book.publishDate}"/></td>
@@ -33,12 +37,15 @@
                     <td>
                         <input type="checkbox" name="deleteCheckBox" value="${book.isbn}">
                     </td>
+                </tr>
                 </c:forEach>
-            </tr>
         </tbody>
     </table>
     <button type="button" class="btn btn-outline-primary">Add book</button>
-    <button onclick="deleteSelectedBooks()" type="button" class="btn btn-outline-primary">Delete selected books</button>
+    <form onsubmit="deleteSelectedBooks()" name="deleteForm" id="deleteForm" action="/delete" method="post" >
+        <input type="hidden" name="test" value="testValue">
+        <input  type="submit" class="btn btn-outline-primary" value="Delete selected books"></input>
+    </form>
     <script src="./../../resources/js/deleteSelectedBooks.js"></script>
 </body>
 </html>
