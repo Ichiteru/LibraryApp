@@ -8,13 +8,14 @@
 </head>
 <body>
     <c:import url="navbar.jsp"/>
-    <table class="table">
+    <table class="table" id="booksTable">
         <thead>
         <tr>
             <th scope="col">Title</th>
             <th scope="col">Authors</th>
             <th scope="col">Publish date</th>
             <th scope="col">Copies</th>
+            <th scope="col">Select</th>
         </tr>
         </thead>
         <tbody>
@@ -22,18 +23,22 @@
                 <c:forEach items="${bookList}" var="book">
                     <td><c:out value="${book.title}"/> </td>
                     <td>
-                        <ul>
                             <c:forEach items="${book.authors}" var="author">
-                                <li>${author.firstName} ${author.lastName}</li>
+                                    <c:out value="${author.firstName}"/>
+                                    <c:out value="${author.lastName}"/> <br/>
                             </c:forEach>
-                        </ul>
                     </td>
-                    <td>${book.publishDate}</td>
+                    <td><c:out value="${book.publishDate}"/></td>
                     <td>${book.totalAmount}</td>
+                    <td>
+                        <input type="checkbox" name="deleteCheckBox" value="${book.isbn}">
+                    </td>
                 </c:forEach>
             </tr>
         </tbody>
     </table>
     <button type="button" class="btn btn-outline-primary">Add book</button>
+    <button onclick="deleteSelectedBooks()" type="button" class="btn btn-outline-primary">Delete selected books</button>
+    <script src="./../../resources/js/deleteSelectedBooks.js"></script>
 </body>
 </html>

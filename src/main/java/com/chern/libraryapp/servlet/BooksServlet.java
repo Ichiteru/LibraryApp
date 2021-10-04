@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet("/books")
-public class MyServlet extends HttpServlet {
+public class BooksServlet extends HttpServlet {
 
     BookService bookService;
 
@@ -24,7 +24,7 @@ public class MyServlet extends HttpServlet {
         bookService = new BookServiceImpl();
         List<Book> books = bookService.getAllBooksToLoadOnTable();
         req.setAttribute("bookList", books);
-        String path = "/books.jsp";
+        String path = "/WEB-INF/pages/books.jsp";
         ServletContext servletContext = getServletContext();
         RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(path);
         requestDispatcher.forward(req, resp);
