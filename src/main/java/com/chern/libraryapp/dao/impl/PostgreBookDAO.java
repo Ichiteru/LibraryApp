@@ -1,5 +1,6 @@
 package com.chern.libraryapp.dao.impl;
 
+import com.chern.libraryapp.dao.AuthorDAO;
 import com.chern.libraryapp.dao.BookDAO;
 import com.chern.libraryapp.dao.DAOFactory;
 import com.chern.libraryapp.dao.PostgreSQLDAOFactory;
@@ -65,6 +66,7 @@ public class PostgreBookDAO implements BookDAO {
                 book.setTotalAmount(resultSet.getInt("totalAmount"));
                 book.setStatus(BookStatus.valueOf(resultSet.getString("status")));
                 book.setPublishDate(resultSet.getDate("publishDate"));
+                book.setAuthors(PostgreSQLDAOFactory.getDAOFactory(1).authorDAO().getBookAuthorsByISBN(isbn));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

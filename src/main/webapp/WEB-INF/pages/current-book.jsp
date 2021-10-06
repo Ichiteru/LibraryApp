@@ -32,7 +32,7 @@
                             </div>
                             <div class="userData ml-3">
                                 <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold"><c:out value="${book.title}"/></h2>
-                                <p class="d-block"><c:out value="${book.description}"/></p>
+                                <p class="d-block"></p>
                             </div>
                             <div class="ml-auto">
                                 <input type="button" class="btn btn-primary d-none" id="btnDiscard" value="Discard Changes" />
@@ -59,7 +59,9 @@
                                             <label style="font-weight:bold;">Author(s)</label>
                                         </div>
                                         <div class="col-md-8 col-6">
-                                            Something
+                                            <c:forEach items="${book.authors}" var="author">
+                                                <c:out value="${author.firstName}"/> <c:out value="${author.lastName}"/><br/>
+                                            </c:forEach>
                                         </div>
                                     </div>
                                     <hr />
@@ -69,7 +71,7 @@
                                             <label style="font-weight:bold;">Publisher</label>
                                         </div>
                                         <div class="col-md-8 col-6">
-                                            Something
+                                            <c:out value="${book.publisher}"/>
                                         </div>
                                     </div>
                                     <hr />
@@ -80,7 +82,7 @@
                                             <label style="font-weight:bold;">Publish date</label>
                                         </div>
                                         <div class="col-md-8 col-6">
-                                            Something
+                                            <c:out value="${book.publishDate}"/>
                                         </div>
                                     </div>
                                     <hr />
@@ -98,7 +100,7 @@
                                             <label style="font-weight:bold;">Pages</label>
                                         </div>
                                         <div class="col-md-8 col-6">
-                                            Something
+                                            <c:out value="${book.pageCount}"/>
                                         </div>
                                     </div>
                                     <hr />
@@ -107,7 +109,7 @@
                                             <label style="font-weight:bold;">ISBN</label>
                                         </div>
                                         <div class="col-md-8 col-6">
-                                            Something
+                                            <c:out value="${book.isbn}"/>
                                         </div>
                                     </div>
                                     <hr />
@@ -116,7 +118,7 @@
                                             <label style="font-weight:bold;">Total amount</label>
                                         </div>
                                         <div class="col-md-8 col-6">
-                                            Something
+                                            <c:out value="${book.totalAmount}"/>
                                         </div>
                                     </div>
                                     <hr />
@@ -125,7 +127,7 @@
                                             <label style="font-weight:bold;">Status</label>
                                         </div>
                                         <div class="col-md-8 col-6">
-                                            Something
+                                            <c:out value="${book.status}"/>
                                         </div>
                                     </div>
                                     <hr />
