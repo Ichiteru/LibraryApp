@@ -33,3 +33,7 @@ body{
 .image-container:hover .middle {
     opacity: 1;
 }
+.userData{
+    max-width: 70%;
+    background: black;
+}

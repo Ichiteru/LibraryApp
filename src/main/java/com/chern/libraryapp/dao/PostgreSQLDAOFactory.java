@@ -1,9 +1,6 @@
 package com.chern.libraryapp.dao;
 
-import com.chern.libraryapp.dao.impl.PostgreAuthorDAO;
-import com.chern.libraryapp.dao.impl.PostgreBookDAO;
-import com.chern.libraryapp.dao.impl.PostgreBorrowerDAO;
-import com.chern.libraryapp.dao.impl.PostgreReaderDAO;
+import com.chern.libraryapp.dao.impl.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -40,4 +37,9 @@ public class PostgreSQLDAOFactory extends DAOFactory {
 
     @Override
     public PostgreBorrowerDAO borrowerDAO() { return new PostgreBorrowerDAO(); }
+
+    @Override
+    public PostgreGenreDAO genreDao() {
+        return new PostgreGenreDAO();
+    }
 }

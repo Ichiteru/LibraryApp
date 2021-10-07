@@ -11,7 +11,7 @@
 <head>
     <title>Title</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" integrity="sha512-P5MgMn1jBN01asBgU0z60Qk4QxiXo86+wlFahKrsQf37c9cro517WzVSPPV1tDKzhku2iJ2FVgL67wG03SGnNA==" crossorigin="anonymous">
-    <link href="./../../resources/book-profile.css" rel="stylesheet" id="bootstrap-css">
+<%--    <link href="./../../resources/book-profile.css" rel="stylesheet">--%>
 </head>
 <body>
 <c:set var="book" value="${book}"></c:set>
@@ -25,18 +25,18 @@
                         <div class="d-flex justify-content-start">
                             <div class="image-container">
                                 <img src="http://placehold.it/150x150" id="bookCover" style="width: 150px; height: 150px" class="img-thumbnail" />
-                                <div class="middle">
-                                    <input type="button" class="btn btn-secondary" id="btnChangePicture" value="Change" />
-                                    <input type="file" style="display: none;" id="profilePicture" name="file" />
+                                <div class="middle" style="width: 160px; flex: 0 0 auto">
+<%--                                    <input type="button" class="btn btn-secondary" id="btnChangePicture" value="Change" />--%>
+                                    <input type="file" name="file" onchange="" id="profilePicture"  />
                                 </div>
                             </div>
-                            <div class="userData ml-3">
+                            <div class="userData ml-3" style="flex: 1 1 auto">
                                 <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold"><c:out value="${book.title}"/></h2>
-                                <p class="d-block"></p>
+                                <p class="d-block" style="width: 100%"><c:out value="${book.description}"></c:out></p>
                             </div>
-                            <div class="ml-auto">
-                                <input type="button" class="btn btn-primary d-none" id="btnDiscard" value="Discard Changes" />
-                            </div>
+<%--                            <div class="ml-auto">--%>
+<%--                                <input type="button" class="btn btn-primary d-none" id="btnDiscard" value="Discard Changes" />--%>
+<%--                            </div>--%>
                         </div>
                     </div>
 
@@ -60,7 +60,7 @@
                                         </div>
                                         <div class="col-md-8 col-6">
                                             <c:forEach items="${book.authors}" var="author">
-                                                <c:out value="${author.firstName}"/> <c:out value="${author.lastName}"/><br/>
+                                                <c:out value="${author.firstName} ${author.lastName};"/><br/>
                                             </c:forEach>
                                         </div>
                                     </div>
@@ -91,7 +91,9 @@
                                             <label style="font-weight:bold;">Genre(-s)</label>
                                         </div>
                                         <div class="col-md-8 col-6">
-                                            Something
+                                            <c:forEach items="${book.genres}" var="genre">
+                                                <c:out value="${genre.name}; "/>
+                                            </c:forEach>
                                         </div>
                                     </div>
                                     <hr />

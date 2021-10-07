@@ -5,8 +5,10 @@ import com.chern.libraryapp.dao.BookDAO;
 import com.chern.libraryapp.dao.DAOFactory;
 import com.chern.libraryapp.dao.PostgreSQLDAOFactory;
 import com.chern.libraryapp.enums.BookStatus;
+import com.chern.libraryapp.enums.Gender;
 import com.chern.libraryapp.model.Author;
 import com.chern.libraryapp.model.Book;
+import com.chern.libraryapp.model.Genre;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -67,6 +69,7 @@ public class PostgreBookDAO implements BookDAO {
                 book.setStatus(BookStatus.valueOf(resultSet.getString("status")));
                 book.setPublishDate(resultSet.getDate("publishDate"));
                 book.setAuthors(PostgreSQLDAOFactory.getDAOFactory(1).authorDAO().getBookAuthorsByISBN(isbn));
+                book.setGenres(PostgreSQLDAOFactory.getDAOFactory(1).genreDao().getBookGenresByISBN(isbn));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
