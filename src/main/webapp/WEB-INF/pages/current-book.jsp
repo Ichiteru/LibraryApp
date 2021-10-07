@@ -24,10 +24,10 @@
                     <div class="card-title mb-4">
                         <div class="d-flex justify-content-start">
                             <div class="image-container">
-                                <img src="http://placehold.it/150x150" id="bookCover" style="width: 150px; height: 150px" class="img-thumbnail" />
+                                <img src="#" id="bookCover" style="width: 150px; height: 150px" class="img-thumbnail" />
                                 <div class="middle" style="width: 160px; flex: 0 0 auto">
 <%--                                    <input type="button" class="btn btn-secondary" id="btnChangePicture" value="Change" />--%>
-                                    <input type="file" name="file" onchange="" id="profilePicture"  />
+                                    <input type="file" onchange="onFileSelected(event)"/>
                                 </div>
                             </div>
                             <div class="userData ml-3" style="flex: 1 1 auto">
@@ -148,5 +148,7 @@
         </div>
     </div>
 </div>
+
+<script src="./../../resources/js/bookCoverChange.js"></script>
 </body>
 </html>
