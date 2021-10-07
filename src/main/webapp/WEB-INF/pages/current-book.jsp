@@ -15,7 +15,8 @@
 </head>
 <body>
 <c:set var="book" value="${book}"></c:set>
-<div class="container">
+<c:import url="navbar.jsp"/>
+<div class="container" style="padding: 20px">
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -27,7 +28,12 @@
                                 <img src="#" id="bookCover" style="width: 150px; height: 150px" class="img-thumbnail" />
                                 <div class="middle" style="width: 160px; flex: 0 0 auto">
 <%--                                    <input type="button" class="btn btn-secondary" id="btnChangePicture" value="Change" />--%>
-                                    <input type="file" onchange="onFileSelected(event)"/>
+                                            <div class="custom-file" style="margin-top: 10px">
+                                                <input type="file" onchange="onFileSelected(event)" class="custom-file-input" id="inputGroupFile04">
+                                                <label class="custom-file-label" for="inputGroupFile04" style="font-size: small">Choose file</label>
+                                            </div>
+
+<%--                                    <input type="file" onchange="onFileSelected(event)"/>--%>
                                 </div>
                             </div>
                             <div class="userData ml-3" style="flex: 1 1 auto">
