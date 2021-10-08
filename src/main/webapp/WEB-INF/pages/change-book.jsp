@@ -1,17 +1,17 @@
 <%--
   Created by IntelliJ IDEA.
   User: User
-  Date: 04.10.2021
-  Time: 21:10
+  Date: 08.10.2021
+  Time: 10:16
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Title</title>
+    <title></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" integrity="sha512-P5MgMn1jBN01asBgU0z60Qk4QxiXo86+wlFahKrsQf37c9cro517WzVSPPV1tDKzhku2iJ2FVgL67wG03SGnNA==" crossorigin="anonymous">
-<%--    <link href="./../../resources/book-profile.css" rel="stylesheet">--%>
+
 </head>
 <body>
 <c:set var="book" value="${book}"></c:set>
@@ -27,22 +27,25 @@
                             <div class="image-container">
                                 <img src="#" id="bookCover" style="width: 150px; height: 150px" class="img-thumbnail" />
                                 <div class="middle" style="width: 160px; flex: 0 0 auto">
-<%--                                    <input type="button" class="btn btn-secondary" id="btnChangePicture" value="Change" />--%>
-                                            <div class="custom-file" style="margin-top: 10px">
-                                                <input type="file" onchange="onFileSelected(event)" class="custom-file-input" id="inputGroupFile04">
-                                                <label class="custom-file-label" for="inputGroupFile04" style="font-size: small">Choose file</label>
-                                            </div>
+                                    <%--                                    <input type="button" class="btn btn-secondary" id="btnChangePicture" value="Change" />--%>
+                                    <div class="custom-file" style="margin-top: 10px">
+                                        <input type="file" onchange="onFileSelected(event)" class="custom-file-input" id="inputGroupFile04">
+                                        <label class="custom-file-label" for="inputGroupFile04" style="font-size: small">Choose file</label>
+                                    </div>
 
-<%--                                    <input type="file" onchange="onFileSelected(event)"/>--%>
+                                    <%--                                    <input type="file" onchange="onFileSelected(event)"/>--%>
                                 </div>
                             </div>
                             <div class="userData ml-3" style="flex: 1 1 auto">
-                                <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold"><c:out value="${book.title}"/></h2>
-                                <p class="d-block" style="width: 100%"><c:out value="${book.description}"></c:out></p>
+<%--                                <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold"><c:out value="${book.title}"/></h2>--%>
+                                <input type="text" class="form-control" value="${book.title}"/>
+                                <p class="d-block" style="width: 100%; margin-top: 5px">
+                                    <textarea  class="form-control" style="width: 100%; height: 80%" ><c:out value="${book.description}"></c:out></textarea>
+                                </p>
                             </div>
-<%--                            <div class="ml-auto">--%>
-<%--                                <input type="button" class="btn btn-primary d-none" id="btnDiscard" value="Discard Changes" />--%>
-<%--                            </div>--%>
+                            <%--                            <div class="ml-auto">--%>
+                            <%--                                <input type="button" class="btn btn-primary d-none" id="btnDiscard" value="Discard Changes" />--%>
+                            <%--                            </div>--%>
                         </div>
                     </div>
 
@@ -64,9 +67,12 @@
                                         <div class="col-sm-3 col-md-2 col-5">
                                             <label style="font-weight:bold;">Author(s)</label>
                                         </div>
-                                        <div class="col-md-8 col-6">
+                                        <div class="col-md-8 col-6" style="margin-left: 15px">
                                             <c:forEach items="${book.authors}" var="author">
-                                                <c:out value="${author.firstName} ${author.lastName};"/><br/>
+                                                <div class="row">
+                                                    <input type="text" class="form-control" value="${author.firstName}" style="width: 30%">
+                                                    <input type="text" class="form-control" value="${author.lastName}"  style="width: 30%"> <br/>
+                                                </div>
                                             </c:forEach>
                                         </div>
                                     </div>
@@ -77,7 +83,7 @@
                                             <label style="font-weight:bold;">Publisher</label>
                                         </div>
                                         <div class="col-md-8 col-6">
-                                            <c:out value="${book.publisher}"/>
+                                            <input type="text" class="form-control" value="${book.publisher}"/>
                                         </div>
                                     </div>
                                     <hr />
@@ -88,7 +94,7 @@
                                             <label style="font-weight:bold;">Publish date</label>
                                         </div>
                                         <div class="col-md-8 col-6">
-                                            <c:out value="${book.publishDate}"/>
+                                            <input type="date" class="form-control" value="${book.publishDate}"/>
                                         </div>
                                     </div>
                                     <hr />
@@ -138,7 +144,7 @@
                                             <c:out value="${book.status}"/>
                                         </div>
                                     </div>
-                                    <hr />
+
                                 </div>
                                 <div class="tab-pane fade" id="connectedServices" role="tabpanel" aria-labelledby="ConnectedServices-tab">
                                     Facebook, Google, Twitter Account that are connected to this account
@@ -146,10 +152,7 @@
                             </div>
                         </div>
                     </div>
-                    <form action="/change/${book.isbn}" method="post">
-                        <input type="hidden" name="isbn" value="${book.isbn}">
-                        <input class="btn btn-primary" type="submit" value="Change info">
-                    </form>
+
 
                 </div>
 
