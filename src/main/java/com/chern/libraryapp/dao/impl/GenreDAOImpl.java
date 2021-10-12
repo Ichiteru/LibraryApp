@@ -1,7 +1,6 @@
 package com.chern.libraryapp.dao.impl;
 
 import com.chern.libraryapp.dao.GenreDAO;
-import com.chern.libraryapp.dao.PostgreSQLDAOFactory;
 import com.chern.libraryapp.model.Genre;
 
 import java.sql.Connection;
@@ -11,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PostgreGenreDAO implements GenreDAO {
+public class GenreDAOImpl implements GenreDAO {
 
     public static final String QUERY_SELECT_BOOK_GENRES =
             "SELECT id, name from book_genres " +
@@ -20,8 +19,7 @@ public class PostgreGenreDAO implements GenreDAO {
     @Override
     public List<Genre> getBookGenresByISBN(long isbn) {
         List<Genre> genres = new ArrayList<>();
-        try {
-            Connection connection = PostgreSQLDAOFactory.createConnection();
+        try (Connection connection = ConnectionDAOFactory.createConnection()){
             PreparedStatement preparedStatement = connection.prepareStatement(QUERY_SELECT_BOOK_GENRES);
             preparedStatement.setLong(1, isbn);
             ResultSet resultSet = preparedStatement.executeQuery();

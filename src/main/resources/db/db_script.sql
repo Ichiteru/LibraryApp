@@ -1,5 +1,5 @@
 create table books (
-                       isbn bigint unique not null,
+                       isbn varchar(20) unique not null,
                        cover bytea,
                        title varchar(50) not null,
                        publisher varchar(50) not null,
@@ -20,13 +20,20 @@ create table authors(
                         foreign key(book_isbn)
                             references books(isbn) on delete cascade
 );
+create table book_authors(
+                             book_isbn varchar(20) not null,
+                             author_id bigint not null,
+                             primary key (book_isbn, author_id),
+                             foreign key(book_isbn) references books(isbn) on delete cascade,
+                             foreign key (author_id) references authors(id)
+);
 create table genres(
                        id serial unique not null,
                        name  varchar(30) not null unique,
                        primary key(id)
 );
 create table book_genres (
-                             book_isbn bigint not null,
+                             book_isbn varchar(20) not null,
                              genre_id bigint not null,
                              primary key(book_isbn, genre_id),
                              foreign key(book_isbn)
@@ -44,7 +51,7 @@ create table readers(
                         primary key(email)
 );
 create table book_readers(
-                             book_isbn bigint not null,
+                             book_isbn varchar(20) not null,
                              reader_email varchar(50) not null,
                              borrow_date date not null,
                              due_date date not null,

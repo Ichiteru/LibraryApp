@@ -1,22 +1,16 @@
 package com.chern.libraryapp.dao.impl;
 
-import com.chern.libraryapp.dao.AuthorDAO;
 import com.chern.libraryapp.dao.BookDAO;
 import com.chern.libraryapp.dao.DAOFactory;
-import com.chern.libraryapp.dao.PostgreSQLDAOFactory;
-import com.chern.libraryapp.enums.BookStatus;
-import com.chern.libraryapp.enums.Gender;
+import com.chern.libraryapp.model.enums.BookStatus;
 import com.chern.libraryapp.model.Author;
 import com.chern.libraryapp.model.Book;
-import com.chern.libraryapp.model.Genre;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PostgreBookDAO implements BookDAO {
-    //realization CRUD and other queries for book
+public class BookDAOImpl implements BookDAO {
 
     private static final String QUERY_SELECT_TO_BOOKS_TABLE =
             "SELECT isbn, title, publishdate, totalamount from books";
@@ -27,8 +21,7 @@ public class PostgreBookDAO implements BookDAO {
     @Override
     public List<Book> getAllToBooksTable() {
         List<Book> bookList = new ArrayList<>();
-        try {
-            Connection connection = PostgreSQLDAOFactory.createConnection();
+        try(Connection connection = ConnectionDAOFactory.createConnection()) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(QUERY_SELECT_TO_BOOKS_TABLE);
             while (resultSet.next()){
@@ -37,23 +30,21 @@ public class PostgreBookDAO implements BookDAO {
                 book.setTitle(resultSet.getString(2));
                 book.setPublishDate(resultSet.getDate(3));
                 book.setTotalAmount(resultSet.getInt(4));
-                List<Author> bookAuthorsByISBN = PostgreSQLDAOFactory
-                        .getDAOFactory(1).authorDAO().getBookAuthorsByISBN(book.getIsbn());
+                List<Author> bookAuthorsByISBN = DAOFactory.authorDAO().getBookAuthorsByISBN(book.getIsbn());
                 book.setAuthors(bookAuthorsByISBN);
                 bookList.add(book);
             }
+            return bookList;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        } finally {
-            return bookList;
+            return null;
         }
     }
 
     @Override
     public Book findBookByISBN(Long isbn) {
         Book book = null;
-        try {
-            Connection connection = PostgreSQLDAOFactory.createConnection();
+        try(Connection connection = ConnectionDAOFactory.createConnection()) {
             PreparedStatement statement = connection.prepareStatement(QUERY_FIND_BOOK_BY_ID);
             statement.setLong(1, isbn);
             ResultSet resultSet = statement.executeQuery();
@@ -68,13 +59,13 @@ public class PostgreBookDAO implements BookDAO {
                 book.setTotalAmount(resultSet.getInt("totalAmount"));
                 book.setStatus(BookStatus.valueOf(resultSet.getString("status")));
                 book.setPublishDate(resultSet.getDate("publishDate"));
-                book.setAuthors(PostgreSQLDAOFactory.getDAOFactory(1).authorDAO().getBookAuthorsByISBN(isbn));
-                book.setGenres(PostgreSQLDAOFactory.getDAOFactory(1).genreDao().getBookGenresByISBN(isbn));
+                book.setAuthors(DAOFactory.authorDAO().getBookAuthorsByISBN(isbn));
+                book.setGenres(DAOFactory.genreDao().getBookGenresByISBN(isbn));
             }
+            return book;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        } finally {
-            return book;
+            return null;
         }
     }
 }

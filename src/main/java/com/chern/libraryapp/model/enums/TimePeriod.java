@@ -1,4 +1,4 @@
-package com.chern.libraryapp.enums;
+package com.chern.libraryapp.model.enums;
 
 public final class TimePeriod {
     public static final int ONE = 1;

@@ -1,6 +1,6 @@
 package com.chern.libraryapp.model;
 
-import com.chern.libraryapp.enums.Gender;
+import com.chern.libraryapp.model.enums.Gender;
 import lombok.Data;
 
 import java.time.LocalDate;

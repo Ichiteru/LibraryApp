@@ -17,19 +17,14 @@ import java.util.List;
 @WebServlet("/books/*")
 public class CurrentBookServlet extends HttpServlet {
 
-    private BookService bookService;
+    private BookService bookService = new BookServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        bookService = new BookServiceImpl();
         String str = req.getPathInfo();
-        ServletContext servletContext = getServletContext();
-        String path = "";
         Long id = Long.valueOf(str.substring(1));
         Book book = bookService.findBookByISBN(id);
         req.setAttribute("book", book);
-        path = "/WEB-INF/pages/current-book.jsp";
-        RequestDispatcher requestDispatcher = servletContext.getRequestDispatcher(path);
-        requestDispatcher.forward(req, resp);
+        getServletContext().getRequestDispatcher("/WEB-INF/pages/current-book.jsp").forward(req, resp);
     }
 }

@@ -1,10 +1,8 @@
 package com.chern.libraryapp.model;
 
-import com.chern.libraryapp.enums.BookStatus;
-import lombok.Data;
+import com.chern.libraryapp.model.enums.BookStatus;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
