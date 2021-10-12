@@ -28,12 +28,15 @@
                         <div class="card-title mb-4">
                             <div class="d-flex justify-content-start">
                                 <div class="image-container">
-                                    <img src="#" id="bookCover" style="width: 150px; height: 150px" class="img-thumbnail"/>
+                                    <img src="#" id="bookCover" style="width: 150px; height: 150px"
+                                         class="img-thumbnail"/>
                                     <div class="middle" style="width: 160px; flex: 0 0 auto">
                                         <div class="custom-file" style="margin-top: 10px">
-                                            <input type="file" onchange="onFileSelected(event)" class="custom-file-input"
+                                            <input type="file" onchange="onFileSelected(event)"
+                                                   class="custom-file-input"
                                                    id="inputGroupFile04">
-                                            <label class="custom-file-label" for="inputGroupFile04" style="font-size: small">Choose file</label>
+                                            <label class="custom-file-label" for="inputGroupFile04"
+                                                   style="font-size: small">Choose file</label>
                                         </div>
                                     </div>
                                 </div>
@@ -51,8 +54,14 @@
                             <div class="col-12">
                                 <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo"
+                                        <a class="nav-link active" id="basicInfo-tab" data-toggle="tab"
+                                           href="#basicInfo"
                                            role="tab" aria-controls="bookInfo" aria-selected="true">Book Info</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="connectedServices-tab" data-toggle="tab"
+                                           href="#connectedServices" role="tab" aria-controls="connectedServices"
+                                           aria-selected="false">Borrowers</a>
                                     </li>
                                 </ul>
                                 <div class="tab-content ml-1" id="myTabContent">
@@ -67,15 +76,15 @@
                                             <div class="col-md-8 col-6" style="margin-left: 15px" id="authorDiv">
                                                 <c:forEach items="${book.authors}" var="author">
                                                     <div class="row mt-1">
-                                                        <input type="text" class="form-control" name="firstName" value="${author.firstName}"
-                                                               style="width: 30%">
-                                                        <input type="text" class="form-control" name="secondName" value="${author.lastName}"
-                                                               style="width: 30%">
-                                                        <button type="button" class="btn btn-danger" >Delete</button><br/>
+                                                        <input type="text" class="form-control" name="authorName"
+                                                               value="${author.firstName} ${author.lastName}"
+                                                               style="width: 30%" disabled/>
+                                                        <button type="button" class="btn btn-danger">Delete</button>
+                                                        <br/>
                                                     </div>
                                                 </c:forEach>
                                             </div>
-                                            <button type="button" class="btn btn-success mt-1" style="max-height: 40px">Add</button>
+                                            <%--                                            <button type="button" class="btn btn-success mt-1" style="max-height: 40px">Add</button>--%>
                                         </div>
                                         <hr/>
 
@@ -95,7 +104,7 @@
                                                 <label style="font-weight:bold;">Publish date</label>
                                             </div>
                                             <div class="col-md-8 col-6">
-                                                <input type="date" class="form-control"  value="${book.publishDate}"/>
+                                                <input type="date" class="form-control" value="${book.publishDate}"/>
                                             </div>
                                         </div>
                                         <hr/>
@@ -103,14 +112,28 @@
                                             <div class="col-sm-3 col-md-2 col-5">
                                                 <label style="font-weight:bold;">Genre(-s)</label>
                                             </div>
-                                            <div class="col-md-8 col-6">
+                                            <div class="col-md-6 col-6" id="genreDiv">
                                                 <c:forEach items="${book.genres}" var="genre">
-                                                    <div class="row mt-1">
-
+                                                    <div class="row mt-1" >
+                                                        <input type="text" class="form-control ml-3" name="bookGenre"
+                                                               value="${genre.name}"
+                                                               style="width: 40%" disabled/>
+                                                        <input type="button" class="btn btn-danger" onclick="deleteGenre(this)" value="D"></input>
                                                     </div>
                                                 </c:forEach>
                                             </div>
-                                                        <button type="button" class="btn btn-danger">Delete</button><br/>
+                                            <div class="col col-md-2">
+                                                <div class="row">
+                                                    <select id="select" class="form-select ml-4" aria-label="Default select example">
+                                                        <c:forEach items="${genres}" var="opt_genre">
+                                                            <option value="${opt_genre.name}">${opt_genre.name}</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </div>
+                                                <div class="row">
+                                                    <button type="button" class="btn btn-success ml-5 mt-1" onclick="addBookGenre()">Add genre</button>
+                                                </div>
+                                            </div>
                                         </div>
                                         <hr/>
                                         <div class="row">
@@ -164,5 +187,7 @@
 </form>
 
 <script src="./../../resources/js/bookCoverChange.js"></script>
+<script src="./../../resources/js/addBookGenre.js"></script>
+<script src="./../../resources/js/deleteBookGenre.js"></script>
 </body>
 </html>

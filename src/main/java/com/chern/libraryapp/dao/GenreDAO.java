@@ -7,4 +7,6 @@ import java.util.List;
 public interface GenreDAO {
 
     public List<Genre> getBookGenresByISBN(long isbn);
+
+    public List<Genre> getAllGenres();
 }
