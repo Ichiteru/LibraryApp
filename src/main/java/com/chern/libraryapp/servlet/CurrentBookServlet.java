@@ -26,7 +26,7 @@ public class CurrentBookServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String str = req.getPathInfo();
-        Long id = Long.valueOf(str.substring(1));
+        String id = str.substring(1);
         Book book = bookService.findBookByISBN(id);
         req.setAttribute("book", book);
         List<Genre> allGenres = genreService.getAllGenres();

@@ -17,7 +17,7 @@ public class ChangeBookServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Long isbn = Long.parseLong(req.getParameter("isbn"));
+        String isbn = req.getParameter("isbn");
         req.setAttribute("book", bookService.findBookByISBN(isbn));
         getServletContext().getRequestDispatcher("/WEB-INF/pages/change-book.jsp").forward(req, resp);
     }

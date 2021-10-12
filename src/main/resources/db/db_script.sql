@@ -13,19 +13,16 @@ create table books (
 );
 create table authors(
                         id serial unique not null,
-                        book_isbn bigint not null,
                         firstName varchar(30) not null,
                         lastName varchar(30) not null,
-                        primary key(id),
-                        foreign key(book_isbn)
-                            references books(isbn) on delete cascade
+                        primary key(id)
 );
 create table book_authors(
                              book_isbn varchar(20) not null,
                              author_id bigint not null,
                              primary key (book_isbn, author_id),
                              foreign key(book_isbn) references books(isbn) on delete cascade,
-                             foreign key (author_id) references authors(id)
+                             foreign key (author_id) references authors(id) on delete cascade
 );
 create table genres(
                        id serial unique not null,

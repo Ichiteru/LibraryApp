@@ -16,7 +16,7 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public Book findBookByISBN(Long isbn) {
+    public Book findBookByISBN(String isbn) {
         Book book = factory.bookDAO().findBookByISBN(isbn);
         return book;
     }

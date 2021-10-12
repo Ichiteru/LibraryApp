@@ -26,7 +26,7 @@ public class BookDAOImpl implements BookDAO {
             ResultSet resultSet = statement.executeQuery(QUERY_SELECT_TO_BOOKS_TABLE);
             while (resultSet.next()){
                 Book book = new Book();
-                book.setIsbn(resultSet.getLong(1));
+                book.setIsbn(resultSet.getString(1));
                 book.setTitle(resultSet.getString(2));
                 book.setPublishDate(resultSet.getDate(3));
                 book.setTotalAmount(resultSet.getInt(4));
@@ -42,15 +42,15 @@ public class BookDAOImpl implements BookDAO {
     }
 
     @Override
-    public Book findBookByISBN(Long isbn) {
+    public Book findBookByISBN(String isbn) {
         Book book = null;
         try(Connection connection = ConnectionDAOFactory.createConnection()) {
             PreparedStatement statement = connection.prepareStatement(QUERY_FIND_BOOK_BY_ID);
-            statement.setLong(1, isbn);
+            statement.setString(1, isbn);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
                 book = new Book();
-                book.setIsbn(resultSet.getLong("isbn"));
+                book.setIsbn(resultSet.getString("isbn"));
                 book.setCover(resultSet.getBytes("cover"));
                 book.setTitle(resultSet.getString("title"));
                 book.setPublisher(resultSet.getString("publisher"));

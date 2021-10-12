@@ -20,11 +20,11 @@ public class GenreDAOImpl implements GenreDAO {
     public static final String QUERY_SELECT_ALL_GENRES =
             "SELECT * FROM genres";
     @Override
-    public List<Genre> getBookGenresByISBN(long isbn) {
+    public List<Genre> getBookGenresByISBN(String isbn) {
         List<Genre> genres = new ArrayList<>();
         try (Connection connection = ConnectionDAOFactory.createConnection()){
             PreparedStatement preparedStatement = connection.prepareStatement(QUERY_SELECT_BOOK_GENRES);
-            preparedStatement.setLong(1, isbn);
+            preparedStatement.setString(1, isbn);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
                 Genre genre = new Genre();

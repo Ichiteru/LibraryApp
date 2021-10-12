@@ -7,5 +7,5 @@ import java.util.List;
 public interface BookService {
 
     public List<Book> getAllBooksToLoadOnTable();
-    public Book findBookByISBN(Long isbn);
+    public Book findBookByISBN(String isbn);
 }
