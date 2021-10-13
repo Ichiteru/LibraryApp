@@ -1,5 +1,5 @@
 function addBookGenre() {
-    if (checkCoincidence(document.getElementsByName('bookGenre')) == true){
+    if (checkCoincidenceGenre(document.getElementsByName('bookGenre')) == true){
         alert("This genre already exists in book genres list");
     } else{
         let elementsByName = document.getElementsByName('bookGenre');
@@ -25,10 +25,9 @@ function addBookGenre() {
     }
 }
 
-function checkCoincidence(list){
+function checkCoincidenceGenre(list){
     for (let i = 0; i < list.length; i++) {
-        alert(list[i].value == document.getElementById('select').value);
-        if (list[i].value == document.getElementById('select').value){
+        if (list[i].value === document.getElementById('select').value){
             return true;
         }
     }

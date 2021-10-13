@@ -1,11 +1,9 @@
 package com.chern.libraryapp.servlet;
 
+import com.chern.libraryapp.model.Author;
 import com.chern.libraryapp.model.Book;
 import com.chern.libraryapp.model.Genre;
-import com.chern.libraryapp.service.BookService;
-import com.chern.libraryapp.service.BookServiceImpl;
-import com.chern.libraryapp.service.GenreService;
-import com.chern.libraryapp.service.GenreServiceImpl;
+import com.chern.libraryapp.service.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -22,6 +20,7 @@ public class CurrentBookServlet extends HttpServlet {
 
     private BookService bookService = new BookServiceImpl();
     private GenreService genreService = new GenreServiceImpl();
+    private AuthorService authorService = new AuthorServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -31,6 +30,8 @@ public class CurrentBookServlet extends HttpServlet {
         req.setAttribute("book", book);
         List<Genre> allGenres = genreService.getAllGenres();
         req.setAttribute("genres", allGenres);
+        List<Author> allAuthors = authorService.getAllAuthors();
+        req.setAttribute("authors", allAuthors);
         getServletContext().getRequestDispatcher("/WEB-INF/pages/change-book.jsp").forward(req, resp);
     }
 }

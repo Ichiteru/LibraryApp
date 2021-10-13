@@ -18,6 +18,7 @@
 <body>
 <c:set var="book" value="${book}"></c:set>
 <c:import url="navbar.jsp"/>
+<%--<c:import url="add-author-modal.jsp"/>--%>
 <form>
     <div class="container" style="padding: 20px">
         <div class="row">
@@ -73,16 +74,41 @@
                                             <div class="col-sm-3 col-md-2 col-5">
                                                 <label style="font-weight:bold;">Author(s)</label>
                                             </div>
-                                            <div class="col-md-8 col-6" style="margin-left: 15px" id="authorDiv">
+                                            <div class="col-md-6 col-6" style="margin-left: 15px" id="authorDiv">
                                                 <c:forEach items="${book.authors}" var="author">
                                                     <div class="row mt-1">
                                                         <input type="text" class="form-control" name="authorName"
                                                                value="${author.firstName} ${author.lastName}"
                                                                style="width: 30%" disabled/>
-                                                        <button type="button" class="btn btn-danger">Delete</button>
+                                                        <input type="button" class="btn btn-danger" value="D" onclick="deleteAuthor(this)"></input>
                                                         <br/>
                                                     </div>
                                                 </c:forEach>
+                                            </div>
+                                            <div class="col col-md-2">
+                                                <div class="row">
+                                                    <select id="selectAuthor" class="form-select ml-4" aria-label="Default select example">
+                                                        <c:forEach items="${authors}" var="opt_author">
+                                                            <option value="${opt_author.firstName} ${opt_author.lastName}">${opt_author.firstName} ${opt_author.lastName}</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </div>
+                                                <div class="row">
+                                                    <button type="button" class="btn btn-success ml-5 mt-1" onclick="addBookAuthor()">
+                                                        Add author
+                                                    </button>
+                                                </div>
+                                                <div class="row">
+
+                                                    <button id="w-change-location" type="button"
+                                                            class="btn btn-primary mt-1" data-toggle="modal"
+                                                            data-target="#locModal">
+                                                        New author
+                                                    </button>
+                                                    <!-- Modal -->
+                                                    <c:import url="add-author-modal.jsp"></c:import>
+
+                                                </div>
                                             </div>
                                             <%--                                            <button type="button" class="btn btn-success mt-1" style="max-height: 40px">Add</button>--%>
                                         </div>
@@ -114,24 +140,28 @@
                                             </div>
                                             <div class="col-md-6 col-6" id="genreDiv">
                                                 <c:forEach items="${book.genres}" var="genre">
-                                                    <div class="row mt-1" >
+                                                    <div class="row mt-1">
                                                         <input type="text" class="form-control ml-3" name="bookGenre"
                                                                value="${genre.name}"
                                                                style="width: 40%" disabled/>
-                                                        <input type="button" class="btn btn-danger" onclick="deleteGenre(this)" value="D"></input>
+                                                        <input type="button" class="btn btn-danger"
+                                                               onclick="deleteGenre(this)" value="D"></input>
                                                     </div>
                                                 </c:forEach>
                                             </div>
                                             <div class="col col-md-2">
                                                 <div class="row">
-                                                    <select id="select" class="form-select ml-4" aria-label="Default select example">
+                                                    <select id="select" class="form-select ml-4"
+                                                            aria-label="Default select example">
                                                         <c:forEach items="${genres}" var="opt_genre">
                                                             <option value="${opt_genre.name}">${opt_genre.name}</option>
                                                         </c:forEach>
                                                     </select>
                                                 </div>
                                                 <div class="row">
-                                                    <button type="button" class="btn btn-success ml-5 mt-1" onclick="addBookGenre()">Add genre</button>
+                                                    <button type="button" class="btn btn-success ml-5 mt-1"
+                                                            onclick="addBookGenre()">Add genre
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -189,5 +219,8 @@
 <script src="./../../resources/js/bookCoverChange.js"></script>
 <script src="./../../resources/js/addBookGenre.js"></script>
 <script src="./../../resources/js/deleteBookGenre.js"></script>
+<script src="./../../resources/js/openAuthorModalWindow.js"></script>
+<script src="./../../resources/js/addAuthor.js"></script>
+<script src="./../../resources/js/deleteAuthor.js"></script>
 </body>
 </html>
