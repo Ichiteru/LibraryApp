@@ -42,9 +42,9 @@
                                     </div>
                                 </div>
                                 <div class="userData ml-3" style="flex: 1 1 auto">
-                                    <input type="text" class="form-control" value="${book.title}"/>
-                                    <p class="d-block" style="width: 100%; margin-top: 5px">
-                                        <textarea class="form-control" style="width: 100%; height: 80%"><c:out
+                                    <input type="text" class="form-control" value="${book.title}" style="width: 80%;"/>
+                                    <p class="d-block" style="margin-top: 5px">
+                                        <textarea class="form-control" style="width: 80%; height: 80%"><c:out
                                                 value="${book.description}"></c:out></textarea>
                                     </p>
                                 </div>
@@ -74,41 +74,40 @@
                                             <div class="col-sm-3 col-md-2 col-5">
                                                 <label style="font-weight:bold;">Author(s)</label>
                                             </div>
-                                            <div class="col-md-6 col-6" style="margin-left: 15px" id="authorDiv">
+                                            <div class="col-md-4 col-6" id="authorDiv">
                                                 <c:forEach items="${book.authors}" var="author">
-                                                    <div class="row mt-1">
+                                                    <div class="row mt-1 ml-1">
                                                         <input type="text" class="form-control" name="authorName"
                                                                value="${author.firstName} ${author.lastName}"
-                                                               style="width: 30%" disabled/>
+                                                               style="width: 40%" disabled/>
                                                         <input type="button" class="btn btn-danger" value="D" onclick="deleteAuthor(this)"></input>
                                                         <br/>
                                                     </div>
                                                 </c:forEach>
                                             </div>
-                                            <div class="col col-md-2">
+                                            <div class="col-md-4 col-3">
                                                 <div class="row">
-                                                    <select id="selectAuthor" class="form-select ml-4" aria-label="Default select example">
-                                                        <c:forEach items="${authors}" var="opt_author">
-                                                            <option value="${opt_author.firstName} ${opt_author.lastName}">${opt_author.firstName} ${opt_author.lastName}</option>
-                                                        </c:forEach>
-                                                    </select>
-                                                </div>
-                                                <div class="row">
-                                                    <button type="button" class="btn btn-success ml-5 mt-1" onclick="addBookAuthor()">
-                                                        Add author
-                                                    </button>
-                                                </div>
-                                                <div class="row">
+                                                    <div class="col-sm">
+                                                        <select id="selectAuthor" class="form-select" aria-label="Default select example" style="height: 38px">
+                                                            <c:forEach items="${authors}" var="opt_author">
+                                                                <option value="${opt_author.firstName} ${opt_author.lastName}">${opt_author.firstName} ${opt_author.lastName}</option>
+                                                            </c:forEach>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-sm">
+                                                        <div class="row mr-1" style="float: right">
+                                                            <button type="button" class="btn btn-success ml-1" onclick="addBookAuthor()" >Add author</button>
+                                                        </div>
+                                                        <div class="row mr-1" style="float: right">
+                                                            <button id="w-change-location" type="button"
+                                                                    class="btn btn-primary mt-1" data-toggle="modal"
+                                                                    data-target="#locModal">New author</button>
+                                                            <c:import url="add-author-modal.jsp"></c:import>
+                                                        </div>
 
-                                                    <button id="w-change-location" type="button"
-                                                            class="btn btn-primary mt-1" data-toggle="modal"
-                                                            data-target="#locModal">
-                                                        New author
-                                                    </button>
-                                                    <!-- Modal -->
-                                                    <c:import url="add-author-modal.jsp"></c:import>
-
+                                                    </div>
                                                 </div>
+
                                             </div>
                                             <%--                                            <button type="button" class="btn btn-success mt-1" style="max-height: 40px">Add</button>--%>
                                         </div>
@@ -138,10 +137,10 @@
                                             <div class="col-sm-3 col-md-2 col-5">
                                                 <label style="font-weight:bold;">Genre(-s)</label>
                                             </div>
-                                            <div class="col-md-6 col-6" id="genreDiv">
+                                            <div class="col-md-4 col-6" id="genreDiv">
                                                 <c:forEach items="${book.genres}" var="genre">
                                                     <div class="row mt-1">
-                                                        <input type="text" class="form-control ml-3" name="bookGenre"
+                                                        <input type="text" class="form-control" name="bookGenre"
                                                                value="${genre.name}"
                                                                style="width: 40%" disabled/>
                                                         <input type="button" class="btn btn-danger"
@@ -149,19 +148,21 @@
                                                     </div>
                                                 </c:forEach>
                                             </div>
-                                            <div class="col col-md-2">
+                                            <div class="col-md-4 col-3">
                                                 <div class="row">
-                                                    <select id="select" class="form-select ml-4"
-                                                            aria-label="Default select example">
-                                                        <c:forEach items="${genres}" var="opt_genre">
-                                                            <option value="${opt_genre.name}">${opt_genre.name}</option>
-                                                        </c:forEach>
-                                                    </select>
-                                                </div>
-                                                <div class="row">
-                                                    <button type="button" class="btn btn-success ml-5 mt-1"
-                                                            onclick="addBookGenre()">Add genre
+                                                    <div class="col-sm">
+                                                        <select id="select" class="form-select"
+                                                                aria-label="Default select example" style="height: 38px">
+                                                            <c:forEach items="${genres}" var="opt_genre">
+                                                                <option value="${opt_genre.name}">${opt_genre.name}</option>
+                                                            </c:forEach>
+                                                        </select>
+                                                    </div>
+                                                <div class="col-sm">
+                                                    <button type="button" class="btn btn-success"
+                                                            onclick="addBookGenre()" style="float: right">Add genre
                                                     </button>
+                                                </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -201,6 +202,7 @@
                                                 <c:out value="${book.status}"/>
                                             </div>
                                         </div>
+                                        <hr/>
                                     </div>
                                     <%--                                <div class="tab-pane fade" id="borrowersInfo" role="tabpanel" aria-labelledby="ConnectedServices-tab">--%>
                                     <%--                                    Facebook, Google, Twitter Account that are connected to this account--%>
@@ -209,11 +211,20 @@
 
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-first col-6">
+                                <button type="button" class="btn btn-success mt-3" style="float: right">Success</button>
+                            </div>
+                            <div class="col-last col-6">
+                                <button type="button" class="btn btn-danger mt-3">Discard</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 </form>
 
 <script src="./../../resources/js/bookCoverChange.js"></script>
@@ -221,6 +232,5 @@
 <script src="./../../resources/js/deleteBookGenre.js"></script>
 <script src="./../../resources/js/openAuthorModalWindow.js"></script>
 <script src="./../../resources/js/addAuthor.js"></script>
-<script src="./../../resources/js/deleteAuthor.js"></script>
 </body>
 </html>

@@ -4,13 +4,13 @@ function addBookAuthor() {
     } else{
         let genreDiv = document.getElementById("authorDiv");
         let divElement = document.createElement('div');
-        divElement.setAttribute('class', 'row mt-1');
+        divElement.setAttribute('class', 'row mt-1 ml-1');
         document.getElementById("authorDiv").appendChild(divElement);
         let authorInput = document.createElement('input');
         authorInput.setAttribute('type', 'text');
         authorInput.setAttribute('name', 'authorName');
         authorInput.setAttribute('class', 'form-control');
-        authorInput.setAttribute('style', 'width: 30%');
+        authorInput.setAttribute('style', 'width: 40%');
         authorInput.setAttribute('value', document.getElementById("selectAuthor").value);
         authorInput.disabled = true;
         divElement.appendChild(authorInput);
@@ -32,4 +32,13 @@ function checkCoincidenceAuthor(list){
                 }
         }
         return false;
+}
+
+function deleteAuthor(th) {
+    alert("delete");
+    if (document.getElementsByName("authorName").length === 1){
+        alert("One more authors are required to be");
+    } else {
+        let parentNode = th.parentNode.remove();
+    }
 }
