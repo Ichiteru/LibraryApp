@@ -9,6 +9,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
+    <meta charset="UTF-8" />
     <title></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css"
           integrity="sha512-P5MgMn1jBN01asBgU0z60Qk4QxiXo86+wlFahKrsQf37c9cro517WzVSPPV1tDKzhku2iJ2FVgL67wG03SGnNA=="
@@ -19,7 +20,7 @@
 <c:set var="book" value="${book}"></c:set>
 <c:import url="navbar.jsp"/>
 <%--<c:import url="add-author-modal.jsp"/>--%>
-<form>
+<form id="changeBookInfo" method="post" action="/books/change">
     <div class="container" style="padding: 20px">
         <div class="row">
             <div class="col-12">
@@ -42,9 +43,9 @@
                                     </div>
                                 </div>
                                 <div class="userData ml-3" style="flex: 1 1 auto">
-                                    <input type="text" class="form-control" value="${book.title}" style="width: 80%;"/>
+                                    <input name="title" type="text" class="form-control" value="${book.title}" style="width: 80%;"/>
                                     <p class="d-block" style="margin-top: 5px">
-                                        <textarea class="form-control" style="width: 80%; height: 80%"><c:out
+                                        <textarea name="description" class="form-control" style="width: 80%; height: 80%"><c:out
                                                 value="${book.description}"></c:out></textarea>
                                     </p>
                                 </div>
@@ -88,7 +89,7 @@
                                             <div class="col-md-4 col-3">
                                                 <div class="row">
                                                     <div class="col-sm">
-                                                        <select id="selectAuthor" class="form-select" aria-label="Default select example" style="height: 38px">
+                                                        <select id="selectAuthor" class="form-select" aria-label="Default select example" style="height: 38px; float: right">
                                                             <c:forEach items="${authors}" var="opt_author">
                                                                 <option value="${opt_author.firstName} ${opt_author.lastName}">${opt_author.firstName} ${opt_author.lastName}</option>
                                                             </c:forEach>
@@ -118,7 +119,7 @@
                                                 <label style="font-weight:bold;">Publisher</label>
                                             </div>
                                             <div class="col-md-8 col-6">
-                                                <input type="text" class="form-control" value="${book.publisher}"/>
+                                                <input name="publisher" type="text" class="form-control" value="${book.publisher}"/>
                                             </div>
                                         </div>
                                         <hr/>
@@ -129,7 +130,7 @@
                                                 <label style="font-weight:bold;">Publish date</label>
                                             </div>
                                             <div class="col-md-8 col-6">
-                                                <input type="date" class="form-control" value="${book.publishDate}"/>
+                                                <input name="publishDate" type="date" class="form-control" value="${book.publishDate}"/>
                                             </div>
                                         </div>
                                         <hr/>
@@ -152,7 +153,7 @@
                                                 <div class="row">
                                                     <div class="col-sm">
                                                         <select id="select" class="form-select"
-                                                                aria-label="Default select example" style="height: 38px">
+                                                                aria-label="Default select example" style="height: 38px; float: right">
                                                             <c:forEach items="${genres}" var="opt_genre">
                                                                 <option value="${opt_genre.name}">${opt_genre.name}</option>
                                                             </c:forEach>
@@ -172,7 +173,7 @@
                                                 <label style="font-weight:bold;">Pages</label>
                                             </div>
                                             <div class="col-md-8 col-6">
-                                                <input type="number" class="form-control" value="${book.pageCount}"/>
+                                                <input name="pageCount" type="number" class="form-control" value="${book.pageCount}"/>
                                             </div>
                                         </div>
                                         <hr/>
@@ -181,7 +182,8 @@
                                                 <label style="font-weight:bold;">ISBN</label>
                                             </div>
                                             <div class="col-md-8 col-6">
-                                                <input type="text" class="form-control" value="${book.isbn}"/>
+                                                <input type="text" class="form-control" name="isbn" value="${book.isbn}"/>
+                                                <input type="hidden" name="startIsbn" value="${book.isbn}">
                                             </div>
                                         </div>
                                         <hr/>
@@ -190,7 +192,7 @@
                                                 <label style="font-weight:bold;">Total amount</label>
                                             </div>
                                             <div class="col-md-8 col-6">
-                                                <input type="number" class="form-control" value="${book.totalAmount}"/>
+                                                <input name="totalAmount" type="number" class="form-control" value="${book.totalAmount}"/>
                                             </div>
                                         </div>
                                         <hr/>
@@ -199,7 +201,8 @@
                                                 <label style="font-weight:bold;">Status</label>
                                             </div>
                                             <div class="col-md-8 col-6">
-                                                <c:out value="${book.status}"/>
+                                               <c:out value="${book.status}"/>
+                                                <input type="hidden" name="status" value="${book.status}">
                                             </div>
                                         </div>
                                         <hr/>
@@ -213,7 +216,7 @@
                         </div>
                         <div class="row">
                             <div class="col-first col-6">
-                                <button type="button" class="btn btn-success mt-3" style="float: right">Success</button>
+                                <button type="submit" class="btn btn-success mt-3" onclick="saveBookChanges()" style="float: right">Success</button>
                             </div>
                             <div class="col-last col-6">
                                 <button type="button" class="btn btn-danger mt-3">Discard</button>
@@ -232,5 +235,6 @@
 <script src="./../../resources/js/deleteBookGenre.js"></script>
 <script src="./../../resources/js/openAuthorModalWindow.js"></script>
 <script src="./../../resources/js/addAuthor.js"></script>
+<script src="./../../resources/js/saveBookChanges.js"></script>
 </body>
 </html>

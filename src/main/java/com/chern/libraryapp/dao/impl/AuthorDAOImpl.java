@@ -12,10 +12,13 @@ public class AuthorDAOImpl implements AuthorDAO {
     private static final String QUERY_SELECT_FROM_AUTHORS_TO_CURRENT_BOOK =
             "SELECT id, firstName, lastName from book_authors " +
                     " inner join authors on authors.id = book_authors.author_id " +
-                    "WHERE book_isbn=?";
+                    "WHERE book_isbn=? order by firstName";
 
     private static final String QUERY_SELECT_ALL_AUTHORS =
             "SELECT * from authors";
+
+    public static final String QUERY_INSERT_NEW_AUTHOR = "INSERT INTO authors (firstName, lastName) " +
+            "values (?, ?)";
 
     @Override
     public List<Author> getBookAuthorsByISBN(String isbn) {
@@ -41,6 +44,24 @@ public class AuthorDAOImpl implements AuthorDAO {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             return null; // FIXME: 12.10.2021 fix return statement
+        }
+    }
+
+    @Override
+    public void addSeveralAuthors(List<Author> authors) {
+        try (Connection connection = ConnectionDAOFactory.createConnection()){
+            connection.setAutoCommit(false);
+            PreparedStatement preparedStatement = connection.prepareStatement(QUERY_INSERT_NEW_AUTHOR);
+            for (Author a :
+                authors) {
+                preparedStatement.setString(1, a.getFirstName());
+                preparedStatement.setString(2, a.getLastName());
+                preparedStatement.addBatch();
+            }
+            preparedStatement.executeBatch();
+            connection.commit();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 

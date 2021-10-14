@@ -9,4 +9,6 @@ public interface AuthorDAO {
     public List<Author> getBookAuthorsByISBN(String isbn);
 
     public List<Author> getAllAuthors();
+
+    public void addSeveralAuthors(List<Author> authors);
 }
