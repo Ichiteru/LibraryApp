@@ -3,9 +3,10 @@ package com.chern.libraryapp.servlet;
 import com.chern.libraryapp.model.Author;
 import com.chern.libraryapp.model.Book;
 import com.chern.libraryapp.model.Genre;
-import com.chern.libraryapp.service.*;
 import com.chern.libraryapp.service.author.AuthorService;
 import com.chern.libraryapp.service.author.AuthorServiceImpl;
+import com.chern.libraryapp.service.book.BookService;
+import com.chern.libraryapp.service.book.BookServiceImpl;
 import com.chern.libraryapp.service.genre.GenreService;
 import com.chern.libraryapp.service.genre.GenreServiceImpl;
 

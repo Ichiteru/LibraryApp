@@ -29,7 +29,7 @@ function addNewAuthor() {
         authorInput.setAttribute('type', 'text');
         authorInput.setAttribute('name', 'authorName');
         authorInput.setAttribute('class', 'form-control');
-        authorInput.setAttribute('style', 'width: 60%');
+        authorInput.setAttribute('style', 'width: 40%');
         authorInput.setAttribute('value', document.getElementById("firstName").value + " " +
             document.getElementById("lastName").value);
         authorInput.disabled = true;

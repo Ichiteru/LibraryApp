@@ -1,8 +1,8 @@
 package com.chern.libraryapp.servlet;
 
 import com.chern.libraryapp.model.Book;
-import com.chern.libraryapp.service.BookService;
-import com.chern.libraryapp.service.BookServiceImpl;
+import com.chern.libraryapp.service.book.BookService;
+import com.chern.libraryapp.service.book.BookServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +19,7 @@ public class BooksServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Book> books = bookService.getAllBooksToLoadOnTable();
+        List<Book> books = bookService.getAllBooks();
         req.setAttribute("bookList", books);
         getServletContext().getRequestDispatcher("/WEB-INF/pages/books.jsp").forward(req, resp);
     }

@@ -8,44 +8,74 @@
 </head>
 <body>
     <c:import url="navbar.jsp"/>
-    <table class="table" id="booksTable">
-        <thead>
-        <tr>
-            <th scope="col">Title</th>
-            <th scope="col">Authors</th>
-            <th scope="col">Publish date</th>
-            <th scope="col">Copies</th>
-            <th scope="col">Select</th>
-        </tr>
-        </thead>
-        <tbody>
-                <c:forEach items="${bookList}" var="book">
-                <tr>
-                    <td>
-                        <a href="/books/${book.isbn}"><c:out value="${book.title}"/></a>
-                    </td>
-                    <td>
-                            <c:forEach items="${book.authors}" var="author">
-                                <p>
-                                    <c:out value="${author.firstName}"/>
-                                    <c:out value="${author.lastName}"/>
-                                </p>
-                            </c:forEach>
-                    </td>
-                    <td><c:out value="${book.publishDate}"/></td>
-                    <td>${book.totalAmount}</td>
-                    <td>
-                        <input type="checkbox" name="deleteCheckBox" value="${book.isbn}">
-                    </td>
-                </tr>
-                </c:forEach>
-        </tbody>
-    </table>
-    <button type="button" class="btn btn-outline-primary">Add book</button>
-    <form onsubmit="deleteSelectedBooks()" name="deleteForm" id="deleteForm" action="/delete" method="post" >
-        <input type="hidden" name="test" value="testValue">
-        <input  type="submit" class="btn btn-outline-primary" value="Delete selected books"></input>
-    </form>
-    <script src="./../../resources/js/deleteSelectedBooks.js"></script>
+    <div class="container mt-5">
+
+        <table class="table table-bordered table-hover" id="booksTable">
+            <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Authors</th>
+                <th scope="col">Publish date</th>
+                <th scope="col">Copies</th>
+                <th scope="col">Select</th>
+            </tr>
+            </thead>
+            <tbody>
+                    <c:forEach items="${bookList}" var="book">
+                    <tr>
+                        <td>
+                            <a href="/books/${book.isbn}"><c:out value="${book.title}"/></a>
+                        </td>
+                        <td>
+                                <c:forEach items="${book.authors}" var="author">
+
+                                        <c:out value="${author.firstName} ${author.lastName}"/><br/>
+
+                                </c:forEach>
+                        </td>
+                        <td><c:out value="${book.publishDate}"/></td>
+                        <td>${book.totalAmount}</td>
+                        <td>
+                            <input type="checkbox" name="deleteCheckBox" value="${book.isbn}">
+                        </td>
+                    </tr>
+                    </c:forEach>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-sm">
+                <button type="button" class="btn btn-outline-primary">Add book</button>
+            </div>
+            <div class="col-sm text-center">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination" style="float: contour">
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-sm">
+                <form onsubmit="deleteSelectedBooks()" name="deleteForm" id="deleteForm" action="/delete" method="post" >
+                    <input type="hidden" name="test" value="testValue">
+                    <input  type="submit" class="btn btn-outline-primary" value="Delete selected books" style="float: right"></input>
+                </form>
+            </div>
+        </div>
+
+        <script src="./../../resources/js/deleteSelectedBooks.js"></script>
+    </div>
 </body>
 </html>

@@ -1,9 +1,11 @@
 package com.chern.libraryapp.servlet;
 
+import com.chern.libraryapp.model.Book;
+import com.chern.libraryapp.model.enums.BookStatus;
 import com.chern.libraryapp.service.author.AuthorService;
 import com.chern.libraryapp.service.author.AuthorServiceImpl;
-import com.chern.libraryapp.service.BookService;
-import com.chern.libraryapp.service.BookServiceImpl;
+import com.chern.libraryapp.service.book.BookService;
+import com.chern.libraryapp.service.book.BookServiceImpl;
 import com.chern.libraryapp.service.genre.GenreService;
 import com.chern.libraryapp.service.genre.GenreServiceImpl;
 
@@ -13,6 +15,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @WebServlet("/books/change")
 public class ChangeBookServlet extends HttpServlet {
@@ -23,20 +28,28 @@ public class ChangeBookServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String isbn = req.getParameter("isbn");
         String startISBN = req.getParameter("startIsbn");
-        req.getParameter("startIsbn");
-        req.getParameter("title");
-        req.getParameter("description");
-        req.getParameter("publisher");
-        req.getParameter("publishDate");
-        req.getParameter("pageCount");
-        req.getParameter("totalAmount");
-        req.getParameter("status");
-        String[] authorNames = req.getParameterValues("authorName");
-        String[] bookGenres = req.getParameterValues("bookGenre");
-        genreService.setNewBookGenres(bookGenres, genreService.getBookGenresByISBN(startISBN), startISBN);
-        authorService.setNewBookAuthors(authorNames, authorService.getBookAuthorsByISBN(startISBN), startISBN);
+        Book updatedBook = new Book();
+        updatedBook.setIsbn(req.getParameter("isbn"));
+        updatedBook.setTitle(req.getParameter("title"));
+        updatedBook.setDescription(req.getParameter("description"));
+        updatedBook.setPublisher(req.getParameter("publisher"));
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date publishDate = format.parse(req.getParameter("publishDate"));
+            updatedBook.setPublishDate(publishDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        updatedBook.setPageCount(Integer.parseInt(req.getParameter("pageCount")));
+        updatedBook.setStatus(BookStatus.valueOf(req.getParameter("status")));
+        updatedBook.setTotalAmount(Integer.parseInt(req.getParameter("totalAmount")));
 
+        if (req.getParameter("isbn").equals(startISBN) || bookService.findBookByISBN(req.getParameter("isbn")) == null){
+            bookService.updateBook(updatedBook, startISBN);
+            genreService.setNewBookGenres(req.getParameterValues("bookGenre"), genreService.getBookGenresByISBN(startISBN), startISBN);
+            authorService.setNewBookAuthors(req.getParameterValues("authorName"), authorService.getBookAuthorsByISBN(startISBN), startISBN);
+        }
+        resp.sendRedirect("/books/" + updatedBook.getIsbn());
+        }
     }
-}
