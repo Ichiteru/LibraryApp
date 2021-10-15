@@ -29,7 +29,7 @@
             </div>
             <div class="modal-footer">
                 <button id="w-change-close" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button id="w-change-btn" type="button" class="btn btn-primary" onclick="addNewAuthor()">Save changes</button>
+                <button id="btn-save" type="button" class="btn btn-primary">Save</button>
             </div>
         </div>
     </div>

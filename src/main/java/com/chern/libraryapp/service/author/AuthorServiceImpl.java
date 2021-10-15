@@ -2,7 +2,7 @@ package com.chern.libraryapp.service.author;
 
 import com.chern.libraryapp.dao.DAOFactory;
 import com.chern.libraryapp.model.Author;
-import com.chern.libraryapp.service.author.AuthorService;
+import com.chern.libraryapp.model.Genre;
 
 import java.util.*;
 
@@ -20,8 +20,33 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     public void addSeveralAuthors(String[] authors){
-        ArrayList<Author> list = validator.getAuthorList(authors);
+        ArrayList<Author> newBookAuthors = validator.convertToAuthorList(authors); // конвертированный []
         if (authors != null)
-            DAOFactory.authorDAO().addSeveralAuthors(validator.getNewAuthors(list));
+            DAOFactory.authorDAO().addSeveralAuthors(validator.getNewAuthors(newBookAuthors)); // записываем в бд новых авторов
+
+    }
+
+    public void setNewBookAuthors(String[] newAuthors, List<Author> oldAuthors, String oldISBN){
+        addSeveralAuthors(newAuthors);
+        ArrayList<Author> newAuthorList = validator.convertToAuthorList(newAuthors); // без id
+        List<Author> newAuthorListWithId = new ArrayList<>(DAOFactory.authorDAO().getSelectedAuthors(newAuthorList)); // получаем из бд авторов с id
+        List<Author> cloneOldAuthors = new ArrayList<>(oldAuthors);
+        for (Author a:
+                cloneOldAuthors) {
+            if (newAuthorList.contains(a)){
+                 newAuthorListWithId.remove(a);
+                oldAuthors.remove(a);
+            }
+        }
+        if (oldAuthors != null || newAuthorListWithId != null){
+            DAOFactory.authorDAO().addSeveralAuthorsToBook(newAuthorListWithId, oldISBN);
+            DAOFactory.authorDAO().deleteSeveralAuthorsFromBook(oldAuthors, oldISBN);
+        }
+        //cloneOldGenres delete from book_genres
+    }
+
+    @Override
+    public List<Author> getBookAuthorsByISBN(String isbn) {
+        return DAOFactory.authorDAO().getBookAuthorsByISBN(isbn);
     }
 }

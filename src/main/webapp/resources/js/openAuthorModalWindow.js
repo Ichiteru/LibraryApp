@@ -1,6 +1,7 @@
 var locModal = document.getElementById('locModal');
 var btnclose = document.getElementById('w-change-close');
 var btnShow= document.getElementById('w-change-location');
+var btnSave = document.getElementById('btn-save');
 
 
 //show the modal
@@ -14,19 +15,21 @@ btnclose.addEventListener('click', (e) => {
     locModal.style.display = "none";
     locModal.className="modal fade";
 });
+btnSave.addEventListener('click',addNewAuthor);
 
 function addNewAuthor() {
+    alert("addNewAuthor");
     if (checkCoincidenceNewAuthor(document.getElementsByName('authorName')) == true){
         alert("This author already exists in book authors list");
     } else {
         let divElement = document.createElement('div');
-        divElement.setAttribute('class', 'row mt-1');
+        divElement.setAttribute('class', 'row mt-1 ml-1');
         document.getElementById("authorDiv").appendChild(divElement);
         let authorInput = document.createElement('input');
         authorInput.setAttribute('type', 'text');
         authorInput.setAttribute('name', 'authorName');
         authorInput.setAttribute('class', 'form-control');
-        authorInput.setAttribute('style', 'width: 30%');
+        authorInput.setAttribute('style', 'width: 60%');
         authorInput.setAttribute('value', document.getElementById("firstName").value + " " +
             document.getElementById("lastName").value);
         authorInput.disabled = true;

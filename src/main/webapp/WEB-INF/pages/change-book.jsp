@@ -141,7 +141,7 @@
                                             <div class="col-md-4 col-6" id="genreDiv">
                                                 <c:forEach items="${book.genres}" var="genre">
                                                     <div class="row mt-1">
-                                                        <input type="text" class="form-control" name="bookGenre"
+                                                        <input type="text" class="form-control ml-3" name="bookGenre"
                                                                value="${genre.name}"
                                                                style="width: 40%" disabled/>
                                                         <input type="button" class="btn btn-danger"

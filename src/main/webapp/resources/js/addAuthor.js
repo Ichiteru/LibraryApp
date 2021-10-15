@@ -2,7 +2,7 @@ function addBookAuthor() {
     if (checkCoincidenceAuthor(document.getElementsByName('authorName')) == true){
         alert("This author already exists in book authors list");
     } else{
-        let genreDiv = document.getElementById("authorDiv");
+        // let genreDiv = document.getElementById("authorDiv");
         let divElement = document.createElement('div');
         divElement.setAttribute('class', 'row mt-1 ml-1');
         document.getElementById("authorDiv").appendChild(divElement);
@@ -42,3 +42,4 @@ function deleteAuthor(th) {
         let parentNode = th.parentNode.remove();
     }
 }
+

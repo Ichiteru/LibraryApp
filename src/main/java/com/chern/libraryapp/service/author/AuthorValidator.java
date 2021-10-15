@@ -8,7 +8,7 @@ import java.util.List;
 
 public class AuthorValidator {
 
-    public ArrayList<Author> getAuthorList(String[] initials){
+    public ArrayList<Author> convertToAuthorList(String[] initials){
         ArrayList<Author> listInitials = new ArrayList<>();
         for (String str :
                 initials) {

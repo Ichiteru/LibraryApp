@@ -1,7 +1,5 @@
 package com.chern.libraryapp.servlet;
 
-import com.chern.libraryapp.model.Book;
-import com.chern.libraryapp.model.enums.BookStatus;
 import com.chern.libraryapp.service.author.AuthorService;
 import com.chern.libraryapp.service.author.AuthorServiceImpl;
 import com.chern.libraryapp.service.BookService;
@@ -38,7 +36,7 @@ public class ChangeBookServlet extends HttpServlet {
         String[] authorNames = req.getParameterValues("authorName");
         String[] bookGenres = req.getParameterValues("bookGenre");
         genreService.setNewBookGenres(bookGenres, genreService.getBookGenresByISBN(startISBN), startISBN);
-        authorService.addSeveralAuthors(authorNames);
+        authorService.setNewBookAuthors(authorNames, authorService.getBookAuthorsByISBN(startISBN), startISBN);
 
     }
 }
