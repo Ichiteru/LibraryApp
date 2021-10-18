@@ -1,6 +1,6 @@
 const table = document.getElementById("booksTable");
 
-function getSelectedBooksISBN() {
+function getSelectedBooksId() {
 
         const checkboxes = document.getElementsByName('deleteCheckBox');
         let checkedValues = [];
@@ -15,7 +15,7 @@ function getSelectedBooksISBN() {
 }
 
 function deleteSelectedBooks() {
-    let checkedValues = getSelectedBooksISBN(); // получаем массив isbn книг
+    let checkedValues = getSelectedBooksId(); // получаем массив isbn книг
     let form = document.getElementById("deleteForm");
     for (let i = 0; i < checkedValues.length; i++) {
         let input = document.createElement("input");

@@ -10,6 +10,7 @@ import java.util.List;
 
 @Data
 public class Book implements Serializable {
+    Long id;
     private String isbn;
     private byte[] cover;
     private String title;

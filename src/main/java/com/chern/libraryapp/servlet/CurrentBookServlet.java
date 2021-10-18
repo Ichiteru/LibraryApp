@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 @WebServlet("/books/*")
@@ -27,14 +28,16 @@ public class CurrentBookServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String str = req.getPathInfo();
-        String id = str.substring(1);
-        Book book = bookService.findBookByISBN(id);
+        String bookId = req.getPathInfo().substring(1);
+        req.setAttribute("genres", genreService.getAllGenres());
+        req.setAttribute("authors", authorService.getAllAuthors());
+        Book book = new Book();
+        if (bookId == "") {
+            book.setPublishDate(new Date());
+        } else {
+            book = bookService.findBookById(Long.valueOf(bookId));
+        }
         req.setAttribute("book", book);
-        List<Genre> allGenres = genreService.getAllGenres();
-        req.setAttribute("genres", allGenres);
-        List<Author> allAuthors = authorService.getAllAuthors();
-        req.setAttribute("authors", allAuthors);
         getServletContext().getRequestDispatcher("/WEB-INF/pages/change-book.jsp").forward(req, resp);
     }
 }

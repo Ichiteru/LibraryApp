@@ -7,6 +7,7 @@ import java.time.LocalDate;
 
 @Data
 public class Reader {
+    Long id;
     private String email;
     private String firstName;
     private String lastName;

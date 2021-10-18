@@ -9,8 +9,7 @@ public interface GenreService {
 
     public List<Genre> getAllGenres();
 
-    public List<Genre> getBookGenresByISBN(String isbn);
-
-    public void setNewBookGenres(String[] newGenres, List<Genre> oldGenres, String oldISBN);
+    public List<Genre> getBookGenresById(Long id);
+    public List<Genre> getNewBookGenresList(String[] newGenres);
 
 }

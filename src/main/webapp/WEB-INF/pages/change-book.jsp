@@ -10,17 +10,21 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title></title>
+    <title><c:if test="${book.isbn != '0'}">
+        <c:out value="${book.title}"></c:out>
+    </c:if> <c:if test="${book.isbn == '0'}">
+        <c:out value="${'New book'}"></c:out>
+    </c:if>
+    </title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css"
           integrity="sha512-P5MgMn1jBN01asBgU0z60Qk4QxiXo86+wlFahKrsQf37c9cro517WzVSPPV1tDKzhku2iJ2FVgL67wG03SGnNA=="
           crossorigin="anonymous">
-
 </head>
 <body>
 <c:set var="book" value="${book}"></c:set>
 <c:import url="navbar.jsp"/>
-<%--<c:import url="add-author-modal.jsp"/>--%>
-<form id="changeBookInfo" method="post" action="/books/change">
+<form id="changeBookInfo" method="post" <c:if test="${book.isbn != '0'}">action="/books/change"</c:if> <c:if test="${book.isbn == '0'}">action="/books/add"</c:if> >
+<input type="hidden" name="bookId" value="${book.id}">
     <div class="container" style="padding: 20px">
         <div class="row">
             <div class="col-12">
@@ -43,7 +47,7 @@
                                     </div>
                                 </div>
                                 <div class="userData ml-3" style="flex: 1 1 auto">
-                                    <input name="title" type="text" class="form-control" value="${book.title}" style="width: 80%;"/>
+                                    <input required name="title" type="text" class="form-control" value="${book.title}" style="width: 80%;"/>
                                     <p class="d-block" style="margin-top: 5px">
                                         <textarea name="description" class="form-control" style="width: 80%; height: 80%"><c:out
                                                 value="${book.description}"></c:out></textarea>
@@ -82,7 +86,6 @@
                                                                value="${author.firstName} ${author.lastName}"
                                                                style="width: 40%" disabled/>
                                                         <input type="button" class="btn btn-danger" value="D" onclick="deleteAuthor(this)"></input>
-                                                        <br/>
                                                     </div>
                                                 </c:forEach>
                                             </div>
@@ -97,7 +100,7 @@
                                                     </div>
                                                     <div class="col-sm">
                                                         <div class="row mr-1" style="float: right">
-                                                            <button type="button" class="btn btn-success ml-1" onclick="addBookAuthor()" >Add author</button>
+                                                            <button type="button" class="btn btn-success ml-1" onclick="addExistingBookAuthor()">Add author</button>
                                                         </div>
                                                         <div class="row mr-1" style="float: right">
                                                             <button id="w-change-location" type="button"
@@ -119,7 +122,7 @@
                                                 <label style="font-weight:bold;">Publisher</label>
                                             </div>
                                             <div class="col-md-8 col-6">
-                                                <input name="publisher" type="text" class="form-control" value="${book.publisher}"/>
+                                                <input required name="publisher" type="text" class="form-control" value="${book.publisher}"/>
                                             </div>
                                         </div>
                                         <hr/>
@@ -130,7 +133,7 @@
                                                 <label style="font-weight:bold;">Publish date</label>
                                             </div>
                                             <div class="col-md-8 col-6">
-                                                <input name="publishDate" type="date" class="form-control" value="${book.publishDate}"/>
+                                                <input required pattern="(0[1-9]|1[0-9]|2[0-9]|3[01]).(0[1-9]|1[012]).[0-9]{4}" maxlength="10" name="publishDate" type="date" class="form-control" value="${book.publishDate}"/>
                                             </div>
                                         </div>
                                         <hr/>
@@ -160,9 +163,7 @@
                                                         </select>
                                                     </div>
                                                 <div class="col-sm">
-                                                    <button type="button" class="btn btn-success"
-                                                            onclick="addBookGenre()" style="float: right">Add genre
-                                                    </button>
+                                                    <button type="button" class="btn btn-success" onclick="addBookGenre()" style="float: right">Add genre</button>
                                                 </div>
                                                 </div>
                                             </div>
@@ -173,7 +174,7 @@
                                                 <label style="font-weight:bold;">Pages</label>
                                             </div>
                                             <div class="col-md-8 col-6">
-                                                <input name="pageCount" type="number" class="form-control" value="${book.pageCount}"/>
+                                                <input required name="pageCount" type="number" min="0" max="1500" class="form-control" value="${book.pageCount}"/>
                                             </div>
                                         </div>
                                         <hr/>
@@ -182,7 +183,7 @@
                                                 <label style="font-weight:bold;">ISBN</label>
                                             </div>
                                             <div class="col-md-8 col-6">
-                                                <input type="text" class="form-control" name="isbn" value="${book.isbn}"/>
+                                                <input required <c:if test="${book.isbn == '0'}">pattern="^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$"</c:if> type="text" class="form-control" name="isbn" value="${book.isbn}" <c:if test="${book.isbn != '0'}">readonly</c:if> />
                                                 <input type="hidden" name="startIsbn" value="${book.isbn}">
                                             </div>
                                         </div>
@@ -192,19 +193,21 @@
                                                 <label style="font-weight:bold;">Total amount</label>
                                             </div>
                                             <div class="col-md-8 col-6">
-                                                <input name="totalAmount" type="number" class="form-control" value="${book.totalAmount}"/>
+                                                <input required min="0" name="totalAmount" type="number" class="form-control" value="${book.totalAmount}"/>
                                             </div>
                                         </div>
                                         <hr/>
-                                        <div class="row">
-                                            <div class="col-sm-3 col-md-2 col-5">
-                                                <label style="font-weight:bold;">Status</label>
+                                        <c:if test="${book.isbn != '0'}">
+                                            <div class="row">
+                                                <div class="col-sm-3 col-md-2 col-5">
+                                                    <label style="font-weight:bold;">Status</label>
+                                                </div>
+                                                <div class="col-md-8 col-6">
+                                                   <c:out value="${book.status}"/>
+                                                    <input type="hidden" name="status" value="${book.status}">
+                                                </div>
                                             </div>
-                                            <div class="col-md-8 col-6">
-                                               <c:out value="${book.status}"/>
-                                                <input type="hidden" name="status" value="${book.status}">
-                                            </div>
-                                        </div>
+                                        </c:if>
                                         <hr/>
                                     </div>
                                     <%--                                <div class="tab-pane fade" id="borrowersInfo" role="tabpanel" aria-labelledby="ConnectedServices-tab">--%>
@@ -216,10 +219,19 @@
                         </div>
                         <div class="row">
                             <div class="col-first col-6">
-                                <button type="submit" class="btn btn-success mt-3" onclick="saveBookChanges()" style="float: right">Success</button>
+                                <c:choose>
+                                    <c:when test="${book.isbn != '0'}">
+                                        <button type="submit" class="btn btn-success mt-3" onclick="saveBookChanges()" style="float: right">Save</button>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <button type="submit" class="btn btn-success mt-3" style="float: right">Add</button>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                             <div class="col-last col-6">
-                                <button type="button" class="btn btn-danger mt-3">Discard</button>
+                                <form method="get" action="/books/${book.isbn}">
+                                    <button type="submit" class="btn btn-danger mt-3">Discard</button>
+                                </form>
                             </div>
                         </div>
                     </div>

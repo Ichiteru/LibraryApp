@@ -1,13 +1,16 @@
 package com.chern.libraryapp.service.book;
 
+import com.chern.libraryapp.model.Author;
 import com.chern.libraryapp.model.Book;
+import com.chern.libraryapp.model.Genre;
 
 import java.util.List;
 
 public interface BookService {
 
     public List<Book> getAllBooks();
-    public Book findBookByISBN(String isbn);
+    public Book findBookById(Long id);
+    public Book findBookByIsbn(String isbn);
     public Book findBookByTitle(String title);
-    public void updateBook(Book book, String oldISBN);
+    public void updateBook(Book book, List<Author> newAuthors, List<Genre> newGenres);
 }

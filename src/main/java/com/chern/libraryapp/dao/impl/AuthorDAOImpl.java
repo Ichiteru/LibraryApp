@@ -13,7 +13,7 @@ public class AuthorDAOImpl implements AuthorDAO {
     private static final String QUERY_SELECT_FROM_AUTHORS_TO_CURRENT_BOOK =
             "SELECT id, firstName, lastName from book_authors " +
                     " inner join authors on authors.id = book_authors.author_id " +
-                    "WHERE book_isbn=? order by firstName";
+                    "WHERE book_id=? order by firstName";
 
     private static final String QUERY_SELECT_ALL_AUTHORS =
             "SELECT * from authors";
@@ -29,11 +29,11 @@ public class AuthorDAOImpl implements AuthorDAO {
     public static final String QUERY_DELETE_FROM_BOOK_AUTHORS = "delete from book_authors where book_isbn=? and author_id=?";
 
     @Override
-    public List<Author> getBookAuthorsByISBN(String isbn) {
+    public List<Author> getBookAuthorsById(Long id) {
         List<Author> authorList = new ArrayList<>();
         try (Connection connection = ConnectionDAOFactory.createConnection()){
             PreparedStatement statement = connection.prepareStatement(QUERY_SELECT_FROM_AUTHORS_TO_CURRENT_BOOK);
-            statement.setString(1, isbn);
+            statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             return createAuthor(authorList, resultSet);
         } catch (SQLException throwables) {

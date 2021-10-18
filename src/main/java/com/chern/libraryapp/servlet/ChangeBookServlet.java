@@ -1,6 +1,7 @@
 package com.chern.libraryapp.servlet;
 
 import com.chern.libraryapp.model.Book;
+import com.chern.libraryapp.model.Genre;
 import com.chern.libraryapp.model.enums.BookStatus;
 import com.chern.libraryapp.service.author.AuthorService;
 import com.chern.libraryapp.service.author.AuthorServiceImpl;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @WebServlet("/books/change")
 public class ChangeBookServlet extends HttpServlet {
@@ -28,28 +30,39 @@ public class ChangeBookServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String startISBN = req.getParameter("startIsbn");
-        Book updatedBook = new Book();
-        updatedBook.setIsbn(req.getParameter("isbn"));
-        updatedBook.setTitle(req.getParameter("title"));
-        updatedBook.setDescription(req.getParameter("description"));
-        updatedBook.setPublisher(req.getParameter("publisher"));
-        try {
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            Date publishDate = format.parse(req.getParameter("publishDate"));
-            updatedBook.setPublishDate(publishDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        Long id = Long.valueOf(req.getParameter("bookId"));
+        String old = req.getParameter("startIsbn");
+        String newIsbn = req.getParameter("isbn");
+        String[] bookGenres = req.getParameterValues("bookGenre");
+        List<Genre> newBookGenres = genreService.getNewBookGenresList(bookGenres);
+        String[] authorNames = req.getParameterValues("authorName");
+        Book updatedBook = createBookWithNewParams(req);
+        if (old.equals(newIsbn) || bookService.findBookByIsbn(newIsbn) == null){
+            bookService.updateBook(updatedBook, null, newBookGenres);
         }
-        updatedBook.setPageCount(Integer.parseInt(req.getParameter("pageCount")));
-        updatedBook.setStatus(BookStatus.valueOf(req.getParameter("status")));
-        updatedBook.setTotalAmount(Integer.parseInt(req.getParameter("totalAmount")));
+//            bookService.updateBook(updatedBook, startISBN);
+//            genreService.setNewBookGenres(req.getParameterValues("bookGenre"), genreService.getBookGenresById(startISBN), startISBN);
+//            authorService.setNewBookAuthors(req.getParameterValues("authorName"), authorService.getBookAuthorsByISBN(startISBN), startISBN);
+        resp.sendRedirect("/books/" + updatedBook.getId());
+        }
 
-        if (req.getParameter("isbn").equals(startISBN) || bookService.findBookByISBN(req.getParameter("isbn")) == null){
-            bookService.updateBook(updatedBook, startISBN);
-            genreService.setNewBookGenres(req.getParameterValues("bookGenre"), genreService.getBookGenresByISBN(startISBN), startISBN);
-            authorService.setNewBookAuthors(req.getParameterValues("authorName"), authorService.getBookAuthorsByISBN(startISBN), startISBN);
-        }
-        resp.sendRedirect("/books/" + updatedBook.getIsbn());
+        private Book createBookWithNewParams(HttpServletRequest req){
+            Book updatedBook = new Book();
+            updatedBook.setId(Long.valueOf(req.getParameter("bookId")));
+            updatedBook.setIsbn(req.getParameter("isbn"));
+            updatedBook.setTitle(req.getParameter("title"));
+            updatedBook.setDescription(req.getParameter("description"));
+            updatedBook.setPublisher(req.getParameter("publisher"));
+            try {
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                Date publishDate = format.parse(req.getParameter("publishDate"));
+                updatedBook.setPublishDate(publishDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            updatedBook.setPageCount(Integer.parseInt(req.getParameter("pageCount")));
+            updatedBook.setStatus(BookStatus.valueOf(req.getParameter("status")));
+            updatedBook.setTotalAmount(Integer.parseInt(req.getParameter("totalAmount")));
+            return updatedBook;
         }
     }

@@ -24,7 +24,8 @@
                     <c:forEach items="${bookList}" var="book">
                     <tr>
                         <td>
-                            <a href="/books/${book.isbn}"><c:out value="${book.title}"/></a>
+                            <input type="hidden" value="${book.id}">
+                            <a href="/books/${book.id}"><c:out value="${book.title}"/></a>
                         </td>
                         <td>
                                 <c:forEach items="${book.authors}" var="author">
@@ -36,7 +37,7 @@
                         <td><c:out value="${book.publishDate}"/></td>
                         <td>${book.totalAmount}</td>
                         <td>
-                            <input type="checkbox" name="deleteCheckBox" value="${book.isbn}">
+                            <input type="checkbox" name="deleteCheckBox" value="${book.id}">
                         </td>
                     </tr>
                     </c:forEach>
@@ -44,7 +45,9 @@
         </table>
         <div class="row">
             <div class="col-sm">
-                <button type="button" class="btn btn-outline-primary">Add book</button>
+                <form action="/books/${book.isbn}" method="get">
+                    <button type="submit" class="btn btn-outline-primary">Add book</button>
+                </form>
             </div>
             <div class="col-sm text-center">
                 <nav aria-label="Page navigation example">
@@ -69,7 +72,6 @@
             </div>
             <div class="col-sm">
                 <form onsubmit="deleteSelectedBooks()" name="deleteForm" id="deleteForm" action="/delete" method="post" >
-                    <input type="hidden" name="test" value="testValue">
                     <input  type="submit" class="btn btn-outline-primary" value="Delete selected books" style="float: right"></input>
                 </form>
             </div>

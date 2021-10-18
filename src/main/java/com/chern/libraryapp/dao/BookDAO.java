@@ -7,7 +7,8 @@ import java.util.List;
 public interface BookDAO {
     //interfaces of methods for concrete realization of BookDAO
 
-    public List<Book> getAllToBooksTable();
+    public List<Book> getAllBooks();
+    public Book findBookById(Long id);
     public Book findBookByISBN(String isbn);
     public Book findBookByTitle(String title);
     public void updateBook(Book book, String oldISBN);
