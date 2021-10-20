@@ -2,7 +2,6 @@ package com.chern.libraryapp.dao.impl;
 
 import com.chern.libraryapp.dao.AuthorDAO;
 import com.chern.libraryapp.model.Author;
-import com.chern.libraryapp.model.Genre;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -24,9 +23,13 @@ public class AuthorDAOImpl implements AuthorDAO {
     public static final String QUERY_SELECT_AUTHORS_BY_FNAME_AND_LNAME = "select * from authors where " +
             "firstname=? and lastname=?";
 
-    public static final String  QUERY_INSERT_INTO_BOOK_AUTHORS = "insert into book_authors (book_isbn, author_id) values (?,?)";
+    public static final String QUERY_INSERT_NEW_AUTHORS_TO_BOOK = "insert into book_authors (book_id, author_id) values (?,?)";
 
-    public static final String QUERY_DELETE_FROM_BOOK_AUTHORS = "delete from book_authors where book_isbn=? and author_id=?";
+    public static final String QUERY_INSERT_IF_EXISTS = "insert into authors (firstname, lastname) " +
+            "select ?, ? " +
+            "where not exists (select * from authors where firstname=? and lastname=?)";
+
+    public static final String QUERY_DELETE_OLD_AUTHORS = "delete from book_authors where book_id=?";
 
     @Override
     public List<Author> getBookAuthorsById(Long id) {
@@ -73,8 +76,30 @@ public class AuthorDAOImpl implements AuthorDAO {
         }
     }
 
+
+
     @Override
-    public List<Author> getSelectedAuthors(List<Author> authors) {
+    public void addNewAuthors(List<Author> authors) {
+        try (Connection connection = ConnectionDAOFactory.createConnection()){
+            PreparedStatement preparedStatement = connection.prepareStatement(QUERY_INSERT_IF_EXISTS);
+            connection.setAutoCommit(false);
+            for (Author a :
+                    authors) {
+                preparedStatement.setString(1, a.getFirstName());
+                preparedStatement.setString(2, a.getLastName());
+                preparedStatement.setString(3, a.getFirstName());
+                preparedStatement.setString(4, a.getLastName());
+                preparedStatement.addBatch();
+            }
+            preparedStatement.executeBatch();
+            connection.commit();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<Author> getNewAuthorsWithId(List<Author> authors) {
             List<Author> authorList = new ArrayList<>();
             try (Connection connection = ConnectionDAOFactory.createConnection()){
                 PreparedStatement preparedStatement = connection.prepareStatement(QUERY_SELECT_AUTHORS_BY_FNAME_AND_LNAME);
@@ -99,13 +124,13 @@ public class AuthorDAOImpl implements AuthorDAO {
     }
 
     @Override
-    public void addSeveralAuthorsToBook(List<Author> authors, String isbn) {
+    public void addNewAuthorsToBook(List<Author> authors, Long bookId) {
         try (Connection connection = ConnectionDAOFactory.createConnection()){
-            PreparedStatement preparedStatement = connection.prepareStatement(QUERY_INSERT_INTO_BOOK_AUTHORS);
+            PreparedStatement preparedStatement = connection.prepareStatement(QUERY_INSERT_NEW_AUTHORS_TO_BOOK);
             connection.setAutoCommit(false);
             for (Author a :
                     authors) {
-                preparedStatement.setString(1, isbn);
+                preparedStatement.setLong(1, bookId);
                 preparedStatement.setLong(2, a.getId());
                 preparedStatement.addBatch();
             }
@@ -117,18 +142,11 @@ public class AuthorDAOImpl implements AuthorDAO {
     }
 
     @Override
-    public void deleteSeveralAuthorsFromBook(List<Author> authors, String isbn) {
+    public void deleteOldAuthors(Long bookId) {
         try (Connection connection = ConnectionDAOFactory.createConnection()){
-            PreparedStatement preparedStatement = connection.prepareStatement(QUERY_DELETE_FROM_BOOK_AUTHORS);
-            connection.setAutoCommit(false);
-            for (Author a :
-                    authors) {
-                preparedStatement.setString(1, isbn);
-                preparedStatement.setLong(2, a.getId());
-                preparedStatement.addBatch();
-            }
-            preparedStatement.executeBatch();
-            connection.commit();
+            PreparedStatement preparedStatement = connection.prepareStatement(QUERY_DELETE_OLD_AUTHORS);
+            preparedStatement.setLong(1, bookId);
+            preparedStatement.execute();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

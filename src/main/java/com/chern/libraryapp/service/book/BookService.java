@@ -13,4 +13,5 @@ public interface BookService {
     public Book findBookByIsbn(String isbn);
     public Book findBookByTitle(String title);
     public void updateBook(Book book, List<Author> newAuthors, List<Genre> newGenres);
+    public void addNewBook(Book book);
 }

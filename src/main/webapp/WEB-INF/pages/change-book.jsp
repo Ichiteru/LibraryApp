@@ -10,9 +10,9 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title><c:if test="${book.isbn != '0'}">
+    <title><c:if test="${book.id != null}">
         <c:out value="${book.title}"></c:out>
-    </c:if> <c:if test="${book.isbn == '0'}">
+    </c:if> <c:if test="${book.id == null}">
         <c:out value="${'New book'}"></c:out>
     </c:if>
     </title>
@@ -23,7 +23,7 @@
 <body>
 <c:set var="book" value="${book}"></c:set>
 <c:import url="navbar.jsp"/>
-<form id="changeBookInfo" method="post" <c:if test="${book.isbn != '0'}">action="/books/change"</c:if> <c:if test="${book.isbn == '0'}">action="/books/add"</c:if> >
+<form id="changeBookInfo" method="post" <c:if test="${book.id != null}">action="/books/change"</c:if> <c:if test="${book.id == null}">action="/books/add"</c:if> >
 <input type="hidden" name="bookId" value="${book.id}">
     <div class="container" style="padding: 20px">
         <div class="row">
@@ -183,7 +183,7 @@
                                                 <label style="font-weight:bold;">ISBN</label>
                                             </div>
                                             <div class="col-md-8 col-6">
-                                                <input required <c:if test="${book.isbn == '0'}">pattern="^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$"</c:if> type="text" class="form-control" name="isbn" value="${book.isbn}" <c:if test="${book.isbn != '0'}">readonly</c:if> />
+                                                <input required pattern="^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$" type="text" class="form-control" name="isbn" value="${book.isbn}" />
                                                 <input type="hidden" name="startIsbn" value="${book.isbn}">
                                             </div>
                                         </div>
@@ -197,7 +197,7 @@
                                             </div>
                                         </div>
                                         <hr/>
-                                        <c:if test="${book.isbn != '0'}">
+                                        <c:if test="${book.id != null}">
                                             <div class="row">
                                                 <div class="col-sm-3 col-md-2 col-5">
                                                     <label style="font-weight:bold;">Status</label>
@@ -220,16 +220,16 @@
                         <div class="row">
                             <div class="col-first col-6">
                                 <c:choose>
-                                    <c:when test="${book.isbn != '0'}">
+                                    <c:when test="${book.id != null}">
                                         <button type="submit" class="btn btn-success mt-3" onclick="saveBookChanges()" style="float: right">Save</button>
                                     </c:when>
                                     <c:otherwise>
-                                        <button type="submit" class="btn btn-success mt-3" style="float: right">Add</button>
+                                        <button type="submit" class="btn btn-success mt-3" onclick="saveBookChanges()" style="float: right">Add</button>
                                     </c:otherwise>
                                 </c:choose>
                             </div>
                             <div class="col-last col-6">
-                                <form method="get" action="/books/${book.isbn}">
+                                <form method="get" action="/books/${book.id}">
                                     <button type="submit" class="btn btn-danger mt-3">Discard</button>
                                 </form>
                             </div>

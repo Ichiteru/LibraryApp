@@ -14,5 +14,5 @@ public interface GenreDAO {
 
     public void deleteSeveralGenresFromBook(List<Genre> genres, Long id);
 
-    public List<Genre> getSelectedGenres(String[] genres);
+    public List<Genre> getNewGenres(List<Genre> genres);
 }

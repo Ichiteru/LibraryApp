@@ -13,9 +13,11 @@ public interface AuthorDAO {
 
     public void addSeveralAuthors(List<Author> authors);
 
-    public List<Author> getSelectedAuthors(List<Author> authors);
+    public void addNewAuthors(List<Author> authors);
 
-    public void addSeveralAuthorsToBook(List<Author> authors, String isbn);
+    public List<Author> getNewAuthorsWithId(List<Author> authors);
 
-    public void deleteSeveralAuthorsFromBook(List<Author> authors, String isbn);
+    public void addNewAuthorsToBook(List<Author> authors, Long bookId);
+
+    public void deleteOldAuthors(Long bookId);
 }

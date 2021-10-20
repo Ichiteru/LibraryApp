@@ -1,3 +1,7 @@
+var btnSave = document.getElementById('btn-save');
+btnSave.addEventListener('click',addNewAuthor);
+
+
 function addExistingBookAuthor() {
     if (checkCoincidenceAuthor(document.getElementsByName('authorName')) == true){
         alert("This author already exists in book authors list");
@@ -43,7 +47,6 @@ function deleteAuthor(th) {
 }
 
 function addNewAuthor() {
-    alert("addNewAuthor");
     if (checkCoincidenceNewAuthor(document.getElementsByName('authorName')) == true){
         alert("This author already exists in book authors list");
     } else {

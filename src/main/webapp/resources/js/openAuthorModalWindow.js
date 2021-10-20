@@ -1,7 +1,6 @@
 var locModal = document.getElementById('locModal');
 var btnclose = document.getElementById('w-change-close');
 var btnShow= document.getElementById('w-change-location');
-var btnSave = document.getElementById('btn-save');
 
 
 //show the modal
@@ -15,5 +14,4 @@ btnclose.addEventListener('click', (e) => {
     locModal.style.display = "none";
     locModal.className="modal fade";
 });
-btnSave.addEventListener('click',addNewAuthor);
 

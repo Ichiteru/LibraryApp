@@ -102,21 +102,17 @@ public class GenreDAOImpl implements GenreDAO {
     }
 
     @Override
-    public List<Genre> getSelectedGenres(String[] genres) {
-        List<Genre> genreList = new ArrayList<>();
+    public List<Genre> getNewGenres(List<Genre> genres) {
         try (Connection connection = ConnectionDAOFactory.createConnection()){
             PreparedStatement preparedStatement = connection.prepareStatement(QUERY_SELECT_SELECTED_GENRES);
-            for (String gn : genres) {
-                preparedStatement.setString(1, gn);
+            for (Genre gn : genres) {
+                preparedStatement.setString(1, gn.getName());
                 ResultSet resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()){
-                    Genre genre = new Genre();
-                    genre.setId(resultSet.getLong("id"));
-                    genre.setName(gn);
-                    genreList.add(genre);
+                    gn.setId(resultSet.getLong("id"));
                 }
             }
-            return genreList;
+            return genres;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             return null;

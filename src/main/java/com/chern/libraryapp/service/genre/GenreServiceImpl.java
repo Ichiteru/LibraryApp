@@ -3,7 +3,6 @@ package com.chern.libraryapp.service.genre;
 import com.chern.libraryapp.dao.DAOFactory;
 import com.chern.libraryapp.model.Genre;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GenreServiceImpl implements GenreService {
@@ -25,6 +24,6 @@ public class GenreServiceImpl implements GenreService {
     }
 
     public List<Genre> getNewBookGenresList(String[] newGenres){
-        return DAOFactory.genreDao().getSelectedGenres(newGenres);
+        return DAOFactory.genreDao().getNewGenres(validator.transformToList(newGenres));
     }
 }

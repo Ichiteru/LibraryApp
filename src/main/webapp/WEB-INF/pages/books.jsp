@@ -45,7 +45,7 @@
         </table>
         <div class="row">
             <div class="col-sm">
-                <form action="/books/${book.isbn}" method="get">
+                <form action="/books/${book.id}" method="get">
                     <button type="submit" class="btn btn-outline-primary">Add book</button>
                 </form>
             </div>

@@ -24,6 +24,8 @@ public class BookDAOImpl implements BookDAO {
     public static final String QUERY_UPDATE_BOOK = "UPDATE books SET " +
             "isbn=?, title=?, description=?, publisher=?, publishDate=?, pageCount=?, totalAmount=?, status=? " +
             "where id=?";
+    public static final String QUERY_ADD_NEW_BOOK = "insert into books (isbn, title, publisher, pagecount, totalamount, status, publishdate, description) " +
+            "values (?, ?, ?, ?, ?, ?, ?, ?)";
     public static final String QUERY_INSERT_NEW_GENRES_IF_EXISTS = "";
     private Book book = null;
 
@@ -89,7 +91,7 @@ public class BookDAOImpl implements BookDAO {
     }
 
     @Override
-    public void updateBook(Book book, String oldISBN) {
+    public void updateBook(Book book) {
         try(Connection connection = ConnectionDAOFactory.createConnection()) {
             PreparedStatement statement = connection.prepareStatement(QUERY_UPDATE_BOOK);
             statement.setString(1, book.getIsbn());
@@ -100,13 +102,31 @@ public class BookDAOImpl implements BookDAO {
             statement.setLong(6, book.getPageCount());
             statement.setLong(7, book.getTotalAmount());
             statement.setString(8, String.valueOf(book.getStatus()));
-            statement.setString(9, oldISBN);
+            statement.setLong(9, book.getId());
             statement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-
         }
     }
+
+    @Override
+    public void addNewBook(Book book) {
+        try(Connection connection = ConnectionDAOFactory.createConnection()) {
+            PreparedStatement statement = connection.prepareStatement(QUERY_ADD_NEW_BOOK);
+            statement.setString(1, book.getIsbn());
+            statement.setString(2, book.getTitle());
+            statement.setString(3, book.getPublisher());
+            statement.setLong(4, book.getPageCount());
+            statement.setLong(5, book.getTotalAmount());
+            statement.setString(6, String.valueOf(book.getStatus()));
+            statement.setDate(7, new Date(book.getPublishDate().getTime()));
+            statement.setString(8, book.getDescription());
+            statement.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
 
     private Book createBook(ResultSet resultSet) throws SQLException {
         Book book = new Book();
