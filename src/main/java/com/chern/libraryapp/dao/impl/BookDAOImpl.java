@@ -3,11 +3,9 @@ package com.chern.libraryapp.dao.impl;
 import com.chern.libraryapp.dao.BookDAO;
 import com.chern.libraryapp.dao.DAOFactory;
 import com.chern.libraryapp.model.enums.BookStatus;
-import com.chern.libraryapp.model.Author;
 import com.chern.libraryapp.model.Book;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +24,7 @@ public class BookDAOImpl implements BookDAO {
             "where id=?";
     public static final String QUERY_ADD_NEW_BOOK = "insert into books (isbn, title, publisher, pagecount, totalamount, status, publishdate, description) " +
             "values (?, ?, ?, ?, ?, ?, ?, ?)";
-    public static final String QUERY_INSERT_NEW_GENRES_IF_EXISTS = "";
+    public static final String QUERY_DELETE_BOOK = "delete from books where id=?";
     private Book book = null;
 
 
@@ -122,6 +120,23 @@ public class BookDAOImpl implements BookDAO {
             statement.setDate(7, new Date(book.getPublishDate().getTime()));
             statement.setString(8, book.getDescription());
             statement.execute();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteBooksByID(String[] idList) {
+        try (Connection connection = ConnectionDAOFactory.createConnection()){
+            connection.setAutoCommit(false);
+            PreparedStatement preparedStatement = connection.prepareStatement(QUERY_DELETE_BOOK);
+            for (String id:
+                 idList) {
+                preparedStatement.setLong(1, Long.parseLong(id));
+                preparedStatement.addBatch();
+            }
+            preparedStatement.executeBatch();
+            connection.commit();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

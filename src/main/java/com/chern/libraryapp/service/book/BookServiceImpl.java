@@ -71,4 +71,9 @@ public class BookServiceImpl implements BookService {
         DAOFactory.authorDAO().addNewAuthorsToBook(newAuthorsWithId, bookByISBN.getId()); // добавляем авторов для книги
         DAOFactory.genreDao().addNewGenresToBook(book.getGenres(), bookByISBN.getId()); // добавляем жанры для книги
     }
+
+    @Override
+    public void deleteBooksByID(String[] idList) {
+        DAOFactory.bookDAO().deleteBooksByID(idList);
+    }
 }

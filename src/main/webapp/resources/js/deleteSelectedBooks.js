@@ -7,7 +7,6 @@ function getSelectedBooksId() {
         for (let index = 0; index < checkboxes.length; index++) {
             if (checkboxes[index].checked){
                 checkedValues.push(checkboxes[index].value);
-                alert(checkboxes[index].value);
             }
         }
         return checkedValues;
@@ -20,9 +19,10 @@ function deleteSelectedBooks() {
     for (let i = 0; i < checkedValues.length; i++) {
         let input = document.createElement("input");
         input.setAttribute("type", "hidden");
-        input.setAttribute("name", "booksISBN");
+        input.setAttribute("name", "booksId");
         input.setAttribute("value", checkedValues[i]);
         form.appendChild(input);
     }
-    form.submit();
+    alert(form.innerHTML);
+    // form.submit();
 }

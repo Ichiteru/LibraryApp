@@ -71,7 +71,7 @@
                 </nav>
             </div>
             <div class="col-sm">
-                <form onsubmit="deleteSelectedBooks()" name="deleteForm" id="deleteForm" action="/delete" method="post" >
+                <form onclick="deleteSelectedBooks()" id="deleteForm" action="/delete" method="post" >
                     <input  type="submit" class="btn btn-outline-primary" value="Delete selected books" style="float: right"></input>
                 </form>
             </div>
