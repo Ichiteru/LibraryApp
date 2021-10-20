@@ -12,3 +12,8 @@ function onFileSelected(event) {
 
     reader.readAsDataURL(selectedFile);
 }
+
+function showHide(elemID){
+    document.getElementById(elemID=="basicInfo"?"connectedServices":"basicInfo").style.display = "none";
+    document.getElementById(elemID=="basicInfo"?"basicInfo":"connectedServices").style.display = "block";
+}
