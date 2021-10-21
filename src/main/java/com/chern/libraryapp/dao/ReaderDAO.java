@@ -7,4 +7,5 @@ import java.util.List;
 public interface ReaderDAO {
     //interfaces of methods for concrete realization of ReaderDAO
     public List<Reader> getAllReaders();
+    public List<Reader> getAllReadersWhereEmailContains(String str);
 }

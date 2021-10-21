@@ -7,7 +7,6 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <div class="modal fade" id="borrowModal" tabindex="-1" role="dialog" aria-labelledby="locModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -20,31 +19,32 @@
                 <form action="" id="addBorrowerForm">
                     <div class="form-group">
                         <label for="dropdownEmailSearch"> Email </label>
-                        <input required oninput="alert('change')" type="text" class="form-control"  id="dropdownEmailSearch" data-toggle="dropdown">
+                        <input required oninput="checkExistingEmail()" type="text" class="form-control" name="email"  id="dropdownEmailSearch" data-toggle="dropdown">
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" id="dropdownEmailSelect">
-                            <a class="dropdown-item" name="borrowerEmail" href="#">test</a>
+                            <a class="dropdown-item" name="borrowerEmail" onclick="setReaderName(this)" href="#">test</a>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="borrowerName"> Name Surname </label>
-                        <input required type="text" class="form-control" id="borrowerName">
+                        <label for="borrowerFirstName"> Name </label>
+                        <input required type="text" class="form-control" id="borrowerFirstName">
+                    </div>
+                    <div class="form-group">
+                        <label for="borrowerLastName"> Surname </label>
+                        <input required type="text" class="form-control" id="borrowerLastName">
                     </div>
 
                     <div class="form-group">
-                        <label for="borrowDate"> Borrow date </label>
-                        <input readonly type="date" class="form-control" id="borrowDate">
+<%--                        <label for="borrowDate"> Borrow date </label>--%>
+                        <input readonly hidden type="data" class="form-control" id="borrowDate" value="">
                     </div>
 
                     <div class="form-group">
-                        <label for="dropdownTimePeriod"> Time period </label></br>
-                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownTimePeriod" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Time period
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <c:forEach items="timePeriodArray" var="timePeriod">
-                                    <a class="dropdown-item" href="#">${timePeriod}</a>
+                        <label for="selectTimePeriod"> Time period </label></br>
+                            <select class="form-select" id="selectTimePeriod" size="3" style="width: 100%">
+                                <c:forEach items="${timePeriodArray}" var="timePeriod">
+                                    <option value="${timePeriod}">${timePeriod} month</option>
                                 </c:forEach>
-                            </div>
+                            </select>
                     </div>
                     <div class="form-group">
                         <label for="comment"> Comment </label>

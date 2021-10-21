@@ -12,4 +12,9 @@ public class ReaderServiceImpl implements ReaderService {
     public List<Reader> getAllReaders() {
         return DAOFactory.readerDAO().getAllReaders();
     }
+
+    @Override
+    public List<Reader> getAllReadersWhereEmailContains(String str) {
+        return DAOFactory.readerDAO().getAllReadersWhereEmailContains(str);
+    }
 }

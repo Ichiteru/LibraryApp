@@ -5,16 +5,14 @@ import com.chern.libraryapp.model.Book;
 import com.chern.libraryapp.model.Reader;
 import com.chern.libraryapp.model.enums.Gender;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ReaderDAOImpl implements ReaderDAO {
 
     public static final String QUERY_SELECT_ALL_READERS = "select * from readers";
+    public static final String QUERY_SELECT_ALL_READERS_LIKE = "select * from readers where email like ?";
 
     @Override
     public List<Reader> getAllReaders() {
@@ -22,6 +20,22 @@ public class ReaderDAOImpl implements ReaderDAO {
             List<Reader> readerList = new ArrayList<>();
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(QUERY_SELECT_ALL_READERS);
+            while (resultSet.next())
+                readerList.add(createReader(resultSet));
+            return readerList;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List<Reader> getAllReadersWhereEmailContains(String str) {
+        try(Connection connection = ConnectionDAOFactory.createConnection()) {
+            List<Reader> readerList = new ArrayList<>();
+            PreparedStatement statement = connection.prepareStatement(QUERY_SELECT_ALL_READERS_LIKE);
+            statement.setString(1, "%" + str + "%");
+            ResultSet resultSet = statement.executeQuery();
             while (resultSet.next())
                 readerList.add(createReader(resultSet));
             return readerList;

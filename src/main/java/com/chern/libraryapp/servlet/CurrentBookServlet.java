@@ -2,6 +2,7 @@ package com.chern.libraryapp.servlet;
 
 import com.chern.libraryapp.model.Book;
 import com.chern.libraryapp.model.Reader;
+import com.chern.libraryapp.model.enums.TimePeriod;
 import com.chern.libraryapp.service.AuthorService;
 import com.chern.libraryapp.service.ReaderService;
 import com.chern.libraryapp.service.impl.AuthorServiceImpl;
@@ -33,6 +34,8 @@ public class CurrentBookServlet extends HttpServlet {
         req.setAttribute("genres", genreService.getAllGenres());
         req.setAttribute("authors", authorService.getAllAuthors());
         req.setAttribute("allReaders", readerService.getAllReaders());
+        System.out.println(TimePeriod.getAll());
+        req.setAttribute("timePeriodArray", TimePeriod.getAll());
         Book book = new Book();
         if (bookId == "") {
             book.setPublishDate(new Date());

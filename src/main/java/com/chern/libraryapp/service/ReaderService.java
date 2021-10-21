@@ -7,4 +7,5 @@ import java.util.List;
 public interface ReaderService {
 
     public List<Reader> getAllReaders();
+    public List<Reader> getAllReadersWhereEmailContains(String str);
 }
