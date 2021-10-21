@@ -1,4 +1,4 @@
-package com.chern.libraryapp.service.author;
+package com.chern.libraryapp.service.validator;
 
 import com.chern.libraryapp.dao.DAOFactory;
 import com.chern.libraryapp.model.Author;

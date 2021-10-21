@@ -1,7 +1,7 @@
 package com.chern.libraryapp.servlet;
 
-import com.chern.libraryapp.service.book.BookService;
-import com.chern.libraryapp.service.book.BookServiceImpl;
+import com.chern.libraryapp.service.BookService;
+import com.chern.libraryapp.service.impl.BookServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,9 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @WebServlet("/delete")
 public class DeleteBooksServlet extends HttpServlet {

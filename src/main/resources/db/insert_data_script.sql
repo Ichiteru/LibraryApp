@@ -39,3 +39,9 @@ insert into book_genres (book_id, genre_id) values (3, 5);
 insert into book_genres (book_id, genre_id) values (3, 6);
 insert into book_genres (book_id, genre_id) values (4, 7);
 insert into book_genres (book_id, genre_id) values (4, 8);
+
+insert into readers values (1, 'chern200213@gmail.com', 'Ilya', 'Chern', '21-10-2021', 1, 'MALE');
+insert into readers values (2 ,'kondrart@gmail.com', 'Artem', 'Kondr', '21-10-2021', 2, 'MALE');
+insert into readers values (3 ,'antonprok@gmail.com', 'Anton', 'Prokopovich', '21-10-2021', 3, 'MALE');
+insert into readers values (4 ,'zemnoff@gmail.com', 'Danila', 'Zemnoff', '21-10-2021', 4, 'MALE');
+insert into readers values (5 ,'samusiov@gmail.com', 'Vanya', 'Samysiov', '21-10-2021', 5, 'MALE');

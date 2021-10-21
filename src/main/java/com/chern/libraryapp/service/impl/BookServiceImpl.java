@@ -1,10 +1,11 @@
-package com.chern.libraryapp.service.book;
+package com.chern.libraryapp.service.impl;
 
 import com.chern.libraryapp.dao.DAOFactory;
 import com.chern.libraryapp.model.Author;
 import com.chern.libraryapp.model.Book;
 import com.chern.libraryapp.model.Genre;
 import com.chern.libraryapp.model.enums.BookStatus;
+import com.chern.libraryapp.service.BookService;
 
 import java.util.ArrayList;
 import java.util.List;

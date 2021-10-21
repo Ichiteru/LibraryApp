@@ -1,4 +1,4 @@
-package com.chern.libraryapp.service.book;
+package com.chern.libraryapp.service;
 
 import com.chern.libraryapp.model.Author;
 import com.chern.libraryapp.model.Book;

@@ -1,20 +1,16 @@
 package com.chern.libraryapp.servlet;
 
-import com.chern.libraryapp.dao.AuthorDAO;
-import com.chern.libraryapp.dao.DAOFactory;
 import com.chern.libraryapp.model.Author;
 import com.chern.libraryapp.model.Book;
 import com.chern.libraryapp.model.Genre;
-import com.chern.libraryapp.model.enums.BookStatus;
-import com.chern.libraryapp.service.author.AuthorService;
-import com.chern.libraryapp.service.author.AuthorServiceImpl;
-import com.chern.libraryapp.service.book.BookService;
-import com.chern.libraryapp.service.book.BookServiceImpl;
-import com.chern.libraryapp.service.genre.GenreService;
-import com.chern.libraryapp.service.genre.GenreServiceImpl;
+import com.chern.libraryapp.service.AuthorService;
+import com.chern.libraryapp.service.impl.AuthorServiceImpl;
+import com.chern.libraryapp.service.BookService;
+import com.chern.libraryapp.service.impl.BookServiceImpl;
+import com.chern.libraryapp.service.GenreService;
+import com.chern.libraryapp.service.impl.GenreServiceImpl;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

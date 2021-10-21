@@ -1,4 +1,4 @@
-package com.chern.libraryapp.service.genre;
+package com.chern.libraryapp.service.validator;
 
 import com.chern.libraryapp.model.Genre;
 

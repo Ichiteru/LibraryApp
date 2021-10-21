@@ -1,7 +1,9 @@
-package com.chern.libraryapp.service.genre;
+package com.chern.libraryapp.service.impl;
 
 import com.chern.libraryapp.dao.DAOFactory;
 import com.chern.libraryapp.model.Genre;
+import com.chern.libraryapp.service.GenreService;
+import com.chern.libraryapp.service.validator.GenreValidator;
 
 import java.util.List;
 

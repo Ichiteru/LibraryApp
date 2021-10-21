@@ -1,8 +1,8 @@
 package com.chern.libraryapp.servlet;
 
 import com.chern.libraryapp.model.Book;
-import com.chern.libraryapp.service.book.BookService;
-import com.chern.libraryapp.service.book.BookServiceImpl;
+import com.chern.libraryapp.service.BookService;
+import com.chern.libraryapp.service.impl.BookServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

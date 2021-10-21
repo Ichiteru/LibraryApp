@@ -19,10 +19,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css"
           integrity="sha512-P5MgMn1jBN01asBgU0z60Qk4QxiXo86+wlFahKrsQf37c9cro517WzVSPPV1tDKzhku2iJ2FVgL67wG03SGnNA=="
           crossorigin="anonymous">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 </head>
 <body>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
 <c:set var="book" value="${book}"></c:set>
 <c:import url="navbar.jsp"/>
 <form id="changeBookInfo" method="post"
@@ -51,11 +53,10 @@
                                     </div>
                                 </div>
                                 <div class="userData ml-3" style="flex: 1 1 auto">
-                                    <input required name="title" type="text" class="form-control" value="${book.title}"
-                                           style="width: 80%;"/>
+                                    <input required name="title" type="text" class="form-control" value="${book.title}"/>
                                     <p class="d-block" style="margin-top: 5px">
                                         <textarea name="description" class="form-control"
-                                                  style="width: 80%; height: 80%"><c:out
+                                                  style="height: 80%"><c:out
                                                 value="${book.description}"></c:out></textarea>
                                     </p>
                                 </div>
@@ -109,14 +110,12 @@
                                                             </button>
                                                             <button id="w-change-location" type="button"
                                                                     class="btn btn-primary" data-toggle="modal"
-                                                                    data-target="#locModal">New author
-                                                            </button>
+                                                                    data-target="#locModal">New author</button>
                                                             <c:import url="add-author-modal.jsp"></c:import>
                                                     </div>
                                                 </div>
 
                                             </div>
-                                            <%--                                            <button type="button" class="btn btn-success mt-1" style="max-height: 40px">Add</button>--%>
                                         </div>
                                         <hr/>
 
@@ -246,7 +245,38 @@
                                         </div>
                                     </div>
                                     <div id="connectedServices" style="display: none">
-                                        Facebook, Google, Twitter Account that are connected to this account
+                                        <input type="hidden" value="${readers}" id="allReaders">
+                                        <table class="table table-bordered table-hover" id="borrowersTable">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Email</th>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Borrow date</th>
+                                                <th scope="col">Due date</th>
+                                                <th scope="col">Return date</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <c:forEach items="${bookBorrowers}" var="borrower">
+                                                <tr>
+                                                    <td>
+                                                        <input type="hidden" value="${borrower.id}">
+                                                        <a href="#"><c:out value="${borrower.email}"/></a>
+                                                    </td>
+                                                    <td>
+                                                            <c:out value="${borrower.firstName} ${borrower.lastName}"/>
+                                                    </td>
+                                                    <td><c:out value="${borrower.borrow_date}"/></td>
+                                                    <td>${borrower.due_date}</td>
+                                                    <td>
+                                                        <c:out value="${borrower.return_date}"/>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                            </tbody>
+                                        </table>
+                                        <input type="button" id="showAddBorrowerModal" class="btn btn-outline-primary" value="Add reader">
+                                        <c:import url="add-borrower-modal.jsp"></c:import>
                                     </div>
                                 </div>
 
@@ -266,5 +296,6 @@
 <script src="./../../resources/js/openAuthorModalWindow.js"></script>
 <script src="./../../resources/js/addAuthor.js"></script>
 <script src="./../../resources/js/saveBookChanges.js"></script>
+<script src="./../../resources/js/addBorrowModalWindow.js"></script>
 </body>
 </html>

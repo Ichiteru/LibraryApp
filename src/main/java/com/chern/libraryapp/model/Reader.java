@@ -4,14 +4,15 @@ import com.chern.libraryapp.model.enums.Gender;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Data
 public class Reader {
-    Long id;
+    private Long id;
     private String email;
     private String firstName;
     private String lastName;
-    private LocalDate registrationDate;
+    private Date registrationDate;
     private String phone;
     private Gender gender;
 }
