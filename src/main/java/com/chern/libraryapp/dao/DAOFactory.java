@@ -16,7 +16,7 @@ public class DAOFactory {
 
     public static AuthorDAO authorDAO() { return new AuthorDAOImpl(); }
 
-    public static BorrowerDAO borrowerDAO() { return new BorrowerDAOImpl(); }
+    public static BorrowRecordDAO borrowRecordDAO() { return new BorrowRecordDAOImpl(); }
 
     public static GenreDAO genreDao() { return new GenreDAOImpl(); }
 

@@ -13,6 +13,7 @@ public class ReaderDAOImpl implements ReaderDAO {
 
     public static final String QUERY_SELECT_ALL_READERS = "select * from readers";
     public static final String QUERY_SELECT_ALL_READERS_LIKE = "select * from readers where email like ?";
+    public static final String QUERY_SELECT_READER_BY_ID = "select * from readers where id=? limit 1";
 
     @Override
     public List<Reader> getAllReaders() {
@@ -39,6 +40,23 @@ public class ReaderDAOImpl implements ReaderDAO {
             while (resultSet.next())
                 readerList.add(createReader(resultSet));
             return readerList;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public Reader findReaderById(Long id) {
+        try(Connection connection = ConnectionDAOFactory.createConnection()) {
+            Reader reader = null;
+            PreparedStatement statement = connection.prepareStatement(QUERY_SELECT_READER_BY_ID);
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                reader = createReader(resultSet);
+            }
+            return reader;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             return null;

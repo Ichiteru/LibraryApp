@@ -77,7 +77,7 @@
             </div>
         </div>
 
-        <script src="./../../resources/js/deleteSelectedBooks.js"></script>
+        <script src="../resources/js/deleteSelectedBooks.js"></script>
     </div>
 </body>
 </html>

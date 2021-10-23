@@ -246,6 +246,7 @@
                                         </div>
                                     </div>
                                     <div id="connectedServices" style="display: none">
+                                        <c:set var="switch"></c:set>
                                         <input type="hidden" value="${allReaders}" id="allReaders">
                                         <table class="table table-bordered table-hover" id="borrowersTable">
                                             <thead>
@@ -258,25 +259,31 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <c:forEach items="${bookBorrowers}" var="borrower">
+                                            <c:forEach items="${book.borrowRecords}" var="borrowRecord">
                                                 <tr>
                                                     <td>
-                                                        <input type="hidden" value="${borrower.id}">
-                                                        <a href="#"><c:out value="${borrower.email}"/></a>
+                                                        <c:out value="${borrowRecord.reader.email}"/>
                                                     </td>
                                                     <td>
-                                                            <c:out value="${borrower.firstName} ${borrower.lastName}"/>
+                                                        <a href="#" onclick="editMode()"> <c:out value="${borrowRecord.reader.firstName} ${borrowRecord.reader.lastName}"/></a>
                                                     </td>
-                                                    <td><c:out value="${borrower.borrow_date}"/></td>
-                                                    <td>${borrower.due_date}</td>
                                                     <td>
-                                                        <c:out value="${borrower.return_date}"/>
+                                                        <c:out value="${borrowRecord.borrowDate}"/>
                                                     </td>
+                                                    <td>
+                                                        <c:out value="${borrowRecord.dueDate}"/>
+                                                    </td>
+                                                    <td>
+                                                        <c:out value="${borrowRecord.returnDate}"/>
+                                                    </td>
+                                                        <input type="hidden" name="readerId" value="${borrowRecord.reader.id}">
+                                                        <input type="hidden" name="comment" id="comment-table" value="${borrowRecord.comment}">
+                                                        <input type="hidden" name="record-status" id="record-status-table" value="${borrowRecord.status}">
                                                 </tr>
                                             </c:forEach>
                                             </tbody>
                                         </table>
-                                        <input type="button" id="showAddBorrowerModal" class="btn btn-outline-primary" value="Add reader">
+                                        <input type="button" id="showAddBorrowerModal" onclick="addMode()" class="btn btn-outline-primary" value="Add reader">
                                         <c:import url="add-borrower-modal.jsp"></c:import>
                                     </div>
                                 </div>
@@ -291,12 +298,13 @@
 
 </form>
 
-<script src="./../../resources/js/bookCoverChange.js"></script>
-<script src="./../../resources/js/addBookGenre.js"></script>
-<script src="./../../resources/js/deleteBookGenre.js"></script>
-<script src="./../../resources/js/openAuthorModalWindow.js"></script>
-<script src="./../../resources/js/addAuthor.js"></script>
-<script src="./../../resources/js/saveBookChanges.js"></script>
-<script src="./../../resources/js/addBorrowModalWindow.js"></script>
+<script src="../resources/js/bookCoverChange.js"></script>
+<script src="../resources/js/addBookGenre.js"></script>
+<script src="../resources/js/deleteBookGenre.js"></script>
+<script src="../resources/js/openAuthorModalWindow.js"></script>
+<script src="../resources/js/addAuthor.js"></script>
+<script src="../resources/js/saveBookChanges.js"></script>
+<script src="../resources/js/addBorrowModalWindow.js"></script>
+<script src="../resources/js/moment.js"></script>
 </body>
 </html>

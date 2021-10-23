@@ -4,7 +4,6 @@ import com.chern.libraryapp.model.enums.BookStatus;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,7 +20,7 @@ public class Book implements Serializable {
     private BookStatus status;
     private Date publishDate;
 
-    private List<BorrowRecord> borrowers;
+    private List<BorrowRecord> borrowRecords;
     private List<Author> authors;
     private List<Genre> genres;
 

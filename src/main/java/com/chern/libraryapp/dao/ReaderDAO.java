@@ -8,4 +8,5 @@ public interface ReaderDAO {
     //interfaces of methods for concrete realization of ReaderDAO
     public List<Reader> getAllReaders();
     public List<Reader> getAllReadersWhereEmailContains(String str);
+    public Reader findReaderById(Long id);
 }

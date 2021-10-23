@@ -1,5 +1,5 @@
 package com.chern.libraryapp.model.enums;
 
 public enum Gender {
-    MALE, FEMALE
+    MALE, FEMALE,
 }

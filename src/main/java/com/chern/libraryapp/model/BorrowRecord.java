@@ -1,17 +1,24 @@
 package com.chern.libraryapp.model;
 
+import com.chern.libraryapp.model.enums.BookStatus;
+import com.chern.libraryapp.model.enums.ReturnedBookStatus;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Data
 public class BorrowRecord {
-    private Long bookISBN;
-    private String readerEmail;
+    private Long bookId;
+    private Long readerId;
     private Reader reader;
-    private LocalDate borrowDate;
-    private LocalDate dueDate;
-    private LocalDate returnDate;
+//    private String readerEmail;
+//    private String readerFirstName;
+//    private String readerLastName;
+    private Date borrowDate;
+    private Date dueDate;
+    private Date returnDate;
     private String comment;
-    private int timePeriod;
+    private Integer timePeriod;
+    private ReturnedBookStatus status;
 }

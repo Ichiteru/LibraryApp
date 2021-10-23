@@ -1,7 +1,7 @@
 package com.chern.libraryapp.servlet;
 
 import com.chern.libraryapp.model.Book;
-import com.chern.libraryapp.model.Reader;
+import com.chern.libraryapp.model.enums.ReturnedBookStatus;
 import com.chern.libraryapp.model.enums.TimePeriod;
 import com.chern.libraryapp.service.AuthorService;
 import com.chern.libraryapp.service.ReaderService;
@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Date;
 
 @WebServlet("/books/*")
@@ -33,9 +34,9 @@ public class CurrentBookServlet extends HttpServlet {
         String bookId = req.getPathInfo().substring(1);
         req.setAttribute("genres", genreService.getAllGenres());
         req.setAttribute("authors", authorService.getAllAuthors());
-        req.setAttribute("allReaders", readerService.getAllReaders());
         System.out.println(TimePeriod.getAll());
         req.setAttribute("timePeriodArray", TimePeriod.getAll());
+        req.setAttribute("returnedBookStatus", Arrays.stream(ReturnedBookStatus.values()).toArray());
         Book book = new Book();
         if (bookId == "") {
             book.setPublishDate(new Date());
@@ -43,6 +44,6 @@ public class CurrentBookServlet extends HttpServlet {
             book = bookService.findBookById(Long.valueOf(bookId));
         }
         req.setAttribute("book", book);
-        getServletContext().getRequestDispatcher("/WEB-INF/pages/change-book.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher("/pages/change-book.jsp").forward(req, resp);
     }
 }

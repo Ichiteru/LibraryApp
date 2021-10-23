@@ -157,6 +157,7 @@ public class BookDAOImpl implements BookDAO {
         book.setPublishDate(resultSet.getDate("publishDate"));
         book.setAuthors(DAOFactory.authorDAO().getBookAuthorsById(book.getId()));
         book.setGenres(DAOFactory.genreDao().getBookGenresById(book.getId()));
+        book.setBorrowRecords(DAOFactory.borrowRecordDAO().getAllBookBorrowRecords(book.getId()));
         return book;
     }
 }
