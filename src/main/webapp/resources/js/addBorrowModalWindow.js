@@ -28,6 +28,12 @@ function addMode(){
     locModal.style.display = "block";
     locModal.style.paddingRight = "17px";
     locModal.className="modal fade show";
+    document.getElementById("borrowDateLabel").hidden = true;
+    document.getElementById("returnedBookStatusLabel").hidden = true;
+    document.getElementById("commentLabel").hidden = false;
+    btnSave.removeEventListener('click', editBorrowerOnTable);
+    btnSave.addEventListener('click', addNewRowToBorrowersTable);
+
 }
 
 function editMode(){
@@ -39,7 +45,13 @@ function editMode(){
     locModal.style.display = "block";
     locModal.style.paddingRight = "17px";
     locModal.className="modal fade show";
+    document.getElementById("commentLabel").hidden = true;
+    document.getElementById("borrowDateLabel").hidden = false;
+    document.getElementById("returnedBookStatusLabel").hidden = false;
+    btnSave.removeEventListener('click', addNewRowToBorrowersTable);
+    btnSave.addEventListener('click', editBorrowerOnTable);
 }
+
 
 async function checkExistingEmail() {
     if (document.getElementById("dropdownEmailSearch").value.length >= 3) {
@@ -78,24 +90,49 @@ function setReaderName(th) {
     })
 }
 
-btnSave.addEventListener('click', addNewRowToBorrowersTable);
 
 function addNewRowToBorrowersTable(){
-    let tbody = document.getElementById("borrowersTable").getElementsByTagName('tbody')[0];
-    let newRow = document.createElement('tr');
-    let newEmailCol = document.createElement('td');
-    newEmailCol.textContent = document.getElementById('dropdownEmailSearch').value;
-    let newNameCol = document.createElement('td');
-    let hrefName = document.createElement('a');
-    hrefName.setAttribute('href', '#');
-    hrefName.textContent = document.getElementById('borrowerFirstName').value + ' ' + document.getElementById('borrowerLastName').value;
-    newNameCol.appendChild(hrefName);
-    let borrowDateCol = document.createElement('td');
-    borrowDateCol.textContent = moment(new Date(Date.now())).format("YYYY-MM-DD");
-    let dueDateCol = document.createElement('td');
-    dueDateCol.textContent = getDueDate(document.getElementById('selectTimePeriod').value);
-    newRow.append(newEmailCol, newNameCol, borrowDateCol, dueDateCol, document.createElement('td'));
-    tbody.appendChild(newRow);
+    if (checkEmailValidation() === false) alert("invalid email");
+    else if (checkFNameValidation() === false) alert("invalid first name");
+    else if (checkLNameValidation() === false) alert("invalid last name");
+    else if (timePeriodInput.value === '') alert("select a borrow time period");
+    else{
+        alert(timePeriodInput.value);
+        let tbody = document.getElementById("borrowersTable").getElementsByTagName('tbody')[0];
+        let newRow = document.createElement('tr');
+        let newEmailCol = document.createElement('td');
+        newEmailCol.textContent = emailInput.value;
+        let newNameCol = document.createElement('td');
+        let hrefName = document.createElement('a');
+        hrefName.setAttribute('href', '#');
+        hrefName.textContent = fnameInput.value + ' ' + lnameInput.value;
+        newNameCol.appendChild(hrefName);
+        let borrowDateCol = document.createElement('td');
+        borrowDateCol.textContent = moment(new Date(Date.now())).format("YYYY-MM-DD");
+        let dueDateCol = document.createElement('td');
+        dueDateCol.textContent = getDueDate(timePeriodInput.value);
+        newRow.append(newEmailCol, newNameCol, borrowDateCol, dueDateCol, document.createElement('td'));
+        tbody.appendChild(newRow);
+    }
+}
+
+function editBorrowerOnTable() {
+    
+}
+
+function checkEmailValidation() {
+    const re = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    return  re.test(emailInput.value)
+}
+
+function checkFNameValidation() {
+    const re = /^[a-zA-Z0-9.\-_$@*!]{2,20}$/;
+    return  re.test(fnameInput.value)
+}
+
+function checkLNameValidation() {
+    const re = /^[a-zA-Z0-9.\-_$@*!]{2,20}$/;
+    return  re.test(lnameInput.value)
 }
 
 function getDueDate(number) {

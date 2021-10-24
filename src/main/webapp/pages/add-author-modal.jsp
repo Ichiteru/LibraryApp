@@ -19,11 +19,11 @@
                 <form action="" id="w-form">
                     <div class="form-group">
                         <label for="firstName"> Name </label>
-                        <input type="text" class="form-control" id="firstName">
+                        <input pattern="^[a-z](?!.* {2})[ \w.-]{2,24}$" type="text" class="form-control" id="firstName">
                     </div>
                     <div class="form-group">
                         <label for="lastName"> Surname </label>
-                        <input type="text" class="form-control" id="lastName">
+                        <input pattern="^[a-z](?!.* {2})[ \w.-]{2,24}$" type="text" class="form-control" id="lastName">
                     </div>
                 </form>
             </div>

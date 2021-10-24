@@ -24,7 +24,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="borrowerFirstName"> Name </label>
+                        <label for="borrowerFirstName" > Name </label>
                         <input required type="text" class="form-control" id="borrowerFirstName">
                     </div>
                     <div class="form-group">
@@ -32,6 +32,7 @@
                         <input required type="text" class="form-control" id="borrowerLastName">
                     </div>
                     <div class="form-group">
+                        <label for="borrowDate" id="borrowDateLabel"> Borrow Date </label>
                         <input readonly type="data" class="form-control" id="borrowDate" value="">
                     </div>
                     <div class="form-group">
@@ -43,11 +44,11 @@
                             </select>
                     </div>
                     <div class="form-group">
-                        <label for="comment"> Comment </label>
+                        <label for="comment" id="commentLabel"> Comment </label>
                         <textarea class="form-control" id="comment"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="comment"> Status </label>
+                        <label for="returnedBookStatus" id="returnedBookStatusLabel"> Status </label>
                         <select required class="form-control" id="returnedBookStatus">
                             <c:forEach items="${returnedBookStatus}" var="st">
                                 <option value="${st}">${st}</option>
