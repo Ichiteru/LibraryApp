@@ -16,7 +16,7 @@ function addExistingBookAuthor() {
         authorInput.setAttribute('class', 'form-control');
         authorInput.setAttribute('style', 'width: 40%');
         authorInput.setAttribute('value', document.getElementById("selectAuthor").value);
-        authorInput.disabled = true;
+        authorInput.readOnly = true;
         divElement.appendChild(authorInput);
         let button = document.createElement('input');
         button.setAttribute('type', 'button');
@@ -60,7 +60,7 @@ function addNewAuthor() {
         authorInput.setAttribute('style', 'width: 40%');
         authorInput.setAttribute('value', document.getElementById("firstName").value + " " +
             document.getElementById("lastName").value);
-        authorInput.disabled = true;
+        authorInput.readOnly = true;
         divElement.appendChild(authorInput);
 
         let button = document.createElement('input');

@@ -32,10 +32,6 @@
                         <input required type="text" class="form-control" id="borrowerLastName">
                     </div>
                     <div class="form-group">
-                        <label for="borrowDate" id="borrowDateLabel"> Borrow Date </label>
-                        <input readonly type="data" class="form-control" id="borrowDate" value="">
-                    </div>
-                    <div class="form-group">
                         <label for="selectTimePeriod"> Time period </label></br>
                             <select required class="form-select" id="selectTimePeriod" size="3" style="width: 100%">
                                 <c:forEach items="${timePeriodArray}" var="timePeriod">
@@ -46,14 +42,6 @@
                     <div class="form-group">
                         <label for="comment" id="commentLabel"> Comment </label>
                         <textarea class="form-control" id="comment"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="returnedBookStatus" id="returnedBookStatusLabel"> Status </label>
-                        <select required class="form-control" id="returnedBookStatus">
-                            <c:forEach items="${returnedBookStatus}" var="st">
-                                <option value="${st}">${st}</option>
-                            </c:forEach>
-                        </select>
                     </div>
                 </form>
             </div>

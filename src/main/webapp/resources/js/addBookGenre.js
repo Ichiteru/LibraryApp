@@ -13,7 +13,7 @@ function addBookGenre() {
         genreInput.setAttribute('class', 'form-control ml-3');
         genreInput.setAttribute('style', 'width: 40%');
         genreInput.setAttribute('value', document.getElementById("select").value);
-        genreInput.disabled = true;
+        genreInput.readOnly = true;
         divElement.appendChild(genreInput);
 
         let button = document.createElement('input');

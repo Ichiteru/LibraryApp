@@ -21,7 +21,7 @@
           crossorigin="anonymous">
 
 </head>
-<body>
+<body onload="setBookStatus()">
 <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
 <%--<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>--%>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
@@ -47,7 +47,8 @@
                                         <div class="custom-file" style="margin-top: 10px">
                                             <input type="file" onchange="onFileSelected(event)"
                                                    class="custom-file-input"
-                                                   id="inputGroupFile04">
+                                                   id="inputGroupFile04"
+                                                   name="bookTitle">
                                             <label class="custom-file-label" for="inputGroupFile04"
                                                    style="font-size: small">Choose file</label>
                                         </div>
@@ -90,7 +91,7 @@
                                                     <div class="row mt-1 ml-1">
                                                         <input type="text" class="form-control" name="authorName"
                                                                value="${author.firstName} ${author.lastName}"
-                                                               style="width: 40%" disabled/>
+                                                               style="width: 40%" readonly/>
                                                         <input type="button" class="btn btn-danger" value="D"
                                                                onclick="deleteAuthor(this)"></input>
                                                     </div>
@@ -153,7 +154,7 @@
                                                     <div class="row mt-1">
                                                         <input type="text" class="form-control ml-3" name="bookGenre"
                                                                value="${genre.name}"
-                                                               style="width: 40%" disabled/>
+                                                               style="width: 40%" readonly/>
                                                         <input type="button" class="btn btn-danger"
                                                                onclick="deleteGenre(this)" value="D"></input>
                                                     </div>
@@ -208,6 +209,7 @@
                                             <div class="col-md-10 col-6">
                                                 <input required min="0" name="totalAmount" type="number"
                                                        class="form-control" value="${book.totalAmount}"/>
+                                                <input type="hidden" id="rentedBooks">
                                             </div>
                                         </div>
                                         <hr/>
@@ -216,34 +218,14 @@
                                                 <div class="col-sm-3 col-md-2 col-5">
                                                     <label style="font-weight:bold;">Status</label>
                                                 </div>
-                                                <div class="col-md-10 col-6">
-                                                    <c:out value="${book.status}"/>
-                                                    <input type="hidden" name="status" value="${book.status}">
+                                                <div class="col-md-10 col-6" id="bookStatusDiv">
+<%--                                                    <c:out value="${book.status}"/>--%>
                                                 </div>
+                                                    <input type="hidden"  name="status" value="${book.status}">
                                             </div>
                                         </c:if>
                                         <hr/>
-                                        <div class="row">
-                                            <div class="col-first col-6">
-                                                <c:choose>
-                                                    <c:when test="${book.id != null}">
-                                                        <button type="submit" class="btn btn-success mt-3" onclick="saveBookChanges()"
-                                                                style="float: right">Save
-                                                        </button>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <button type="submit" class="btn btn-success mt-3" onclick="saveBookChanges()"
-                                                                style="float: right">Add
-                                                        </button>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </div>
-                                            <div class="col-last col-6">
-                                                <form method="get" action="/books/${book.id}">
-                                                    <button type="submit" class="btn btn-danger mt-3">Discard</button>
-                                                </form>
-                                            </div>
-                                        </div>
+
                                     </div>
                                     <div id="connectedServices" style="display: none">
                                         <c:set var="switch"></c:set>
@@ -262,32 +244,60 @@
                                             <c:forEach items="${book.borrowRecords}" var="borrowRecord">
                                                 <tr>
                                                     <td>
+                                                        <input type="hidden" value="true" name="exist_prev">
+<%--                                                        <input type="hidden" value="${borrowRecord.reader.id}" name="record_readerId">--%>
+                                                        <input type="hidden" value="${borrowRecord.reader.email}" name="record_email">
                                                         <c:out value="${borrowRecord.reader.email}"/>
                                                     </td>
                                                     <td>
-                                                        <a href="#" onclick="editMode()"> <c:out value="${borrowRecord.reader.firstName} ${borrowRecord.reader.lastName}"/></a>
+                                                        <input type="hidden" value="${borrowRecord.reader.firstName}" name="record_firstName">
+                                                        <input type="hidden" value="${borrowRecord.reader.lastName}" name="record_lastName">
+                                                        <a href="#" onclick="openEditModalWindow(this)"> <c:out value="${borrowRecord.reader.firstName} ${borrowRecord.reader.lastName}"/></a>
                                                     </td>
                                                     <td>
+                                                        <input type="hidden" value="${borrowRecord.borrowDate}" name="record_borrowDate">
                                                         <c:out value="${borrowRecord.borrowDate}"/>
                                                     </td>
                                                     <td>
+                                                        <input type="hidden" value="${borrowRecord.dueDate}" name="record_dueDate">
                                                         <c:out value="${borrowRecord.dueDate}"/>
                                                     </td>
                                                     <td>
+                                                        <input type="hidden" value="${borrowRecord.returnDate}" name="record_returnDate">
                                                         <c:out value="${borrowRecord.returnDate}"/>
                                                     </td>
-                                                        <input type="hidden" name="readerId" value="${borrowRecord.reader.id}">
-                                                        <input type="hidden" name="comment" id="comment-table" value="${borrowRecord.comment}">
-                                                        <input type="hidden" name="record-status" id="record-status-table" value="${borrowRecord.status}">
+                                                        <input type="hidden" name="record_comment" value="${borrowRecord.comment}">
+                                                        <input type="hidden" name="record_returnStatus" value="${borrowRecord.status}">
                                                 </tr>
                                             </c:forEach>
                                             </tbody>
                                         </table>
-                                        <input type="button" id="showAddBorrowerModal" onclick="addMode()" class="btn btn-outline-primary" value="Add reader">
+                                        <input type="button" id="showAddBorrowerModal" class="btn btn-outline-primary" value="Add reader">
                                         <c:import url="add-borrower-modal.jsp"></c:import>
+                                        <c:import url="edit-borrow-status-modal.jsp"></c:import>
                                     </div>
                                 </div>
-
+                                <div class="row">
+                                    <div class="col-first col-6">
+                                        <c:choose>
+                                            <c:when test="${book.id != null}">
+                                                <button type="submit" class="btn btn-success mt-3" onclick="saveBookChanges()"
+                                                        style="float: right">Save
+                                                </button>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <button type="submit" class="btn btn-success mt-3" onclick="saveBookChanges()"
+                                                        style="float: right">Add
+                                                </button>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </div>
+                                    <div class="col-last col-6">
+                                        <form method="get" action="/books/${book.id}">
+                                            <button type="submit" class="btn btn-danger mt-3">Discard</button>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -305,6 +315,8 @@
 <script src="../resources/js/addAuthor.js"></script>
 <script src="../resources/js/saveBookChanges.js"></script>
 <script src="../resources/js/addBorrowModalWindow.js"></script>
+<script src="../resources/js/editBorrowModalWindow.js"></script>
+<script src="../resources/js/bookStatusListeners.js"></script>
 <script src="../resources/js/moment.js"></script>
 </body>
 </html>
