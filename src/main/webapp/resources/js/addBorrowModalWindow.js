@@ -79,11 +79,11 @@ function addNewRowToBorrowersTable(){
         let newRow = document.createElement('tr');
         let newEmailCol = document.createElement('td');
         newEmailCol.textContent = emailInput.value;
-        newEmailCol.append(getInput('hidden', 'false', 'exist_prev')
+        newRow.append(getInput('hidden', '0', 'record_id')
             , getInput('hidden', emailInput.value, 'record_email'));
 
         let newNameCol = document.createElement('td');
-        newNameCol.append(getInput('hidden', fnameInput.value, 'record_firstName')
+        newRow.append(getInput('hidden', fnameInput.value, 'record_firstName')
             , getInput('hidden', lnameInput.value, 'record_lastName'));
         let hrefName = document.createElement('a');
         hrefName.setAttribute('href', '#');
@@ -93,16 +93,17 @@ function addNewRowToBorrowersTable(){
 
         let borrowDateCol = document.createElement('td');
         borrowDateCol.textContent = moment(new Date(Date.now())).format("YYYY-MM-DD");
-        borrowDateCol.appendChild(getInput('hidden', borrowDateCol.textContent, 'record_borrowDate'));
+        newRow.appendChild(getInput('hidden', borrowDateCol.textContent, 'record_borrowDate'));
         let dueDateCol = document.createElement('td');
         dueDateCol.textContent = getDueDate(timePeriodInput.value);
-        dueDateCol.appendChild(getInput('hidden', dueDateCol.textContent, 'record_dueDate'));
+        newRow.appendChild(getInput('hidden', dueDateCol.textContent, 'record_dueDate'));
         let returnDateCol = document.createElement('td');
         returnDateCol.textContent = '';
-        returnDateCol.appendChild(getInput('hidden', '', 'record_returnDate'));
+        newRow.appendChild(getInput('hidden', '', 'record_returnDate'));
         let hiddenComment = getInput('hidden', commentInput.value, 'record_comment');
         let hiddenReturnedBookStatus = getInput('hidden', '', 'record_returnStatus');
-        newRow.append(newEmailCol, newNameCol, borrowDateCol, dueDateCol, returnDateCol, hiddenComment, hiddenReturnedBookStatus);
+        let hiddenTimePeriod = getInput('hidden', timePeriodInput.value, 'record_timePeriod');
+        newRow.append(newEmailCol, newNameCol, borrowDateCol, dueDateCol, returnDateCol, hiddenComment, hiddenReturnedBookStatus, hiddenTimePeriod);
         tbody.appendChild(newRow);
         setBookStatus();
     }
@@ -114,18 +115,6 @@ function getInput(type, value, name) {
     input.setAttribute('value', value);
     input.setAttribute('name', name);
     return input;
-}
-
-function setInputs(th) {
-    let tr = th.parentElement.parentElement;
-    let columns = tr.getElementsByTagName('td');
-    alert(columns[0].textContent);
-    emailInput.value = columns[0].textContent;
-    let flname = columns[1].getElementsByTagName('a')[0].textContent.split(' ');
-    alert(flname);
-    fnameInput.value = flname[1];
-    lnameInput.value = flname[2];
-    borrowDateInput.value = columns[2].textContent;
 }
 
 function checkEmailValidation() {

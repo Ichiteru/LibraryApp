@@ -1,19 +1,26 @@
 package com.chern.libraryapp.dao.impl;
 
 import com.chern.libraryapp.dao.ReaderDAO;
-import com.chern.libraryapp.model.Book;
 import com.chern.libraryapp.model.Reader;
 import com.chern.libraryapp.model.enums.Gender;
+import com.chern.libraryapp.model.json.BorrowRecordJSON;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ReaderDAOImpl implements ReaderDAO {
 
-    public static final String QUERY_SELECT_ALL_READERS = "select * from readers";
-    public static final String QUERY_SELECT_ALL_READERS_LIKE = "select * from readers where email like ?";
-    public static final String QUERY_SELECT_READER_BY_ID = "select * from readers where id=? limit 1";
+    private final String QUERY_SELECT_ALL_READERS = "select * from readers";
+    private final String QUERY_SELECT_ALL_READERS_LIKE = "select * from readers where email like ?";
+    private final String QUERY_SELECT_READER_BY_ID = "select * from readers where id=? limit 1";
+    private final String QUERY_EXIST_BY_EMAIL = "select * from readers where email=? limit 1";
+    private final String QUERY_FIND_BY_EMAIL = "select * from readers where email=? limit 1";
+    private final String QUERY_UPDATE_FNAME_AND_LNAME_BY_EMAIL = "update readers set firstName=?, secondName=? " +
+            "where email=?";
+    private final String QUERY_INSERT_INTO_READERS = "insert into readers (email, firstname, secondname, registrationdate, gender) " +
+            "values (?,?,?,?,?)";
 
     @Override
     public List<Reader> getAllReaders() {
@@ -61,6 +68,65 @@ public class ReaderDAOImpl implements ReaderDAO {
             throwables.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public Reader existsByEmail(String email) {
+        try(Connection connection = ConnectionDAOFactory.createConnection()) {
+            PreparedStatement statement = connection.prepareStatement(QUERY_EXIST_BY_EMAIL);
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                return createReader(resultSet);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public void updateFirstAndLastNameByEmail(String email, BorrowRecordJSON rec) {
+        try(Connection connection = ConnectionDAOFactory.createConnection()) {
+            PreparedStatement statement = connection.prepareStatement(QUERY_UPDATE_FNAME_AND_LNAME_BY_EMAIL);
+            statement.setString(1, rec.getFirstName());
+            statement.setString(2, rec.getLastName());
+            statement.setString(3, email);
+            statement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void addReader(BorrowRecordJSON rec) {
+        try(Connection connection = ConnectionDAOFactory.createConnection()) {
+            PreparedStatement statement = connection.prepareStatement(QUERY_INSERT_INTO_READERS);
+            statement.setString(1, rec.getEmail());
+            statement.setString(2, rec.getFirstName());
+            statement.setString(3, rec.getLastName());
+            statement.setDate(4, Date.valueOf(LocalDate.now()));
+            statement.setString(5, String.valueOf(Gender.UNDEFINED));
+            statement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    @Override
+    public Reader findReaderByEmail(String email) {
+        try(Connection connection = ConnectionDAOFactory.createConnection()) {
+            PreparedStatement statement = connection.prepareStatement(QUERY_FIND_BY_EMAIL);
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                return createReader(resultSet);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
     }
 
     private Reader createReader(ResultSet resultSet) throws SQLException {

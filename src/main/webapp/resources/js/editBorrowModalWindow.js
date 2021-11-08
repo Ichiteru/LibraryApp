@@ -27,6 +27,7 @@ function openEditModalWindow(th){
     fnameEditInput.value = elementsByTagName.namedItem('record_firstName').value;
     lnameEditInput.value = elementsByTagName.namedItem('record_lastName').value;
     borrowDateEditInput.value = elementsByTagName.namedItem('record_borrowDate').value;
+    timePeriodEditInput.value = elementsByTagName.namedItem('record_timePeriod').value;
 
 }
 
@@ -39,5 +40,4 @@ function editRecord() {
     editLocModal.style.display = "none";
     editLocModal.className="modal fade";
     editBookStatus(returnedBookStatusEditInput.value);
-    // если статус damaged или lost, то totalAmount--
 }

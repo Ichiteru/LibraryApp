@@ -3,6 +3,7 @@ package com.chern.libraryapp.service;
 import com.chern.libraryapp.model.Author;
 import com.chern.libraryapp.model.Book;
 import com.chern.libraryapp.model.Genre;
+import com.chern.libraryapp.model.json.BorrowRecordJSON;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface BookService {
     public void addNewBook(Book book);
 
     public void deleteBooksByID(String[] idList);
+
+    void updateBookBorrowRecords(List<BorrowRecordJSON> existRecords, List<BorrowRecordJSON> newRecords, Long bookId);
 }

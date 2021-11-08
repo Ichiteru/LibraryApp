@@ -9,6 +9,7 @@ import java.util.Date;
 
 @Data
 public class BorrowRecord {
+    private Long id;
     private Long bookId;
     private Long readerId;
     private Reader reader;

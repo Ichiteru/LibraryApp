@@ -50,6 +50,7 @@ create table readers(
                         primary key(id)
 );
 create table book_readers(
+                             id serial unique not null,
                              book_id bigint not null,
                              reader_id bigint not null,
                              borrow_date date not null,
@@ -57,8 +58,8 @@ create table book_readers(
                              return_date date,
                              comment text,
                              timePeriod integer not null,
-                             status varchar(30) not null,
-                             primary key(book_id, reader_id),
+                             status varchar(30),
+                             primary key(id),
                              foreign key(book_id)
                                  references books(id) on delete cascade,
                              foreign key(reader_id)

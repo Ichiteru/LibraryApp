@@ -207,7 +207,7 @@
                                                 <label style="font-weight:bold;">Total amount</label>
                                             </div>
                                             <div class="col-md-10 col-6">
-                                                <input required min="0" name="totalAmount" type="number"
+                                                <input required onchange="isTotalAmountMoreThanRented(this)" min="0" name="totalAmount" type="number"
                                                        class="form-control" value="${book.totalAmount}"/>
                                                 <input type="hidden" id="rentedBooks">
                                             </div>
@@ -244,30 +244,30 @@
                                             <c:forEach items="${book.borrowRecords}" var="borrowRecord">
                                                 <tr>
                                                     <td>
-                                                        <input type="hidden" value="true" name="exist_prev">
-<%--                                                        <input type="hidden" value="${borrowRecord.reader.id}" name="record_readerId">--%>
-                                                        <input type="hidden" value="${borrowRecord.reader.email}" name="record_email">
                                                         <c:out value="${borrowRecord.reader.email}"/>
                                                     </td>
                                                     <td>
-                                                        <input type="hidden" value="${borrowRecord.reader.firstName}" name="record_firstName">
-                                                        <input type="hidden" value="${borrowRecord.reader.lastName}" name="record_lastName">
                                                         <a href="#" onclick="openEditModalWindow(this)"> <c:out value="${borrowRecord.reader.firstName} ${borrowRecord.reader.lastName}"/></a>
                                                     </td>
                                                     <td>
-                                                        <input type="hidden" value="${borrowRecord.borrowDate}" name="record_borrowDate">
                                                         <c:out value="${borrowRecord.borrowDate}"/>
                                                     </td>
                                                     <td>
-                                                        <input type="hidden" value="${borrowRecord.dueDate}" name="record_dueDate">
                                                         <c:out value="${borrowRecord.dueDate}"/>
                                                     </td>
                                                     <td>
-                                                        <input type="hidden" value="${borrowRecord.returnDate}" name="record_returnDate">
                                                         <c:out value="${borrowRecord.returnDate}"/>
                                                     </td>
+                                                        <input type="hidden" value="${borrowRecord.id}" name="record_id">
+                                                        <input type="hidden" value="${borrowRecord.reader.email}" name="record_email">
+                                                        <input type="hidden" value="${borrowRecord.reader.firstName}" name="record_firstName">
+                                                        <input type="hidden" value="${borrowRecord.reader.lastName}" name="record_lastName">
+                                                        <input type="hidden" value="${borrowRecord.borrowDate}" name="record_borrowDate">
+                                                        <input type="hidden" value="${borrowRecord.dueDate}" name="record_dueDate">
+                                                        <input type="hidden" value="${borrowRecord.returnDate}" name="record_returnDate">
                                                         <input type="hidden" name="record_comment" value="${borrowRecord.comment}">
                                                         <input type="hidden" name="record_returnStatus" value="${borrowRecord.status}">
+                                                        <input type="hidden" name="record_timePeriod" value="${borrowRecord.timePeriod}">
                                                 </tr>
                                             </c:forEach>
                                             </tbody>

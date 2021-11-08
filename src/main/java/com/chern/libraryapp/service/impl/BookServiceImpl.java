@@ -4,7 +4,9 @@ import com.chern.libraryapp.dao.DAOFactory;
 import com.chern.libraryapp.model.Author;
 import com.chern.libraryapp.model.Book;
 import com.chern.libraryapp.model.Genre;
+import com.chern.libraryapp.model.Reader;
 import com.chern.libraryapp.model.enums.BookStatus;
+import com.chern.libraryapp.model.json.BorrowRecordJSON;
 import com.chern.libraryapp.service.BookService;
 
 import java.util.ArrayList;
@@ -76,5 +78,27 @@ public class BookServiceImpl implements BookService {
     @Override
     public void deleteBooksByID(String[] idList) {
         DAOFactory.bookDAO().deleteBooksByID(idList);
+    }
+
+    @Override
+    public void updateBookBorrowRecords(List<BorrowRecordJSON> existRecords, List<BorrowRecordJSON> newRecords, Long bookId) {
+        for (BorrowRecordJSON rec:
+             existRecords) {
+            if (!rec.getReturnDate().equals("")){
+                DAOFactory.borrowRecordDAO().updateReturnDateAndStatus(rec);
+            }
+        }
+        for (BorrowRecordJSON rec:
+             newRecords) {
+            Reader reader = DAOFactory.readerDAO().existsByEmail(rec.getEmail());
+            if (reader != null){
+                DAOFactory.borrowRecordDAO().addRecord(reader.getId(), bookId, rec);
+                DAOFactory.readerDAO().updateFirstAndLastNameByEmail(reader.getEmail(), rec);
+            } else {
+                DAOFactory.readerDAO().addReader(rec);
+                Reader readerByEmail = DAOFactory.readerDAO().findReaderByEmail(rec.getEmail());
+                DAOFactory.borrowRecordDAO().addRecord(readerByEmail.getId(), bookId, rec);
+            }
+        }
     }
 }

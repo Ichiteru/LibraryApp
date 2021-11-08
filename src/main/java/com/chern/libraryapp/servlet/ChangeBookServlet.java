@@ -4,12 +4,14 @@ import com.chern.libraryapp.model.Author;
 import com.chern.libraryapp.model.Book;
 import com.chern.libraryapp.model.Genre;
 import com.chern.libraryapp.model.enums.BookStatus;
+import com.chern.libraryapp.model.json.BorrowRecordJSON;
 import com.chern.libraryapp.service.AuthorService;
 import com.chern.libraryapp.service.impl.AuthorServiceImpl;
 import com.chern.libraryapp.service.BookService;
 import com.chern.libraryapp.service.impl.BookServiceImpl;
 import com.chern.libraryapp.service.GenreService;
 import com.chern.libraryapp.service.impl.GenreServiceImpl;
+import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -36,9 +39,14 @@ public class ChangeBookServlet extends HttpServlet {
         String newIsbn = req.getParameter("isbn");
         List<Genre> newBookGenres = genreService.getNewBookGenresList(req.getParameterValues("bookGenre"));
         List<Author> newBookAuthors = authorService.getNewAuthorsList(req.getParameterValues("authorName"));
+        List<BorrowRecordJSON> existRecords = Arrays.asList(new Gson().fromJson(req.getParameter("existingRecords"), BorrowRecordJSON[].class));
+        List<BorrowRecordJSON> newRecords = Arrays.asList(new Gson().fromJson(req.getParameter("newRecords"), BorrowRecordJSON[].class));
         Book updatedBook = createBookWithNewParams(req);
         if (oldIsbn.equals(newIsbn) || bookService.findBookByIsbn(newIsbn) == null) {
             bookService.updateBook(updatedBook, newBookAuthors, newBookGenres);
+            bookService.updateBookBorrowRecords(existRecords, newRecords, updatedBook.getId());
+        } else {
+            // TODO: 08.11.2021 if isbn exists
         }
         resp.sendRedirect("/books/" + updatedBook.getId());
     }

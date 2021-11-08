@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 public class BorrowRecordJSON {
+    private Long id;
     private String email;
     private String firstName;
     private String lastName;
@@ -15,4 +16,5 @@ public class BorrowRecordJSON {
     private String returnDate;
     private String comment;
     private String returnStatus;
+    private Integer timePeriod;
 }
