@@ -1,7 +1,57 @@
 var form = document.getElementById("changeBookInfo");
 
 function saveBookChanges() {
-    getRecordsData();
+    let genres = document.getElementsByName('bookGenre');
+    let authors = document.getElementsByName('authorName');
+
+    if (genres.length == 0 || authors.length == 0){
+        alert("Book must have one more genre and author");
+        return false;
+    }
+    else if(isEmpty(document.getElementsByName('title')[0].value)){
+        alert("Title can't be empty.");
+        return false;
+    }
+    else if(isEmpty(document.getElementsByName('publisher')[0].value)){
+        alert("Publisher can't be empty.");
+        return false;
+    }
+    else if(!isDateValid( document.getElementsByName('publishDate')[0].value)){
+        alert("Publish date can't be empty or invalid.");
+        return false;
+    }
+    else if(!isNumberValid(document.getElementsByName('pageCount')[0].value, 0, 1500)){
+        alert('Page count should be in 0-1500 range and not empty');
+        return false;
+    }
+    else if(!isValidAndNotEmpty(/^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$/, document.getElementsByName('isbn')[0].value)){
+        alert("ISBN can't be empty or invalid(10 symbols)");
+        return false;
+    }
+    else if(!isNumberValid(document.getElementsByName('totalAmount')[0].value, 0, 1500)){
+        alert('Total amount should be in 0-1500 range and not empty');
+        return false;
+    }
+    else {
+        getRecordsData();
+        return true;
+    }
+}
+
+function isEmpty(value) {
+    return  value === '';
+}
+
+function isValidAndNotEmpty(expr, value){
+    return expr.test(value) && value != null && value !='';
+}
+
+function isDateValid(value){
+    return value != null && value !='';
+}
+
+function isNumberValid(value, min, max){
+    return value >= min && value <=max && value != '' && value != null;
 }
 
 function getRecordsData(){

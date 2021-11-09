@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -39,8 +40,14 @@ public class ChangeBookServlet extends HttpServlet {
         String newIsbn = req.getParameter("isbn");
         List<Genre> newBookGenres = genreService.getNewBookGenresList(req.getParameterValues("bookGenre"));
         List<Author> newBookAuthors = authorService.getNewAuthorsList(req.getParameterValues("authorName"));
-        List<BorrowRecordJSON> existRecords = Arrays.asList(new Gson().fromJson(req.getParameter("existingRecords"), BorrowRecordJSON[].class));
-        List<BorrowRecordJSON> newRecords = Arrays.asList(new Gson().fromJson(req.getParameter("newRecords"), BorrowRecordJSON[].class));
+        List<BorrowRecordJSON> existRecords = new ArrayList<>();
+        List<BorrowRecordJSON> newRecords = new ArrayList<>();
+        if (req.getParameterMap().containsKey("existingRecords")){
+            existRecords = Arrays.asList(new Gson().fromJson(req.getParameter("existingRecords"), BorrowRecordJSON[].class));
+        }
+        if (req.getParameterMap().containsKey("newRecords")){
+            newRecords = Arrays.asList(new Gson().fromJson(req.getParameter("newRecords"), BorrowRecordJSON[].class));
+        }
         Book updatedBook = createBookWithNewParams(req);
         if (oldIsbn.equals(newIsbn) || bookService.findBookByIsbn(newIsbn) == null) {
             bookService.updateBook(updatedBook, newBookAuthors, newBookGenres);

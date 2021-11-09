@@ -207,7 +207,7 @@
                                                 <label style="font-weight:bold;">Total amount</label>
                                             </div>
                                             <div class="col-md-10 col-6">
-                                                <input required onchange="isTotalAmountMoreThanRented(this)" min="0" name="totalAmount" type="number"
+                                                <input required onchange="isTotalAmountMoreThanRented(this)" min="0" max="1500" name="totalAmount" type="number"
                                                        class="form-control" value="${book.totalAmount}"/>
                                                 <input type="hidden" id="rentedBooks">
                                             </div>
@@ -281,12 +281,12 @@
                                     <div class="col-first col-6">
                                         <c:choose>
                                             <c:when test="${book.id != null}">
-                                                <button type="submit" class="btn btn-success mt-3" onclick="saveBookChanges()"
+                                                <button type="submit" class="btn btn-success mt-3" onclick="return saveBookChanges()"
                                                         style="float: right">Save
                                                 </button>
                                             </c:when>
                                             <c:otherwise>
-                                                <button type="submit" class="btn btn-success mt-3" onclick="saveBookChanges()"
+                                                <button type="submit" class="btn btn-success mt-3" onclick="return saveBookChanges()"
                                                         style="float: right">Add
                                                 </button>
                                             </c:otherwise>
