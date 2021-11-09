@@ -11,20 +11,21 @@ import java.util.List;
 
 public class BookDAOImpl implements BookDAO {
 
-    private static final String QUERY_SELECT_TO_BOOKS_TABLE =
+    private final String QUERY_SELECT_TO_BOOKS_TABLE =
             "SELECT * from books";
-    public static final String QUERY_FIND_BOOK_BY_ID =
+    private final String QUERY_FIND_BOOK_BY_ID =
             "SELECT * FROM books WHERE id=? limit 1";
-    public static final String QUERY_FIND_BOOK_BY_ISBN =
+    private final String QUERY_FIND_BOOK_BY_ISBN =
             "SELECT * FROM books WHERE isbn=? limit 1";
-    public static final String QUERY_FIND_BOOK_BY_TITLE =
+    private final String QUERY_FIND_BOOK_BY_TITLE =
             "SELECT * FROM books WHERE title=? limit 1";
-    public static final String QUERY_UPDATE_BOOK = "UPDATE books SET " +
+    private final String QUERY_UPDATE_BOOK = "UPDATE books SET " +
             "isbn=?, title=?, description=?, publisher=?, publishDate=?, pageCount=?, totalAmount=?, status=? " +
             "where id=?";
-    public static final String QUERY_ADD_NEW_BOOK = "insert into books (isbn, title, publisher, pagecount, totalamount, status, publishdate, description) " +
+    private final String QUERY_ADD_NEW_BOOK = "insert into books (isbn, title, publisher, pagecount, totalamount, status, publishdate, description) " +
             "values (?, ?, ?, ?, ?, ?, ?, ?)";
-    public static final String QUERY_DELETE_BOOK = "delete from books where id=?";
+    private final String QUERY_DELETE_BOOK = "delete from books where id=?";
+    private final String QUERY_SELECT_TEN_BOOKS_AFTER = "select * from books offset ? rows fetch first 9 row only";
     private Book book = null;
 
 
@@ -139,6 +140,22 @@ public class BookDAOImpl implements BookDAO {
             connection.commit();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<Book> getBooksAfter(Integer offset) {
+        List<Book> bookList = new ArrayList<>();
+        try(Connection connection = ConnectionDAOFactory.createConnection()) {
+            PreparedStatement statement = connection.prepareStatement(QUERY_SELECT_TEN_BOOKS_AFTER);
+            statement.setInt(1, offset);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next())
+                bookList.add(createBook(resultSet));
+            return bookList;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
         }
     }
 

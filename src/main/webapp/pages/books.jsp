@@ -53,21 +53,23 @@
                 <nav aria-label="Page navigation example">
                     <ul class="pagination" style="float: contour">
                         <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Previous">
+                            <a class="page-link" href="#" id="prevPage" onclick="display(this)" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                                 <span class="sr-only">Previous</span>
                             </a>
                         </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" id="firstPage" onclick="display(this)" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" id="secondPagePage" onclick="display(this)" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" id="thirdPage" onclick="display(this)" href="#">3</a></li>
                         <li class="page-item">
-                            <a class="page-link" href="#" aria-label="Next">
+                            <a class="page-link" href="#" id="nextPage" onclick="display(this)" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                                 <span class="sr-only">Next</span>
                             </a>
                         </li>
                     </ul>
+                    <input type="hidden" id="paginationCount" name="paginationCount" value="0">
+                    <input type="hidden" id="bookAmount" value="${bookAmount}">
                 </nav>
             </div>
             <div class="col-sm">
@@ -77,7 +79,9 @@
             </div>
         </div>
 
-        <script src="../resources/js/deleteSelectedBooks.js"></script>
     </div>
+
+<script src="../resources/js/deleteSelectedBooks.js"></script>
+<script src="./../resources/js/booksPagination.js"></script>
 </body>
 </html>

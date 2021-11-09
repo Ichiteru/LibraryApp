@@ -9,8 +9,8 @@ import lombok.RequiredArgsConstructor;
 public class BorrowRecordJSON {
     private Long id;
     private String email;
-    private String firstName;
-    private String lastName;
+    private String fName;
+    private String lName;
     private String borrowDate;
     private String dueDate;
     private String returnDate;

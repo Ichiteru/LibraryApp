@@ -17,9 +17,11 @@ public class BooksServlet extends HttpServlet {
 
     BookService bookService = new BookServiceImpl();
 
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Book> books = bookService.getAllBooks();
+        req.setAttribute("bookAmount", bookService.getAllBooks().size());
+        List<Book> books = bookService.getBooksAfter(0);
         req.setAttribute("bookList", books);
         getServletContext().getRequestDispatcher("/pages/books.jsp").forward(req, resp);
     }

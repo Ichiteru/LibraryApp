@@ -89,8 +89,8 @@ public class ReaderDAOImpl implements ReaderDAO {
     public void updateFirstAndLastNameByEmail(String email, BorrowRecordJSON rec) {
         try(Connection connection = ConnectionDAOFactory.createConnection()) {
             PreparedStatement statement = connection.prepareStatement(QUERY_UPDATE_FNAME_AND_LNAME_BY_EMAIL);
-            statement.setString(1, rec.getFirstName());
-            statement.setString(2, rec.getLastName());
+            statement.setString(1, rec.getFName());
+            statement.setString(2, rec.getLName());
             statement.setString(3, email);
             statement.executeUpdate();
         } catch (SQLException throwables) {
@@ -104,8 +104,8 @@ public class ReaderDAOImpl implements ReaderDAO {
         try(Connection connection = ConnectionDAOFactory.createConnection()) {
             PreparedStatement statement = connection.prepareStatement(QUERY_INSERT_INTO_READERS);
             statement.setString(1, rec.getEmail());
-            statement.setString(2, rec.getFirstName());
-            statement.setString(3, rec.getLastName());
+            statement.setString(2, rec.getFName());
+            statement.setString(3, rec.getLName());
             statement.setDate(4, Date.valueOf(LocalDate.now()));
             statement.setString(5, String.valueOf(Gender.UNDEFINED));
             statement.executeUpdate();

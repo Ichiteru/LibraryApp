@@ -15,6 +15,7 @@ public interface BookService {
     public Book findBookByTitle(String title);
     public void updateBook(Book book, List<Author> newAuthors, List<Genre> newGenres);
     public void addNewBook(Book book);
+    public List<Book> getBooksAfter(Integer offset);
 
     public void deleteBooksByID(String[] idList);
 

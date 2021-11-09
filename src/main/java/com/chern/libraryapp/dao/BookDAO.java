@@ -14,4 +14,5 @@ public interface BookDAO {
     public void updateBook(Book book);
     public void addNewBook(Book book);
     public void deleteBooksByID(String[] idList);
+    public List<Book> getBooksAfter(Integer offset);
 }

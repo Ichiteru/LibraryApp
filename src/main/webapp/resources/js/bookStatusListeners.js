@@ -25,7 +25,11 @@ function setBookStatus() {
     }
     else {
         bookAvailableStatus.value = 'UNAVAILABLE';
-        statusDiv.textContent = bookAvailableStatus.value + "(expected to become available on " + getEarlierAvailabilityDate() + ")";
+        if (totalAmount === '0'){
+            statusDiv.textContent = bookAvailableStatus.value + "(0 copies of book in the library)";
+        } else{
+            statusDiv.textContent = bookAvailableStatus.value + "(expected to become available on " + getEarlierAvailabilityDate() + ")";
+        }
     }
 
     //добавить проверку если rented === totalAmount

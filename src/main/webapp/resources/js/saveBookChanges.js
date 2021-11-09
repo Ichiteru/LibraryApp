@@ -71,8 +71,8 @@ function getRecordsData(){
         let record = {
             id : id[i].value,
             email : email[i].value,
-            firstName : firstName[i].value,
-            lastName : lastName[i].value,
+            fName : firstName[i].value,
+            lName : lastName[i].value,
             borrowDate : borrowDate[i].value,
             dueDate : dueDate[i].value,
             returnDate : returnDate[i].value,

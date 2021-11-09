@@ -76,6 +76,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public List<Book> getBooksAfter(Integer offset) {
+        return DAOFactory.bookDAO().getBooksAfter(offset);
+    }
+
+    @Override
     public void deleteBooksByID(String[] idList) {
         DAOFactory.bookDAO().deleteBooksByID(idList);
     }
