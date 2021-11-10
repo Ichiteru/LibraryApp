@@ -2,25 +2,25 @@ var pagination_counter = 0;
 let booksTableBody = document.getElementById('booksTable').getElementsByTagName('tbody')[0];
 
 async function display(th){
-    alert('work');
+    // alert('work');
     let bookAmount = document.getElementById('bookAmount').value;
     if (th.id == 'prevPage'){
         if (pagination_counter != 0){
-            pagination_counter = pagination_counter - 10;
+            pagination_counter = pagination_counter - 2;
         }
     }
     else if (th.id == 'firstPage'){
         pagination_counter = 0;
     }
     else if (th.id == 'secondPage'){
-        pagination_counter = 10
+        pagination_counter = 2
     }
     else if (th.id == 'thirdPage'){
-        pagination_counter = 20;
+        pagination_counter = 4;
     }
     if (th.id == 'nextPage'){
-        if (pagination_counter + 10 < bookAmount){
-            pagination_counter = pagination_counter + 10;
+        if (pagination_counter + 2 < bookAmount){
+            pagination_counter = pagination_counter + 2;
         }
     }
     const response = await fetch('/get/ten/books', {
@@ -45,13 +45,12 @@ function updateTableBody(resp) {
        let hrefTitle = document.createElement('a'); hrefTitle.href = '/books/' + book.id; hrefTitle.textContent = book.title;
        titleTd.append(hiddenId, hrefTitle);
        let authorsTd = document.createElement('td');
-       let authorsTdContent;
        book.authors.forEach(a => {
-           authorsTdContent += a.firstName + ' ' + a.lastName + '</br>';
+           let p = document.createElement('p'); p.setAttribute('class', 'mt-0 mb-0') ; p.textContent = a.firstName + ' ' + a.lastName;
+           authorsTd.appendChild(p);
        });
-       authorsTd.textContent = authorsTdContent;
        let publishDateTd = document.createElement('td');
-       publishDateTd.textContent = book.publishDate;
+       publishDateTd.textContent = book.pDate;
        let totalAmountTd = document.createElement('td');
        totalAmountTd.textContent = book.totalAmount;
        let checkBoxTd = document.createElement('td');
@@ -67,10 +66,11 @@ function updateTableBody(resp) {
 function jsonToBooksArray(resp) {
     let books = [];
     resp.forEach(b => {
+        let date = document.createElement('input'); date.type='date'; date.value = b.publishDate;
         let book = {
             id : b.id,
             title : b.title,
-            publishDate : b.publishDate,
+            pDate : date.value,
             totalAmount : b.totalAmount,
             authors : b.authors
         }

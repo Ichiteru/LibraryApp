@@ -1,9 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Books</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" integrity="sha512-P5MgMn1jBN01asBgU0z60Qk4QxiXo86+wlFahKrsQf37c9cro517WzVSPPV1tDKzhku2iJ2FVgL67wG03SGnNA==" crossorigin="anonymous">
 </head>
 <body>
@@ -30,7 +30,7 @@
                         <td>
                                 <c:forEach items="${book.authors}" var="author">
 
-                                        <c:out value="${author.firstName} ${author.lastName}"/><br/>
+                                      <p class="mt-0 mb-0"><c:out value="${author.firstName} ${author.lastName}"/></p>
 
                                 </c:forEach>
                         </td>

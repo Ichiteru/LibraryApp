@@ -20,7 +20,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Readers</a>
+        <a class="nav-link" href="/readers">Readers</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">Search</a>

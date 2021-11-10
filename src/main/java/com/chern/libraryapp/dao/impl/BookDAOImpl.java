@@ -25,7 +25,7 @@ public class BookDAOImpl implements BookDAO {
     private final String QUERY_ADD_NEW_BOOK = "insert into books (isbn, title, publisher, pagecount, totalamount, status, publishdate, description) " +
             "values (?, ?, ?, ?, ?, ?, ?, ?)";
     private final String QUERY_DELETE_BOOK = "delete from books where id=?";
-    private final String QUERY_SELECT_TEN_BOOKS_AFTER = "select * from books offset ? rows fetch first 9 row only";
+    private final String QUERY_SELECT_TEN_BOOKS_AFTER = "select * from books offset ? rows fetch first 2 row only";
     private Book book = null;
 
 
