@@ -3,6 +3,7 @@ package com.chern.libraryapp.dao;
 import com.chern.libraryapp.model.Reader;
 import com.chern.libraryapp.model.json.BorrowRecordJSON;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface ReaderDAO {
@@ -18,4 +19,8 @@ public interface ReaderDAO {
     void addReader(BorrowRecordJSON rec);
 
     Reader findReaderByEmail(String email);
+
+    void addReader(Reader reader) throws SQLException;
+
+    void updateReader(Reader reader);
 }

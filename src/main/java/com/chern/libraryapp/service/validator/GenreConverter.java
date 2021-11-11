@@ -5,7 +5,7 @@ import com.chern.libraryapp.model.Genre;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenreValidator {
+public class GenreConverter {
 
     public List<Genre> transformToList(String[] genres){
         ArrayList<Genre> genreArrayList = new ArrayList<>();

@@ -18,7 +18,7 @@
             <div class="modal-body">
                 <form action="/reader/add" id="readerForm" method="post">
                     <input type="hidden" name="id" id="id">
-                    <input hidden type="date" name="registrationDate" id="registrationDate">
+                    <input type="hidden" name="registrationDate" id="registrationDate">
                     <div class="form-group">
                         <label for="firstName"> Name </label>
                         <input pattern="^[a-z](?!.* {2})[ \w.-]{2,24}$" type="text" name="fName" class="form-control" id="firstName">
@@ -30,6 +30,7 @@
                     <div class="form-group">
                         <label for="email"> Email </label>
                         <input  type="text" class="form-control" name="email" id="email">
+                        <input  type="hidden" name="initEmail" id="init_email">
                     </div>
                     <div class="form-group">
                         <label for="phone"> Phone </label>

@@ -6,7 +6,7 @@ import com.chern.libraryapp.model.Author;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AuthorValidator {
+public class AuthorFilter {
 
     public ArrayList<Author> convertToAuthorList(String[] initials){
         ArrayList<Author> listInitials = new ArrayList<>();

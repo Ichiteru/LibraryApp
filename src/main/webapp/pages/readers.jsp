@@ -76,5 +76,6 @@
 
 </div>
 <script src="./../resources/js/readerModalWindow.js"></script>
+<script src="../resources/js/moment.js"></script>
 </body>
 </html>

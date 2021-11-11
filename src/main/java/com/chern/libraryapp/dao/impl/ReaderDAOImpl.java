@@ -22,6 +22,11 @@ public class ReaderDAOImpl implements ReaderDAO {
     private final String QUERY_INSERT_INTO_READERS = "insert into readers (email, firstname, secondname, registrationdate, gender) " +
             "values (?,?,?,?,?)";
 
+    private final String QUERY_INSERT_INTO_READERS_NEW_READER = "insert into readers (email, firstname, secondname, registrationdate, phone, gender) " +
+            "values (?,?,?,?,?,?)";
+    private final String QUERY_UPDATE_READER = "update readers set " +
+            "email=?, firstname=?, secondname=?, registrationdate=?, phone=?, gender=? where id=?";
+
     @Override
     public List<Reader> getAllReaders() {
         try(Connection connection = ConnectionDAOFactory.createConnection()) {
@@ -127,6 +132,37 @@ public class ReaderDAOImpl implements ReaderDAO {
             throwables.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public void addReader(Reader reader) throws SQLException {
+        try(Connection connection = ConnectionDAOFactory.createConnection()) {
+            PreparedStatement statement = connection.prepareStatement(QUERY_INSERT_INTO_READERS_NEW_READER);
+            statement.setString(1, reader.getEmail());
+            statement.setString(2, reader.getFirstName());
+            statement.setString(3, reader.getLastName());
+            statement.setDate(4, new Date(reader.getRegistrationDate().getTime()));
+            statement.setString(5, reader.getPhone());
+            statement.setString(6, String.valueOf(reader.getGender()));
+            statement.executeUpdate();
+        }
+    }
+
+    @Override
+    public void updateReader(Reader reader) {
+        try(Connection connection = ConnectionDAOFactory.createConnection()) {
+            PreparedStatement statement = connection.prepareStatement(QUERY_UPDATE_READER);
+            statement.setString(1, reader.getEmail());
+            statement.setString(2, reader.getFirstName());
+            statement.setString(3, reader.getLastName());
+            statement.setDate(4, new Date(reader.getRegistrationDate().getTime()));
+            statement.setString(5, reader.getPhone());
+            statement.setString(6, String.valueOf(reader.getGender()));
+            statement.setLong(7, reader.getId());
+            statement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     private Reader createReader(ResultSet resultSet) throws SQLException {

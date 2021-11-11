@@ -22,11 +22,12 @@ function openReaderModal(th) {
         readerForm.querySelector('input[id="firstName"]').value = dataInputs.namedItem('reader_firstName').value;
         readerForm.querySelector('input[id="lastName"]').value = dataInputs.namedItem('reader_lastName').value;
         readerForm.querySelector('input[id="email"]').value = dataInputs.namedItem('reader_email').value;
+        readerForm.querySelector('input[id="init_email"]').value = dataInputs.namedItem('reader_email').value;
         chosenEmail = dataInputs.namedItem('reader_email').value;
         readerForm.querySelector('input[id="phone"]').value = dataInputs.namedItem('reader_phone').value;
-        if (dataInputs.namedItem('reader_gender') === 'MALE'){
-            document.getElementById('gender_radio1').checked = true;
+        if (dataInputs.namedItem('reader_gender').value === 'MALE'){
             document.getElementById('gender_radio2').checked = false;
+            document.getElementById('gender_radio1').checked = true;
         } else {
             document.getElementById('gender_radio1').checked = false;
             document.getElementById('gender_radio2').checked = true;
@@ -34,8 +35,9 @@ function openReaderModal(th) {
         }
     } else {
         readerForm.querySelector('input[id="id"]').value = '0';
-        readerForm.querySelector('input[id="registrationDate"]').value = new Date(Date.now());
+        readerForm.querySelector('input[id="registrationDate"]').value = moment(new Date(Date.now())).format("YYYY-MM-DD") ;
         document.getElementById('gender_radio1').checked = true;
+        readerForm.querySelector('input[id="init_email"]').value = 'none';
         btnSaveReader.removeEventListener('click', editReader);
         btnSaveReader.addEventListener('click', addReader);
     }

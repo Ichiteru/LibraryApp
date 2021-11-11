@@ -8,4 +8,12 @@ public interface ReaderService {
 
     public List<Reader> getAllReaders();
     public List<Reader> getAllReadersWhereEmailContains(String str);
+
+    boolean isEmailExists(String email);
+
+    void addReader(Reader reader);
+
+    Reader getReaderByEmail(String email);
+
+    void updateReader(Reader reader);
 }
