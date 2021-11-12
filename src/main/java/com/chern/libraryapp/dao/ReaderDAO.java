@@ -23,4 +23,6 @@ public interface ReaderDAO {
     void addReader(Reader reader) throws SQLException;
 
     void updateReader(Reader reader);
+
+    List<Reader> getReadersAfter(int offset);
 }

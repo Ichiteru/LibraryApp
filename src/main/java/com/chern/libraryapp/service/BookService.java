@@ -6,6 +6,7 @@ import com.chern.libraryapp.model.Genre;
 import com.chern.libraryapp.model.json.BorrowRecordJSON;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BookService {
 
@@ -20,4 +21,8 @@ public interface BookService {
     public void deleteBooksByID(String[] idList);
 
     void updateBookBorrowRecords(List<BorrowRecordJSON> existRecords, List<BorrowRecordJSON> newRecords, Long bookId);
+
+    List<Book> getSearchBooks(Map<String, String[]> parameterMap);
+
+    List<Book> getSearchedBooks();
 }

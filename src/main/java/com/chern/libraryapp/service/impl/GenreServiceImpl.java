@@ -3,16 +3,16 @@ package com.chern.libraryapp.service.impl;
 import com.chern.libraryapp.dao.DAOFactory;
 import com.chern.libraryapp.model.Genre;
 import com.chern.libraryapp.service.GenreService;
-import com.chern.libraryapp.service.validator.GenreConverter;
+import com.chern.libraryapp.service.util.GenreHelper;
 
 import java.util.List;
 
 public class GenreServiceImpl implements GenreService {
 
-    private GenreConverter validator;
+    private GenreHelper validator;
 
     public GenreServiceImpl() {
-        this.validator = new GenreConverter();
+        this.validator = new GenreHelper();
     }
 
     @Override

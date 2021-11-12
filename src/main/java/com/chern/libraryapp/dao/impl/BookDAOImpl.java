@@ -19,6 +19,10 @@ public class BookDAOImpl implements BookDAO {
             "SELECT * FROM books WHERE isbn=? limit 1";
     private final String QUERY_FIND_BOOK_BY_TITLE =
             "SELECT * FROM books WHERE title=? limit 1";
+    private final String QUERY_FIND_BOOKS_ID_BY_TITLE =
+            "SELECT id FROM books WHERE title=?";
+    private final String QUERY_FIND_BOOKS_ID_LIKE_DESCRIPTION =
+            "SELECT id FROM books WHERE description LIKE '% (?) %'";
     private final String QUERY_UPDATE_BOOK = "UPDATE books SET " +
             "isbn=?, title=?, description=?, publisher=?, publishDate=?, pageCount=?, totalAmount=?, status=? " +
             "where id=?";
@@ -90,6 +94,37 @@ public class BookDAOImpl implements BookDAO {
     }
 
     @Override
+    public List<Long> findBooksIdByTitle(String title) {
+        try(Connection connection = ConnectionDAOFactory.createConnection()) {
+            List<Long> booksId = new ArrayList<>();
+            PreparedStatement statement = connection.prepareStatement(QUERY_FIND_BOOKS_ID_BY_TITLE);
+            statement.setString(1, title);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next())
+                booksId.add(resultSet.getLong("id"));
+            return booksId;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List<Long> findBooksIdWhereDescriptionLike(String description) {
+        try(Connection connection = ConnectionDAOFactory.createConnection()) {
+            List<Long> booksId = new ArrayList<>();
+            PreparedStatement statement = connection.prepareStatement("SELECT id FROM books WHERE description LIKE '%" + description + "%'");
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next())
+                booksId.add(resultSet.getLong("id"));
+            return booksId;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
     public void updateBook(Book book) {
         try(Connection connection = ConnectionDAOFactory.createConnection()) {
             PreparedStatement statement = connection.prepareStatement(QUERY_UPDATE_BOOK);
@@ -156,6 +191,22 @@ public class BookDAOImpl implements BookDAO {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             return null;
+        }
+    }
+
+    @Override
+    public List<Long> getBooksIdBy(String authorID, String query) {
+        try(Connection connection = ConnectionDAOFactory.createConnection()) {
+            List<Long> booksId = new ArrayList<>();
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setLong(1, Long.parseLong(authorID));
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next())
+                booksId.add(resultSet.getLong("book_id"));
+            return booksId;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return new ArrayList<>();
         }
     }
 

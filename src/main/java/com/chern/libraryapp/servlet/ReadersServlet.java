@@ -19,9 +19,10 @@ public class ReadersServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Reader> readers = readerService.getAllReaders();
+        List<Reader> allReaders = readerService.getAllReaders();
+        req.setAttribute("readersAmount", allReaders.size());
+        List<Reader> readers = readerService.getReadersAfter(0);
         req.setAttribute("readers", readers);
-        req.setAttribute("readersAmount", readers.size());
         getServletContext().getRequestDispatcher("/pages/readers.jsp").forward(req,resp);
     }
 }

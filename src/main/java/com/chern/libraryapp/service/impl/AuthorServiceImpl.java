@@ -3,16 +3,16 @@ package com.chern.libraryapp.service.impl;
 import com.chern.libraryapp.dao.DAOFactory;
 import com.chern.libraryapp.model.Author;
 import com.chern.libraryapp.service.AuthorService;
-import com.chern.libraryapp.service.validator.AuthorFilter;
+import com.chern.libraryapp.service.util.AuthorHelper;
 
 import java.util.*;
 
 public class AuthorServiceImpl implements AuthorService {
 
-    private AuthorFilter validator;
+    private AuthorHelper validator;
 
     public AuthorServiceImpl(){
-        this.validator = new AuthorFilter();
+        this.validator = new AuthorHelper();
     }
 
     @Override

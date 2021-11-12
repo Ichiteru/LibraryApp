@@ -1,4 +1,4 @@
-package com.chern.libraryapp.service.validator;
+package com.chern.libraryapp.service.util;
 
 import com.chern.libraryapp.dao.DAOFactory;
 import com.chern.libraryapp.model.Author;
@@ -6,7 +6,7 @@ import com.chern.libraryapp.model.Author;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AuthorFilter {
+public class AuthorHelper {
 
     public ArrayList<Author> convertToAuthorList(String[] initials){
         ArrayList<Author> listInitials = new ArrayList<>();

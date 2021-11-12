@@ -16,4 +16,6 @@ public interface ReaderService {
     Reader getReaderByEmail(String email);
 
     void updateReader(Reader reader);
+
+    List<Reader> getReadersAfter(int offset);
 }

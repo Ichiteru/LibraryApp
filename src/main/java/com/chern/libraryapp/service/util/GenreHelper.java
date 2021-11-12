@@ -1,11 +1,11 @@
-package com.chern.libraryapp.service.validator;
+package com.chern.libraryapp.service.util;
 
 import com.chern.libraryapp.model.Genre;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenreConverter {
+public class GenreHelper {
 
     public List<Genre> transformToList(String[] genres){
         ArrayList<Genre> genreArrayList = new ArrayList<>();

@@ -11,8 +11,24 @@ import com.chern.libraryapp.service.BookService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class BookServiceImpl implements BookService {
+
+    private List<Book> searchedBooks;
+    private final String QUERY_FIND_BOOKS_ID_BY_AUTHOR_ID =
+            "SELECT book_id FROM book_authors WHERE author_id=?";
+    private final String QUERY_FIND_BOOKS_ID_BY_GENRE_ID =
+            "SELECT book_id FROM book_genres WHERE genre_id=?";
+
+
+    public BookServiceImpl() {
+        searchedBooks = new ArrayList<>();
+    }
+
+    public List<Book> getSearchedBooks() {
+        return searchedBooks;
+    }
 
     @Override
     public List<Book> getAllBooks() {
@@ -106,4 +122,66 @@ public class BookServiceImpl implements BookService {
             }
         }
     }
+
+    @Override
+    public List<Book> getSearchBooks(Map<String, String[]> parameterMap) {
+        List<Long> allBooksID = new ArrayList<>();
+                DAOFactory.bookDAO().getAllBooks().forEach(book -> allBooksID.add(book.getId()));
+        final List<Long>[] booksIdByTitle = new List[]{new ArrayList<>()};
+        final List<Long>[] booksIdByAuthors = new List[]{new ArrayList<>()};
+        final List<Long>[] booksIdByGenres = new List[]{new ArrayList<>()};
+        final List<Long>[] booksIdByDescription = new List[]{new ArrayList<>()};
+        parameterMap.forEach((k,v) -> {
+            if (k.equals("title") && !parameterMap.get(k)[0].equals("")){
+                booksIdByTitle[0] = DAOFactory.bookDAO().findBooksIdByTitle(parameterMap.get(k)[0]);
+            } else if (k.equals("authorId")){
+                booksIdByAuthors[0] = getRetainedBooksID(parameterMap.get(k), QUERY_FIND_BOOKS_ID_BY_AUTHOR_ID);
+            } else if (k.equals("genreId")){
+                booksIdByGenres[0] = getRetainedBooksID(parameterMap.get(k), QUERY_FIND_BOOKS_ID_BY_GENRE_ID);
+            } else if (k.equals("description") && !parameterMap.get(k)[0].equals("")){
+                booksIdByDescription[0] = DAOFactory.bookDAO().findBooksIdWhereDescriptionLike(parameterMap.get(k)[0]);
+            }
+        });
+        if (!booksIdByTitle[0].isEmpty())
+            allBooksID.retainAll(booksIdByTitle[0]);
+        if (!booksIdByAuthors[0].isEmpty())
+        allBooksID.retainAll(booksIdByAuthors[0]);
+        if (!booksIdByGenres[0].isEmpty())
+        allBooksID.retainAll(booksIdByGenres[0]);
+        if (!booksIdByDescription[0].isEmpty())
+        allBooksID.retainAll(booksIdByDescription[0]);
+        if (booksIdByTitle[0].isEmpty() && booksIdByAuthors[0].isEmpty() && booksIdByGenres[0].isEmpty() && booksIdByDescription[0].isEmpty())
+            allBooksID.clear();
+        searchedBooks = getSearchedBooksID(allBooksID);
+        System.out.println(searchedBooks);
+        return searchedBooks;
+    }
+
+    private List<Long> getRetainedBooksID(String[] authorsId, String query){
+        if (authorsId.length == 1)
+            return DAOFactory.bookDAO().getBooksIdBy(authorsId[0], query);
+        else {
+            List<Long> booksId = new ArrayList<>();
+                  booksId = DAOFactory.bookDAO().getBooksIdBy(authorsId[0], query);
+            for (int i = 1; i < authorsId.length; i++) {
+                if (booksId.isEmpty())
+                    return booksId;
+                booksId.retainAll(DAOFactory.bookDAO().getBooksIdBy(authorsId[i], query));
+            }
+            return booksId;
+        }
+    }
+
+    private List<Book> getSearchedBooksID(List<Long> idArray){
+        List<Book> searchedBooksList = new ArrayList<>();
+        if (idArray.isEmpty()) return null;
+        else {
+            for (int i = 0; i < idArray.size(); i++) {
+                searchedBooksList.add(DAOFactory.bookDAO().findBookById(idArray.get(i)));
+            }
+            return searchedBooksList;
+        }
+    }
 }
+
+

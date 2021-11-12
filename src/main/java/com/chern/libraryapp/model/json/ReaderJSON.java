@@ -1,24 +1,24 @@
-package com.chern.libraryapp.model;
+package com.chern.libraryapp.model.json;
 
 import com.chern.libraryapp.model.enums.Gender;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 @Data
-@NoArgsConstructor
-public class Reader {
+@RequiredArgsConstructor
+public class ReaderJSON {
+
     private Long id;
     private String email;
     private String firstName;
     private String lastName;
-    private Date registrationDate;
+    private String registrationDate;
     private String phone;
     private Gender gender;
 
-    public Reader(Long id, String email, String firstName, String lastName, Date registrationDate, String phone, Gender gender) {
+    public ReaderJSON(Long id, String email, String firstName, String lastName, String registrationDate, String phone, Gender gender) {
         this.id = id;
         this.email = email;
         this.firstName = firstName;

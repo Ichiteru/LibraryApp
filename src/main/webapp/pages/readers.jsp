@@ -54,16 +54,16 @@
       <nav aria-label="Page navigation example">
         <ul class="pagination" style="margin-left: 25%">
           <li class="page-item">
-            <a class="page-link" href="#" id="prevPage"  aria-label="Previous">
+            <a class="page-link" href="#" id="prevPage"  aria-label="Previous" onclick="displayReaders(this)">
               <span aria-hidden="true">&laquo;</span>
               <span class="sr-only">Previous</span>
             </a>
           </li>
-          <li class="page-item"><a class="page-link" id="firstPage" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" id="secondPagePage" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" id="thirdPage" href="#">3</a></li>
+          <li class="page-item"><a class="page-link" id="firstPage" onclick="displayReaders(this)" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" id="secondPage" onclick="displayReaders(this)" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" id="thirdPage" onclick="displayReaders(this)" href="#">3</a></li>
           <li class="page-item">
-            <a class="page-link" href="#" id="nextPage" aria-label="Next">
+            <a class="page-link" href="#" id="nextPage" aria-label="Next" onclick="displayReaders(this)">
               <span aria-hidden="true">&raquo;</span>
               <span class="sr-only">Next</span>
             </a>
@@ -77,5 +77,6 @@
 </div>
 <script src="./../resources/js/readerModalWindow.js"></script>
 <script src="../resources/js/moment.js"></script>
+<script src="../resources/js/readersPagination.js"></script>
 </body>
 </html>

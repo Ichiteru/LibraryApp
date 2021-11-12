@@ -11,8 +11,15 @@ public interface BookDAO {
     public Book findBookById(Long id);
     public Book findBookByISBN(String isbn);
     public Book findBookByTitle(String title);
+
+    List<Long> findBooksIdByTitle(String title);
+
+    List<Long> findBooksIdWhereDescriptionLike(String description);
+
     public void updateBook(Book book);
     public void addNewBook(Book book);
     public void deleteBooksByID(String[] idList);
     public List<Book> getBooksAfter(Integer offset);
+
+    List<Long> getBooksIdBy(String authorID, String query);
 }

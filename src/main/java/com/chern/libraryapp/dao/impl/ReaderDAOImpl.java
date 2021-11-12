@@ -1,6 +1,7 @@
 package com.chern.libraryapp.dao.impl;
 
 import com.chern.libraryapp.dao.ReaderDAO;
+import com.chern.libraryapp.model.Book;
 import com.chern.libraryapp.model.Reader;
 import com.chern.libraryapp.model.enums.Gender;
 import com.chern.libraryapp.model.json.BorrowRecordJSON;
@@ -26,6 +27,7 @@ public class ReaderDAOImpl implements ReaderDAO {
             "values (?,?,?,?,?,?)";
     private final String QUERY_UPDATE_READER = "update readers set " +
             "email=?, firstname=?, secondname=?, registrationdate=?, phone=?, gender=? where id=?";
+    private final String QUERY_SELECT_TEN_READERS_AFTER = "select * from readers offset ? rows fetch first 2 row only";
 
     @Override
     public List<Reader> getAllReaders() {
@@ -57,6 +59,8 @@ public class ReaderDAOImpl implements ReaderDAO {
             return null;
         }
     }
+
+
 
     @Override
     public Reader findReaderById(Long id) {
@@ -162,6 +166,22 @@ public class ReaderDAOImpl implements ReaderDAO {
             statement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<Reader> getReadersAfter(int offset) {
+        List<Reader> readers = new ArrayList<>();
+        try(Connection connection = ConnectionDAOFactory.createConnection()) {
+            PreparedStatement statement = connection.prepareStatement(QUERY_SELECT_TEN_READERS_AFTER);
+            statement.setInt(1, offset);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next())
+                readers.add(createReader(resultSet));
+            return readers;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
         }
     }
 

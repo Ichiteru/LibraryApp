@@ -9,6 +9,7 @@ import com.chern.libraryapp.service.BookService;
 import com.chern.libraryapp.service.impl.BookServiceImpl;
 import com.chern.libraryapp.service.GenreService;
 import com.chern.libraryapp.service.impl.GenreServiceImpl;
+import org.stringtemplate.v4.ST;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,6 +40,8 @@ public class AddBookServlet extends HttpServlet {
             newBook.setAuthors(newBookAuthors);
             newBook.setGenres(newBookGenres);
             bookService.addNewBook(newBook);
+        } else {
+            // TODO: 12.11.2021 error page
         }
         resp.sendRedirect("/books");
     }

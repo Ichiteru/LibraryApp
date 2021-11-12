@@ -24,7 +24,7 @@ public class AddReaderServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Reader reader = createReader(req);
         if (readerService.isEmailExists(reader.getEmail()) && !req.getParameter("email").equals(req.getParameter("initEmail"))){
-            // redirect на страницу с ошибкой
+            // TODO: 12.11.2021 redirect on error page 
         } else{
             if (req.getParameter("id").equals("0"))
                     readerService.addReader(reader);
@@ -44,7 +44,7 @@ public class AddReaderServlet extends HttpServlet {
             Date regDate = format.parse(req.getParameter("registrationDate"));
             reader.setRegistrationDate(regDate);
         } catch (ParseException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // TODO: 12.11.2021 redirect to error page
         }
         reader.setEmail(req.getParameter("email"));
         reader.setFirstName(req.getParameter("fName"));

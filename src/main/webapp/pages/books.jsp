@@ -59,7 +59,7 @@
                             </a>
                         </li>
                         <li class="page-item"><a class="page-link" id="firstPage" onclick="display(this)" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" id="secondPagePage" onclick="display(this)" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" id="secondPage" onclick="display(this)" href="#">2</a></li>
                         <li class="page-item"><a class="page-link" id="thirdPage" onclick="display(this)" href="#">3</a></li>
                         <li class="page-item">
                             <a class="page-link" href="#" id="nextPage" onclick="display(this)" aria-label="Next">

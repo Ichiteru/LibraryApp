@@ -48,4 +48,9 @@ public class ReaderServiceImpl implements ReaderService {
     public void updateReader(Reader reader) {
         DAOFactory.readerDAO().updateReader(reader);
     }
+
+    @Override
+    public List<Reader> getReadersAfter(int offset) {
+        return DAOFactory.readerDAO().getReadersAfter(offset);
+    }
 }
