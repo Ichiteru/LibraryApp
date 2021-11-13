@@ -3,6 +3,7 @@ package com.chern.libraryapp.dao.impl;
 import com.chern.libraryapp.dao.ReaderDAO;
 import com.chern.libraryapp.model.Book;
 import com.chern.libraryapp.model.Reader;
+import com.chern.libraryapp.model.ReaderMessageInfo;
 import com.chern.libraryapp.model.enums.Gender;
 import com.chern.libraryapp.model.json.BorrowRecordJSON;
 
@@ -185,6 +186,49 @@ public class ReaderDAOImpl implements ReaderDAO {
         }
     }
 
+    @Override
+    public List<ReaderMessageInfo> getMailedToDueReaderInfo(){
+        List<ReaderMessageInfo> readerMessageInfo = new ArrayList<>();
+        String query = "select readers.firstname, readers.secondname, readers.email, books.title, books.isbn, DATE_PART('day', due_date) - DATE_PART('day', ?::date) as daysToDue from book_readers " +
+                "inner join readers on readers.id = book_readers.reader_id " +
+                "inner join books on books.id = book_readers.book_id " +
+                "where (DATE_PART('day', due_date) - DATE_PART('day', ?::date)) > 0 and (DATE_PART('day', due_date) - DATE_PART('day', ?::date)) <= 8 AND return_date is null";
+        try(Connection connection = ConnectionDAOFactory.createConnection()) {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setDate(1, new Date(new java.util.Date().getTime()));
+            statement.setDate(2, new Date(new java.util.Date().getTime()));
+            statement.setDate(3, new Date(new java.util.Date().getTime()));
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next())
+                readerMessageInfo.add(createMessageInfo(resultSet));
+            return readerMessageInfo;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List<ReaderMessageInfo> getMailedToReturnReaderInfo(){
+        List<ReaderMessageInfo> readerMessageInfo = new ArrayList<>();
+        String query = "select readers.firstname, readers.secondname, readers.email, books.title, books.isbn, DATE_PART('day', ?::date) - DATE_PART('day', due_date::date) as daysToDue from book_readers \n" +
+                "                inner join readers on readers.id = book_readers.reader_id \n" +
+                "                inner join books on books.id = book_readers.book_id \n" +
+                "                where (DATE_PART('day', ?::date) - DATE_PART('day', due_date::date)) = 1 and return_date is null";
+        try(Connection connection = ConnectionDAOFactory.createConnection()) {
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setDate(1, new Date(new java.util.Date().getTime()));
+            statement.setDate(2, new Date(new java.util.Date().getTime()));
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next())
+                readerMessageInfo.add(createMessageInfo(resultSet));
+            return readerMessageInfo;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
+
     private Reader createReader(ResultSet resultSet) throws SQLException {
         Reader reader = new Reader();
         reader.setId(resultSet.getLong("id"));
@@ -196,4 +240,16 @@ public class ReaderDAOImpl implements ReaderDAO {
         reader.setPhone(resultSet.getString("phone"));
         return reader;
     }
+
+    private ReaderMessageInfo createMessageInfo(ResultSet resultSet) throws SQLException {
+        ReaderMessageInfo info = new ReaderMessageInfo();
+        info.setEmail(resultSet.getString("email"));
+        info.setFirstName(resultSet.getString("firstname"));
+        info.setLastName(resultSet.getString("secondname"));
+        info.setTitle(resultSet.getString("title"));
+        info.setIsbn(resultSet.getLong("isbn"));
+        info.setDaysToDue(resultSet.getInt("daysToDue"));
+        return info;
+    }
+
 }

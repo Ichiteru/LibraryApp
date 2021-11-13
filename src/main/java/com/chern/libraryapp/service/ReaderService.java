@@ -1,6 +1,7 @@
 package com.chern.libraryapp.service;
 
 import com.chern.libraryapp.model.Reader;
+import com.chern.libraryapp.model.ReaderMessageInfo;
 
 import java.util.List;
 
@@ -18,4 +19,8 @@ public interface ReaderService {
     void updateReader(Reader reader);
 
     List<Reader> getReadersAfter(int offset);
+
+    List<ReaderMessageInfo> getReadersToMailDueDate();
+
+    List<ReaderMessageInfo> getReadersToMailReturnDate();
 }

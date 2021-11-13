@@ -2,12 +2,9 @@ package com.chern.libraryapp.service.impl;
 
 import com.chern.libraryapp.dao.DAOFactory;
 import com.chern.libraryapp.model.Reader;
+import com.chern.libraryapp.model.ReaderMessageInfo;
 import com.chern.libraryapp.service.ReaderService;
 
-import javax.servlet.Servlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -53,4 +50,16 @@ public class ReaderServiceImpl implements ReaderService {
     public List<Reader> getReadersAfter(int offset) {
         return DAOFactory.readerDAO().getReadersAfter(offset);
     }
+
+    @Override
+    public List<ReaderMessageInfo> getReadersToMailDueDate() {
+        return DAOFactory.readerDAO().getMailedToDueReaderInfo();
+    }
+
+    @Override
+    public List<ReaderMessageInfo> getReadersToMailReturnDate() {
+        return DAOFactory.readerDAO().getMailedToReturnReaderInfo();
+    }
+
+
 }

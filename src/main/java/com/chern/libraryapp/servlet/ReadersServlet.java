@@ -1,6 +1,7 @@
 package com.chern.libraryapp.servlet;
 
 import com.chern.libraryapp.model.Reader;
+import com.chern.libraryapp.model.ReaderMessageInfo;
 import com.chern.libraryapp.service.ReaderService;
 import com.chern.libraryapp.service.impl.ReaderServiceImpl;
 

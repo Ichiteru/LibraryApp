@@ -1,6 +1,7 @@
 package com.chern.libraryapp.dao;
 
 import com.chern.libraryapp.model.Reader;
+import com.chern.libraryapp.model.ReaderMessageInfo;
 import com.chern.libraryapp.model.json.BorrowRecordJSON;
 
 import java.sql.SQLException;
@@ -25,4 +26,8 @@ public interface ReaderDAO {
     void updateReader(Reader reader);
 
     List<Reader> getReadersAfter(int offset);
+
+    public List<ReaderMessageInfo> getMailedToDueReaderInfo();
+
+    public List<ReaderMessageInfo> getMailedToReturnReaderInfo();
 }
