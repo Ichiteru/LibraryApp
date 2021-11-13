@@ -4,11 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Books</title>
+    <link rel="stylesheet" href="./../resources/css/readers.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" integrity="sha512-P5MgMn1jBN01asBgU0z60Qk4QxiXo86+wlFahKrsQf37c9cro517WzVSPPV1tDKzhku2iJ2FVgL67wG03SGnNA==" crossorigin="anonymous">
 </head>
 <body>
     <c:import url="navbar.jsp"/>
-    <div class="container mt-5">
+    <div class="container mt-5" style="background-color: white">
 
         <table class="table table-bordered table-hover" id="booksTable">
             <thead>
@@ -51,7 +52,7 @@
             </div>
             <div class="col-sm text-center">
                 <nav aria-label="Page navigation example">
-                    <ul class="pagination" style="float: contour">
+                    <ul class="pagination" style="float: contour; margin-left: 15%">
                         <li class="page-item">
                             <a class="page-link" href="#" id="prevPage" onclick="display(this)" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>

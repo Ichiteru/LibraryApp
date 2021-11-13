@@ -61,6 +61,7 @@ public class ChangeBookServlet extends HttpServlet {
     private Book createBookWithNewParams(HttpServletRequest req) {
         Book updatedBook = new Book();
         updatedBook.setId(Long.valueOf(req.getParameter("bookId")));
+        updatedBook.setCover(req.getParameter("cover"));
         updatedBook.setIsbn(req.getParameter("isbn"));
         updatedBook.setTitle(req.getParameter("title"));
         updatedBook.setDescription(req.getParameter("description"));

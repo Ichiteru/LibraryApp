@@ -24,7 +24,7 @@ public class BookDAOImpl implements BookDAO {
     private final String QUERY_FIND_BOOKS_ID_LIKE_DESCRIPTION =
             "SELECT id FROM books WHERE description LIKE '% (?) %'";
     private final String QUERY_UPDATE_BOOK = "UPDATE books SET " +
-            "isbn=?, title=?, description=?, publisher=?, publishDate=?, pageCount=?, totalAmount=?, status=? " +
+            "isbn=?, title=?, description=?, publisher=?, publishDate=?, pageCount=?, totalAmount=?, status=?, cover=? " +
             "where id=?";
     private final String QUERY_ADD_NEW_BOOK = "insert into books (isbn, title, publisher, pagecount, totalamount, status, publishdate, description) " +
             "values (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -136,7 +136,8 @@ public class BookDAOImpl implements BookDAO {
             statement.setLong(6, book.getPageCount());
             statement.setLong(7, book.getTotalAmount());
             statement.setString(8, String.valueOf(book.getStatus()));
-            statement.setLong(9, book.getId());
+            statement.setString(9, book.getCover());
+            statement.setLong(10, book.getId());
             statement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -215,7 +216,7 @@ public class BookDAOImpl implements BookDAO {
         Book book = new Book();
         book.setId(resultSet.getLong("id"));
         book.setIsbn(resultSet.getString("isbn"));
-        book.setCover(resultSet.getBytes("cover"));
+        book.setCover(resultSet.getString("cover"));
         book.setTitle(resultSet.getString("title"));
         book.setPublisher(resultSet.getString("publisher"));
         book.setPageCount(resultSet.getInt("pageCount"));

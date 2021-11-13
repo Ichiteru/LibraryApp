@@ -1,0 +1,23 @@
+body{
+    background-image: url(https://i.pinimg.com/originals/67/18/22/671822c2f63dd5f65d8fd15c9710420b.jpg) !important;
+    background-position: 50% 0 !important;
+    min-height:100vh !important;
+}
+
+table, tr, th, td{
+    border: 2px gray solid !important;
+}
+.page-link{
+    background: none !important;
+    border: 1px gray solid !important;
+}
+ul{
+    background: none !important;
+}
+.container {
+    background-color: white !important;
+    padding: 50px 40px 300px 40px !important;
+    background-image: url(https://marketplace.canva.com/EAD2962NKnQ/2/0/1600w/canva-rainbow-gradient-pink-and-purple-zoom-virtual-background-_Tcjok-d9b4.jpg) !important;
+    box-shadow: 0 0 8px 8px !important;
+    background-repeat: round !important;
+}

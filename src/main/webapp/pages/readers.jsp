@@ -4,20 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Readers</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" integrity="sha512-P5MgMn1jBN01asBgU0z60Qk4QxiXo86+wlFahKrsQf37c9cro517WzVSPPV1tDKzhku2iJ2FVgL67wG03SGnNA==" crossorigin="anonymous">
+  <link rel="stylesheet" href="./../resources/css/readers.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css" integrity="sha512-P5MgMn1jBN01asBgU0z60Qk4QxiXo86+wlFahKrsQf37c9cro517WzVSPPV1tDKzhku2iJ2FVgL67wG03SGnNA==" crossorigin="anonymous">
 </head>
 <body>
 <c:import url="navbar.jsp"/>
 <c:import url="reader-modal.jsp"></c:import>
-<div class="container mt-5">
+<div class="container mt-5" >
 
-  <table class="table table-bordered table-hover" id="readersTable">
-    <thead>
-    <tr>
-      <th scope="col">Name</th>
-      <th scope="col">Email</th>
-      <th scope="col">Registration date</th>
-      <th scope="col">Phone</th>
+  <table class="table table-bordered table-hover" id="readersTable" >
+    <thead >
+    <tr >
+      <th scope="col" >Name</th>
+      <th scope="col" >Email</th>
+      <th scope="col" >Registration date</th>
+      <th scope="col" >Phone</th>
     </tr>
     </thead>
     <tbody>
@@ -52,14 +53,14 @@
     </div>
     <div class="col">
       <nav aria-label="Page navigation example">
-        <ul class="pagination" style="margin-left: 25%">
-          <li class="page-item">
-            <a class="page-link" href="#" id="prevPage"  aria-label="Previous" onclick="displayReaders(this)">
+        <ul class="pagination" style="margin-left: 25%; ">
+          <li class="page-item" >
+            <a class="page-link" href="#" id="prevPage"  aria-label="Previous" onclick="displayReaders(this)" >
               <span aria-hidden="true">&laquo;</span>
               <span class="sr-only">Previous</span>
             </a>
           </li>
-          <li class="page-item"><a class="page-link" id="firstPage" onclick="displayReaders(this)" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" id="firstPage" onclick="displayReaders(this)"  href="#">1</a></li>
           <li class="page-item"><a class="page-link" id="secondPage" onclick="displayReaders(this)" href="#">2</a></li>
           <li class="page-item"><a class="page-link" id="thirdPage" onclick="displayReaders(this)" href="#">3</a></li>
           <li class="page-item">

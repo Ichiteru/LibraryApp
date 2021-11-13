@@ -11,7 +11,7 @@ import java.util.List;
 public class Book implements Serializable {
     Long id;
     private String isbn;
-    private byte[] cover;
+    private String cover;
     private String title;
     private String publisher;
     private int pageCount;

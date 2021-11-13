@@ -1,0 +1,19 @@
+.card-body input, select, textarea, img{
+    background: none !important;
+    border: 1px solid gray !important;
+}
+
+#borrowersTable  tr, th, td{
+    border: 2px gray solid !important;
+}
+
+.container{
+    padding: 100px 0px 100px 0px !important;
+    background-image: none !important;
+}
+
+.card{
+    background-image: url(https://marketplace.canva.com/EAD2962NKnQ/2/0/1600w/canva-rainbow-gradient-pink-and-purple-zoom-virtual-background-_Tcjok-d9b4.jpg) !important;
+    box-shadow: 0 0 8px 8px !important;
+    background-repeat: round !important;
+}
