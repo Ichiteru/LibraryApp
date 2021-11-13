@@ -25,7 +25,7 @@ function saveBookChanges() {
         return false;
     }
     else if(!isValidAndNotEmpty(/^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$/, document.getElementsByName('isbn')[0].value)){
-        alert("ISBN can't be empty or invalid(10 symbols)");
+        showAlertModal('Validation error!', 'ISBN should contains 10 or 13 numbers.');
         return false;
     }
     else if(!isNumberValid(document.getElementsByName('totalAmount')[0].value, 0, 1500)){

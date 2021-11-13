@@ -9,7 +9,7 @@
 </head>
 <body>
     <c:import url="navbar.jsp"/>
-    <div class="container mt-5" style="background-color: white">
+    <div class="container mt-5" style="padding-top: 200px">
 
         <table class="table table-bordered table-hover" id="booksTable">
             <thead>
