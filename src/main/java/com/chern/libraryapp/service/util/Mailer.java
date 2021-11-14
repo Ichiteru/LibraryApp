@@ -19,7 +19,7 @@ public abstract class Mailer implements Job {
     protected final String SENDER_EMAIL_PASSWORD = "libACC123";
     protected final String SENDER_HOST = "smtp.gmail.com";
     protected final String SENDER_PORT = "587";
-    protected final ReaderService readerService = new ReaderServiceImpl();
+    protected final ReaderService readerService = ReaderServiceImpl.getInstance();
     protected final Properties properties;
     protected final Session session;
     protected List<ReaderMessageInfo> readersToMailDueDate = new ArrayList<>();

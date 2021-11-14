@@ -4,6 +4,7 @@ import com.chern.libraryapp.dao.DAOFactory;
 import com.chern.libraryapp.model.Genre;
 import com.chern.libraryapp.service.GenreService;
 import com.chern.libraryapp.service.util.GenreHelper;
+import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -11,8 +12,14 @@ import java.util.List;
 public class GenreServiceImpl implements GenreService {
 
     private GenreHelper validator;
+    private static final Logger log = Logger.getLogger(GenreServiceImpl.class);
 
-    public GenreServiceImpl() {
+    private static final GenreServiceImpl instance = new GenreServiceImpl();
+
+    public static GenreServiceImpl getInstance() {
+        return instance;
+    }
+    private GenreServiceImpl() {
         this.validator = new GenreHelper();
     }
 
@@ -21,7 +28,7 @@ public class GenreServiceImpl implements GenreService {
         try {
             return DAOFactory.genreDao().getAllGenres();
         } catch (SQLException throwables) {
-            // TODO: 14.11.2021 log
+            log.error(throwables.getMessage());
             throw new RuntimeException();
         }
     }
@@ -31,7 +38,7 @@ public class GenreServiceImpl implements GenreService {
         try {
             return DAOFactory.genreDao().getBookGenresById(id);
         } catch (SQLException throwables) {
-            // TODO: 14.11.2021 log
+            log.error(throwables.getMessage());
             throw new RuntimeException();
         }
     }
@@ -40,7 +47,7 @@ public class GenreServiceImpl implements GenreService {
         try {
             return DAOFactory.genreDao().getNewGenres(validator.transformToList(newGenres));
         } catch (SQLException throwables) {
-            // TODO: 14.11.2021 log
+            log.error(throwables.getMessage());
             throw new RuntimeException();
         }
     }

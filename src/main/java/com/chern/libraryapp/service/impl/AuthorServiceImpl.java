@@ -4,24 +4,33 @@ import com.chern.libraryapp.dao.DAOFactory;
 import com.chern.libraryapp.model.Author;
 import com.chern.libraryapp.service.AuthorService;
 import com.chern.libraryapp.service.util.AuthorHelper;
+import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
-import java.util.*;
+import java.util.List;
 
 public class AuthorServiceImpl implements AuthorService {
 
-    private AuthorHelper validator;
+    private final AuthorHelper validator;
+    private static final Logger log = Logger.getLogger(AuthorServiceImpl.class);
 
-    public AuthorServiceImpl(){
+    private static final AuthorServiceImpl instance = new AuthorServiceImpl();
+
+    public static AuthorServiceImpl getInstance() {
+        return instance;
+    }
+
+    private AuthorServiceImpl() {
         this.validator = new AuthorHelper();
     }
+
 
     @Override
     public List<Author> getAllAuthors() {
         try {
             return DAOFactory.authorDAO().getAllAuthors();
         } catch (SQLException throwables) {
-            // TODO: 14.11.2021 log
+            log.error(throwables.getMessage());
             throw new RuntimeException();
         }
     }
@@ -31,7 +40,7 @@ public class AuthorServiceImpl implements AuthorService {
         try {
             return DAOFactory.authorDAO().getBookAuthorsById(id);
         } catch (SQLException throwables) {
-            // TODO: 14.11.2021 log
+            log.error(throwables.getMessage());
             throw new RuntimeException();
         }
     }
@@ -41,7 +50,7 @@ public class AuthorServiceImpl implements AuthorService {
         try {
             DAOFactory.authorDAO().addNewAuthors(authors);
         } catch (SQLException throwables) {
-            // TODO: 14.11.2021 log
+            log.error(throwables.getMessage());
             throw new RuntimeException();
         }
     }

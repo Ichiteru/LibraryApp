@@ -8,6 +8,7 @@ import com.chern.libraryapp.model.Reader;
 import com.chern.libraryapp.model.enums.BookStatus;
 import com.chern.libraryapp.model.json.BorrowRecordJSON;
 import com.chern.libraryapp.service.BookService;
+import org.apache.log4j.Logger;
 
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -18,13 +19,20 @@ import java.util.Map;
 public class BookServiceImpl implements BookService {
 
     private List<Book> searchedBooks;
+    private final static Logger log = Logger.getLogger(BookServiceImpl.class);
     private final String QUERY_FIND_BOOKS_ID_BY_AUTHOR_ID =
             "SELECT book_id FROM book_authors WHERE author_id=?";
     private final String QUERY_FIND_BOOKS_ID_BY_GENRE_ID =
             "SELECT book_id FROM book_genres WHERE genre_id=?";
 
+    private static final BookServiceImpl instance = new BookServiceImpl();
 
-    public BookServiceImpl() {
+    public static BookServiceImpl getInstance() {
+        return instance;
+    }
+
+
+    private BookServiceImpl() {
         searchedBooks = new ArrayList<>();
     }
 
@@ -38,7 +46,7 @@ public class BookServiceImpl implements BookService {
         try {
             books = DAOFactory.bookDAO().getAllBooks();
         } catch (SQLException throwables) {
-            // TODO: 14.11.2021 log
+            log.error(throwables.getMessage());
             throw new RuntimeException();
         }
         return books;
@@ -49,7 +57,7 @@ public class BookServiceImpl implements BookService {
         try {
             book = DAOFactory.bookDAO().findBookById(id);
         } catch (SQLException throwables) {
-            // TODO: 14.11.2021 log
+            log.error(throwables.getMessage());
             throw new RuntimeException();
         }
         return book;
@@ -60,7 +68,7 @@ public class BookServiceImpl implements BookService {
         try {
             return DAOFactory.bookDAO().findBookByISBN(isbn);
         } catch (SQLException throwables) {
-            // TODO: 14.11.2021 log
+            log.error(throwables.getMessage());
             throw new RuntimeException();
         }
     }
@@ -70,7 +78,7 @@ public class BookServiceImpl implements BookService {
         try {
             return DAOFactory.bookDAO().findBookByTitle(title);
         } catch (SQLException throwables) {
-            // TODO: 14.11.2021 log
+            log.error(throwables.getMessage());
             throw new RuntimeException();
         }
     }
@@ -88,10 +96,10 @@ public class BookServiceImpl implements BookService {
                     newGenres.remove(newGenre);
                 }
             }
-            if (newGenres != null) {
+            if (!newGenres.isEmpty()) {
                 DAOFactory.genreDao().addNewGenresToBook(newGenres, book.getId());
             }
-            if (oldBookGenres != null) {
+            if (!oldBookGenres.isEmpty()) {
                 DAOFactory.genreDao().deleteSeveralGenresFromBook(oldBookGenres, book.getId());
             }
 
@@ -101,7 +109,7 @@ public class BookServiceImpl implements BookService {
             DAOFactory.authorDAO().deleteOldAuthors(book.getId());
             DAOFactory.authorDAO().addNewAuthorsToBook(newAuthorsWithId, book.getId());
         } catch (SQLException throwables) {
-            // TODO: 14.11.2021 log
+            log.error(throwables.getMessage());
             throw new RuntimeException();
         }
 
@@ -115,10 +123,10 @@ public class BookServiceImpl implements BookService {
         try {
             DAOFactory.bookDAO().addNewBook(book);
         } catch (SQLException throwables) {
-            // TODO: 14.11.2021 log
+            log.error(throwables.getMessage());
             throw new RuntimeException();
         }
-        Book bookByISBN = null; // получаем книгу с ид
+        Book bookByISBN; // получаем книгу с ид
         try {
             bookByISBN = DAOFactory.bookDAO().findBookByISBN(book.getIsbn());
             DAOFactory.authorDAO().addNewAuthors(book.getAuthors()); // заносим авторов в бд
@@ -126,18 +134,17 @@ public class BookServiceImpl implements BookService {
             DAOFactory.authorDAO().addNewAuthorsToBook(newAuthorsWithId, bookByISBN.getId()); // добавляем авторов для книги
             DAOFactory.genreDao().addNewGenresToBook(book.getGenres(), bookByISBN.getId()); // добавляем жанры для книги
         } catch (SQLException throwables) {
-            // TODO: 14.11.2021 log
+            log.error(throwables.getMessage());
             throw new RuntimeException();
         }
     }
 
     @Override
     public List<Book> getBooksAfter(Integer offset) {
-//        throw new RuntimeException();
         try {
             return DAOFactory.bookDAO().getBooksAfter(offset);
         } catch (SQLException throwables) {
-            // TODO: 14.11.2021 log
+            log.error(throwables.getMessage());
             throw new RuntimeException();
         }
     }
@@ -147,7 +154,7 @@ public class BookServiceImpl implements BookService {
         try {
             DAOFactory.bookDAO().deleteBooksByID(idList);
         } catch (SQLException throwables) {
-            // TODO: 14.11.2021 log
+            log.error(throwables.getMessage());
             throw new RuntimeException();
         }
     }
@@ -173,11 +180,8 @@ public class BookServiceImpl implements BookService {
                     DAOFactory.borrowRecordDAO().addRecord(readerByEmail.getId(), bookId, rec);
                 }
             }
-        } catch (SQLException throwables) {
-            // TODO: 14.11.2021 log
-            throw new RuntimeException();
-        } catch (ParseException e) {
-            // TODO: 14.11.2021 log
+        } catch (SQLException | ParseException throwables) {
+            log.error(throwables.getMessage());
             throw new RuntimeException();
         }
     }
@@ -188,7 +192,7 @@ public class BookServiceImpl implements BookService {
         try {
             DAOFactory.bookDAO().getAllBooks().forEach(book -> allBooksID.add(book.getId()));
         } catch (SQLException throwables) {
-            // TODO: 14.11.2021 log
+            log.error(throwables.getMessage());
             throw new RuntimeException();
         }
         final List<Long>[] booksIdByTitle = new List[]{new ArrayList<>()};
@@ -200,7 +204,7 @@ public class BookServiceImpl implements BookService {
                 try {
                     booksIdByTitle[0] = DAOFactory.bookDAO().findBooksIdByTitle(parameterMap.get(k)[0]);
                 } catch (SQLException throwables) {
-                    // TODO: 14.11.2021 log
+                    log.error(throwables.getMessage());
                     throw new RuntimeException();
                 }
             } else if (k.equals("authorId")) {
@@ -211,7 +215,7 @@ public class BookServiceImpl implements BookService {
                 try {
                     booksIdByDescription[0] = DAOFactory.bookDAO().findBooksIdWhereDescriptionLike(parameterMap.get(k)[0]);
                 } catch (SQLException throwables) {
-                    // TODO: 14.11.2021 log
+                    log.error(throwables.getMessage());
                     throw new RuntimeException();
                 }
             }
@@ -246,7 +250,7 @@ public class BookServiceImpl implements BookService {
                 return booksId;
             }
         } catch (SQLException throwables) {
-            // TODO: 14.11.2021 log
+            log.error(throwables.getMessage());
             throw new RuntimeException();
         }
     }
@@ -255,11 +259,11 @@ public class BookServiceImpl implements BookService {
         List<Book> searchedBooksList = new ArrayList<>();
         if (idArray.isEmpty()) return null;
         else {
-            for (int i = 0; i < idArray.size(); i++) {
+            for (Long aLong : idArray) {
                 try {
-                    searchedBooksList.add(DAOFactory.bookDAO().findBookById(idArray.get(i)));
+                    searchedBooksList.add(DAOFactory.bookDAO().findBookById(aLong));
                 } catch (SQLException throwables) {
-                    // TODO: 14.11.2021 log
+                    log.error(throwables.getMessage());
                     throw new RuntimeException();
                 }
             }

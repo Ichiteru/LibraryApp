@@ -4,6 +4,7 @@ import com.chern.libraryapp.model.Reader;
 import com.chern.libraryapp.model.enums.Gender;
 import com.chern.libraryapp.service.ReaderService;
 import com.chern.libraryapp.service.impl.ReaderServiceImpl;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,10 +19,17 @@ import java.util.Date;
 @WebServlet("/reader/add")
 public class AddReaderServlet extends HttpServlet {
 
-    private ReaderService readerService = new ReaderServiceImpl();
+    private ReaderService readerService;
+    private static final Logger log = Logger.getLogger(AddReaderServlet.class);
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void init() throws ServletException {
+        super.init();
+        readerService = ReaderServiceImpl.getInstance();
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Reader reader = createReader(req);
         if (readerService.isEmailExists(reader.getEmail()) && !req.getParameter("email").equals(req.getParameter("initEmail"))){
             req.setAttribute("heading", "Oops!");
@@ -44,7 +52,7 @@ public class AddReaderServlet extends HttpServlet {
             Date regDate = format.parse(req.getParameter("registrationDate"));
             reader.setRegistrationDate(regDate);
         } catch (ParseException e) {
-            throw new RuntimeException();
+            log.error(e.getMessage(), new RuntimeException());
         }
         reader.setEmail(req.getParameter("email"));
         reader.setFirstName(req.getParameter("fName"));

@@ -1,7 +1,6 @@
 package com.chern.libraryapp.servlet;
 
 import com.chern.libraryapp.model.Reader;
-import com.chern.libraryapp.model.ReaderMessageInfo;
 import com.chern.libraryapp.service.ReaderService;
 import com.chern.libraryapp.service.impl.ReaderServiceImpl;
 
@@ -16,7 +15,13 @@ import java.util.List;
 @WebServlet("/readers")
 public class ReadersServlet extends HttpServlet {
 
-    private ReaderService readerService = new ReaderServiceImpl();
+    private ReaderService readerService;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        readerService = ReaderServiceImpl.getInstance();
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

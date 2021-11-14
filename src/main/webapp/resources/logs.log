@@ -1,0 +1,19 @@
+2021-11-14 22:19:55,739 [MyQuartzScheduler_Worker-1] INFO  com.chern.libraryapp.service.util.DueMailer - Send email to testmail@mailto.plus about book 9731809830
+2021-11-14 22:19:55,958 [MyQuartzScheduler_Worker-2] INFO  com.chern.libraryapp.service.util.DueMailer - Send email to testmail_return1@mailto.plus about book 9731809830
+2021-11-14 22:19:56,970 [MyQuartzScheduler_Worker-2] INFO  com.chern.libraryapp.service.util.DueMailer - Send email to testmail_return2@mailto.plus about book 1112223334
+2021-11-14 23:18:32,483 [MyQuartzScheduler_Worker-2] FATAL com.chern.libraryapp.dao.impl.ConnectionDAOFactory - Can't register driver: com.mysql.jdbc.Driver
+java.lang.ClassNotFoundException: com.mysql.jdbc.Driver
+	at org.apache.catalina.loader.WebappClassLoaderBase.loadClass(WebappClassLoaderBase.java:1364)
+	at org.apache.catalina.loader.WebappClassLoaderBase.loadClass(WebappClassLoaderBase.java:1187)
+	at java.base/java.lang.Class.forName0(Native Method)
+	at java.base/java.lang.Class.forName(Class.java:377)
+	at com.chern.libraryapp.dao.impl.ConnectionDAOFactory.<clinit>(ConnectionDAOFactory.java:30)
+	at com.chern.libraryapp.dao.impl.ReaderDAOImpl.getMailedToReturnReaderInfo(ReaderDAOImpl.java:193)
+	at com.chern.libraryapp.service.impl.ReaderServiceImpl.getReadersToMailReturnDate(ReaderServiceImpl.java:99)
+	at com.chern.libraryapp.service.util.ReturnMailer.execute(ReturnMailer.java:23)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+2021-11-14 23:19:56,626 [MyQuartzScheduler_Worker-2] INFO  com.chern.libraryapp.service.util.DueMailer - Send email to testmail_return1@mailto.plus about book 9731809830
+2021-11-14 23:19:56,858 [MyQuartzScheduler_Worker-1] INFO  com.chern.libraryapp.service.util.DueMailer - Send email to testmail@mailto.plus about book 9731809830
+2021-11-14 23:19:57,732 [MyQuartzScheduler_Worker-2] INFO  com.chern.libraryapp.service.util.DueMailer - Send email to testmail_return2@mailto.plus about book 1112223334
+2021-11-15 00:30:56,228 [MyQuartzScheduler_Worker-2] INFO  com.chern.libraryapp.service.util.DueMailer - Send email to testmail_return1@mailto.plus about book 9736783650

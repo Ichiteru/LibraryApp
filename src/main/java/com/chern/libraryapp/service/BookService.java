@@ -10,15 +10,15 @@ import java.util.Map;
 
 public interface BookService {
 
-    public List<Book> getAllBooks();
-    public Book findBookById(Long id);
-    public Book findBookByIsbn(String isbn);
-    public Book findBookByTitle(String title);
-    public void updateBook(Book book, List<Author> newAuthors, List<Genre> newGenres);
-    public void addNewBook(Book book);
-    public List<Book> getBooksAfter(Integer offset);
+    List<Book> getAllBooks();
+    Book findBookById(Long id);
+    Book findBookByIsbn(String isbn);
+    Book findBookByTitle(String title);
+    void updateBook(Book book, List<Author> newAuthors, List<Genre> newGenres);
+    void addNewBook(Book book);
+    List<Book> getBooksAfter(Integer offset);
 
-    public void deleteBooksByID(String[] idList);
+    void deleteBooksByID(String[] idList);
 
     void updateBookBorrowRecords(List<BorrowRecordJSON> existRecords, List<BorrowRecordJSON> newRecords, Long bookId);
 

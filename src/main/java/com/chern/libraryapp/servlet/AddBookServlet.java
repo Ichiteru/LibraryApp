@@ -4,12 +4,12 @@ import com.chern.libraryapp.model.Author;
 import com.chern.libraryapp.model.Book;
 import com.chern.libraryapp.model.Genre;
 import com.chern.libraryapp.service.AuthorService;
-import com.chern.libraryapp.service.impl.AuthorServiceImpl;
 import com.chern.libraryapp.service.BookService;
-import com.chern.libraryapp.service.impl.BookServiceImpl;
 import com.chern.libraryapp.service.GenreService;
+import com.chern.libraryapp.service.impl.AuthorServiceImpl;
+import com.chern.libraryapp.service.impl.BookServiceImpl;
 import com.chern.libraryapp.service.impl.GenreServiceImpl;
-import org.stringtemplate.v4.ST;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,12 +25,21 @@ import java.util.List;
 @WebServlet(value = "/books/add")
 public class AddBookServlet extends HttpServlet {
 
-    private BookService bookService = new BookServiceImpl();
-    private AuthorService authorService = new AuthorServiceImpl();
-    private GenreService genreService = new GenreServiceImpl();
+    private BookService bookService;
+    private AuthorService authorService;
+    private GenreService genreService;
+    private static final Logger log = Logger.getLogger(AddBookServlet.class);
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void init() throws ServletException {
+        super.init();
+        bookService = BookServiceImpl.getInstance();
+        authorService = AuthorServiceImpl.getInstance();
+        genreService = GenreServiceImpl.getInstance();
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         // проверка на isbn
         String isbn = req.getParameter("isbn");
         if (bookService.findBookByIsbn(isbn) == null){
@@ -59,7 +68,7 @@ public class AddBookServlet extends HttpServlet {
             Date publishDate = format.parse(req.getParameter("publishDate"));
             newBook.setPublishDate(publishDate);
         } catch (ParseException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), new RuntimeException());
         }
         newBook.setPageCount(Integer.parseInt(req.getParameter("pageCount")));
         newBook.setTotalAmount(Integer.parseInt(req.getParameter("totalAmount")));

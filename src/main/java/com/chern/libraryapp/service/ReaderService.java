@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface ReaderService {
 
-    public List<Reader> getAllReaders();
-    public List<Reader> getAllReadersWhereEmailContains(String str);
+     List<Reader> getAllReaders();
+     List<Reader> getAllReadersWhereEmailContains(String str);
 
     boolean isEmailExists(String email);
 

@@ -20,9 +20,17 @@ import java.util.Map;
 @WebServlet("/search/books")
 public class SearchBookServlet extends HttpServlet {
 
-    private final AuthorService authorService = new AuthorServiceImpl();
-    private final GenreService genreService = new GenreServiceImpl();
-    private final BookService bookService = new BookServiceImpl();
+    private AuthorService authorService;
+    private GenreService genreService;
+    private BookService bookService;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        bookService = BookServiceImpl.getInstance();
+        authorService = AuthorServiceImpl.getInstance();
+        genreService = GenreServiceImpl.getInstance();
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,7 +42,7 @@ public class SearchBookServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Map<String, String[]> parameterMap = req.getParameterMap();
         bookService.getSearchBooks(parameterMap);
         resp.sendRedirect("/search/books");

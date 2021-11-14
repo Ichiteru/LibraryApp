@@ -13,10 +13,16 @@ import java.io.IOException;
 @WebServlet("/delete")
 public class DeleteBooksServlet extends HttpServlet {
 
-    BookService bookService = new BookServiceImpl();
+    BookService bookService;
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void init() throws ServletException {
+        super.init();
+        bookService = BookServiceImpl.getInstance();
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         if (req.getParameterMap().containsKey("booksId")){
             String[] booksId = req.getParameterValues("booksId");
             bookService.deleteBooksByID(booksId);

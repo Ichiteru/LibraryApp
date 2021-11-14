@@ -8,9 +8,10 @@ function onFileSelected(event) {
     reader.onload = function(event) {
         cover.src = event.target.result;
         coverHidden.value = event.target.result;
-        alert(cover.src);
     };
-    reader.readAsDataURL(selectedFile);
+        if (selectedFile.size > 2097152){
+            showAlertModal("Image load error!", "Image size more than 2MB")
+        } else reader.readAsDataURL(selectedFile);
 }
 
 function showHide(elemID){

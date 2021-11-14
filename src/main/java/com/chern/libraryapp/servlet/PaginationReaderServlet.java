@@ -1,8 +1,6 @@
 package com.chern.libraryapp.servlet;
 
-import com.chern.libraryapp.model.Book;
 import com.chern.libraryapp.model.Reader;
-import com.chern.libraryapp.model.json.BookJSON;
 import com.chern.libraryapp.model.json.ReaderJSON;
 import com.chern.libraryapp.service.ReaderService;
 import com.chern.libraryapp.service.impl.ReaderServiceImpl;
@@ -15,17 +13,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/get/ten/readers")
 public class PaginationReaderServlet extends HttpServlet {
 
-    private final ReaderService readerService = new ReaderServiceImpl();
+    private ReaderService readerService;
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void init() throws ServletException {
+        super.init();
+        readerService = ReaderServiceImpl.getInstance();
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Integer pag = Integer.valueOf(req.getParameter("pag"));
         PrintWriter writer = resp.getWriter();
         List<Reader> readersAfter = readerService.getReadersAfter(pag);

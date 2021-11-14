@@ -53,7 +53,7 @@
                                     <input type="hidden" id="cover-hidden" name="cover" value="${book.cover}">
                                     <div class="middle" style="width: 160px; flex: 0 0 auto">
                                         <div class="custom-file" style="margin-top: 10px">
-                                            <input type="file" onchange="onFileSelected(event)"
+                                            <input type="file" onchange="onFileSelected(event) " accept="image/png, image/jpg"
                                                    class="custom-file-input"
                                                    id="inputGroupFile04"
                                                    name="bookTitle" >

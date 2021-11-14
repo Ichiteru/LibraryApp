@@ -10,9 +10,7 @@ public class DAOFactory {
         return new ReaderDAOImpl();
     }
 
-    public static BookDAO bookDAO() {
-        return new BookDAOImpl();
-    }
+    public static BookDAO bookDAO() { return new BookDAOImpl(); }
 
     public static AuthorDAO authorDAO() { return new AuthorDAOImpl(); }
 

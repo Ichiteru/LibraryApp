@@ -1,6 +1,5 @@
 package com.chern.libraryapp.servlet;
 
-import com.chern.libraryapp.model.Reader;
 import com.chern.libraryapp.service.ReaderService;
 import com.chern.libraryapp.service.impl.ReaderServiceImpl;
 import com.google.gson.Gson;
@@ -12,15 +11,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 @WebServlet("/get/readers/by-email")
 public class LoadReaderByEmailServlet extends HttpServlet {
 
-    ReaderService readerService = new ReaderServiceImpl();
+    ReaderService readerService;
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void init() throws ServletException {
+        super.init();
+        readerService = ReaderServiceImpl.getInstance();
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String email = req.getParameter("email");
         PrintWriter writer = resp.getWriter();
         String responseString = new Gson().toJson(readerService.getAllReadersWhereEmailContains(email));

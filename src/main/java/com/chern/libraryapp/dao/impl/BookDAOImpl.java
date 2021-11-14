@@ -21,8 +21,6 @@ public class BookDAOImpl implements BookDAO {
             "SELECT * FROM books WHERE title=? limit 1";
     private final String QUERY_FIND_BOOKS_ID_BY_TITLE =
             "SELECT id FROM books WHERE title=?";
-    private final String QUERY_FIND_BOOKS_ID_LIKE_DESCRIPTION =
-            "SELECT id FROM books WHERE description LIKE '% (?) %'";
     private final String QUERY_UPDATE_BOOK = "UPDATE books SET " +
             "isbn=?, title=?, description=?, publisher=?, publishDate=?, pageCount=?, totalAmount=?, status=?, cover=? " +
             "where id=?";

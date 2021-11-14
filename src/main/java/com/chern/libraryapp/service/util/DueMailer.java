@@ -3,6 +3,7 @@ package com.chern.libraryapp.service.util;
 import com.chern.libraryapp.model.ReaderMessageInfo;
 import com.chern.libraryapp.service.ReaderService;
 import com.chern.libraryapp.service.impl.ReaderServiceImpl;
+import org.apache.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -16,9 +17,10 @@ import java.util.Properties;
 
 public class DueMailer extends Mailer {
 
+    private static Logger log = Logger.getLogger(DueMailer.class);
+
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        System.out.println("Due fucking works!");
         readersToMailDueDate = readerService.getReadersToMailDueDate();
         ST subject;
         ST text;
@@ -40,10 +42,10 @@ public class DueMailer extends Mailer {
                 message.setSubject(subject.render());
                 message.setText(text.render());
                 Transport.send(message);
+                log.info("Send email to " + info.getEmail() + " about book " + info.getIsbn());
             }
         } catch (MessagingException e) {
-            e.printStackTrace();
-            // TODO: 13.11.2021 log
+            log.error(e.getMessage());
         }
 
 

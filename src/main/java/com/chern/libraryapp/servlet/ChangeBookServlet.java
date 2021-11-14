@@ -12,6 +12,7 @@ import com.chern.libraryapp.service.impl.BookServiceImpl;
 import com.chern.libraryapp.service.GenreService;
 import com.chern.libraryapp.service.impl.GenreServiceImpl;
 import com.google.gson.Gson;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,13 +30,21 @@ import java.util.List;
 @WebServlet("/books/change")
 public class ChangeBookServlet extends HttpServlet {
 
-    private BookService bookService = new BookServiceImpl();
-    private AuthorService authorService = new AuthorServiceImpl();
-    private GenreService genreService = new GenreServiceImpl();
+    private BookService bookService;
+    private AuthorService authorService;
+    private GenreService genreService;
+    private static final Logger log = Logger.getLogger(ChangeBookServlet.class);
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Long id = Long.valueOf(req.getParameter("bookId"));
+    public void init() throws ServletException {
+        super.init();
+        bookService = BookServiceImpl.getInstance();
+        authorService = AuthorServiceImpl.getInstance();
+        genreService = GenreServiceImpl.getInstance();
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String oldIsbn = req.getParameter("startIsbn");
         String newIsbn = req.getParameter("isbn");
         List<Genre> newBookGenres = genreService.getNewBookGenresList(req.getParameterValues("bookGenre"));
@@ -73,7 +82,7 @@ public class ChangeBookServlet extends HttpServlet {
             Date publishDate = format.parse(req.getParameter("publishDate"));
             updatedBook.setPublishDate(publishDate);
         } catch (ParseException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), new RuntimeException());
         }
         updatedBook.setPageCount(Integer.parseInt(req.getParameter("pageCount")));
         updatedBook.setStatus(BookStatus.valueOf(req.getParameter("status")));

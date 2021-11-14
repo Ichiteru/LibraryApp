@@ -1,6 +1,7 @@
 package com.chern.libraryapp.service.util;
 
 import com.chern.libraryapp.model.ReaderMessageInfo;
+import org.apache.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -14,9 +15,10 @@ import javax.mail.internet.MimeMessage;
 
 public class ReturnMailer extends Mailer {
 
+    private static Logger log = Logger.getLogger(DueMailer.class);
+
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        System.out.println("Return fucking works!");
         readersToMailDueDate = readerService.getReadersToMailReturnDate();
         ST subject;
         ST text;
@@ -33,16 +35,14 @@ public class ReturnMailer extends Mailer {
                 subject.add("secondName", info.getLastName());
                 text.add("title", info.getTitle());
                 text.add("isbn", info.getIsbn());
-                System.out.println(subject.render());
-                System.out.println(text.render());
                 message.setRecipient(Message.RecipientType.TO, new InternetAddress(info.getEmail()));
                 message.setSubject(subject.render());
                 message.setText(text.render());
                 Transport.send(message);
+                log.info("Send email to " + info.getEmail() + " about book " + info.getIsbn());
             }
         } catch (MessagingException e) {
-            e.printStackTrace();
-            // TODO: 13.11.2021 log
+            log.error(e.getMessage());
         }
 
 

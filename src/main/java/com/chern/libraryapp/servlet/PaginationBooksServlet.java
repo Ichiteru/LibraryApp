@@ -13,19 +13,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @WebServlet("/get/ten/books")
 public class PaginationBooksServlet extends HttpServlet {
 
-    private BookService bookService = new BookServiceImpl();
+    private BookService bookService;
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void init() throws ServletException {
+        super.init();
+        bookService = BookServiceImpl.getInstance();
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Integer pag = Integer.valueOf(req.getParameter("pag"));
         PrintWriter writer = resp.getWriter();
         List<Book> booksAfter = bookService.getBooksAfter(pag);
