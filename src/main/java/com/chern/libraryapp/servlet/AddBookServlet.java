@@ -41,7 +41,9 @@ public class AddBookServlet extends HttpServlet {
             newBook.setGenres(newBookGenres);
             bookService.addNewBook(newBook);
         } else {
-            // TODO: 12.11.2021 error page
+            req.setAttribute("heading", "Oops!");
+            req.setAttribute("message", "Book with ISBN : " + isbn + " already exists!");
+            resp.sendError(409);
         }
         resp.sendRedirect("/books");
     }

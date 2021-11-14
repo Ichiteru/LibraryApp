@@ -28,4 +28,13 @@
     <listener>
         <listener-class>org.quartz.ee.servlet.QuartzInitializerListener</listener-class>
     </listener>
+    
+    <error-page>
+        <error-code>409</error-code>
+        <location>/pages/error-page.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>java.lang.RuntimeException</exception-type>
+        <location>/error-page</location>
+    </error-page>
 </web-app>

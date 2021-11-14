@@ -28,46 +28,41 @@ public class GenreDAOImpl implements GenreDAO {
     public static final String QUERY_SELECT_SELECTED_GENRES = "select id from genres where name=?";
 
     @Override
-    public List<Genre> getBookGenresById(Long id) {
+    public List<Genre> getBookGenresById(Long id) throws SQLException {
         List<Genre> genres = new ArrayList<>();
-        try (Connection connection = ConnectionDAOFactory.createConnection()){
+        try (Connection connection = ConnectionDAOFactory.createConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(QUERY_SELECT_BOOK_GENRES);
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                Genre genre = new Genre();
-                genre.setId(resultSet.getLong("id"));
-                genre.setName(resultSet.getString("name"));
-                genres.add(genre);
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return genres;
-    }
-
-    @Override
-    public List<Genre> getAllGenres() {
-        List<Genre> genres = new ArrayList<>();
-        try (Connection connection = ConnectionDAOFactory.createConnection()){
-            PreparedStatement preparedStatement = connection.prepareStatement(QUERY_SELECT_ALL_GENRES);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 Genre genre = new Genre();
                 genre.setId(resultSet.getLong("id"));
                 genre.setName(resultSet.getString("name"));
                 genres.add(genre);
             }
             return genres;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return null;
         }
     }
 
     @Override
-    public void addNewGenresToBook(List<Genre> genres, Long id) {
-        try (Connection connection = ConnectionDAOFactory.createConnection()){
+    public List<Genre> getAllGenres() throws SQLException {
+        List<Genre> genres = new ArrayList<>();
+        try (Connection connection = ConnectionDAOFactory.createConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(QUERY_SELECT_ALL_GENRES);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Genre genre = new Genre();
+                genre.setId(resultSet.getLong("id"));
+                genre.setName(resultSet.getString("name"));
+                genres.add(genre);
+            }
+            return genres;
+        }
+    }
+
+    @Override
+    public void addNewGenresToBook(List<Genre> genres, Long id) throws SQLException {
+        try (Connection connection = ConnectionDAOFactory.createConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(QUERY_INSERT_INTO_BOOK_GENRES);
             connection.setAutoCommit(false);
             for (Genre g :
@@ -78,14 +73,12 @@ public class GenreDAOImpl implements GenreDAO {
             }
             preparedStatement.executeBatch();
             connection.commit();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
         }
     }
 
     @Override
-    public void deleteSeveralGenresFromBook(List<Genre> genres, Long id) {
-        try (Connection connection = ConnectionDAOFactory.createConnection()){
+    public void deleteSeveralGenresFromBook(List<Genre> genres, Long id) throws SQLException {
+        try (Connection connection = ConnectionDAOFactory.createConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(QUERY_DELETE_GENRES_FROM_BOOK_GENRES);
             connection.setAutoCommit(false);
             for (Genre g :
@@ -96,26 +89,21 @@ public class GenreDAOImpl implements GenreDAO {
             }
             preparedStatement.executeBatch();
             connection.commit();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
         }
     }
 
     @Override
-    public List<Genre> getNewGenres(List<Genre> genres) {
-        try (Connection connection = ConnectionDAOFactory.createConnection()){
+    public List<Genre> getNewGenres(List<Genre> genres) throws SQLException {
+        try (Connection connection = ConnectionDAOFactory.createConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(QUERY_SELECT_SELECTED_GENRES);
             for (Genre gn : genres) {
                 preparedStatement.setString(1, gn.getName());
                 ResultSet resultSet = preparedStatement.executeQuery();
-                while (resultSet.next()){
+                while (resultSet.next()) {
                     gn.setId(resultSet.getLong("id"));
                 }
             }
             return genres;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return null;
         }
     }
 }

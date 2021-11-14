@@ -31,7 +31,7 @@ public class ReaderDAOImpl implements ReaderDAO {
     private final String QUERY_SELECT_TEN_READERS_AFTER = "select * from readers offset ? rows fetch first 2 row only";
 
     @Override
-    public List<Reader> getAllReaders() {
+    public List<Reader> getAllReaders() throws SQLException {
         try(Connection connection = ConnectionDAOFactory.createConnection()) {
             List<Reader> readerList = new ArrayList<>();
             Statement statement = connection.createStatement();
@@ -39,14 +39,11 @@ public class ReaderDAOImpl implements ReaderDAO {
             while (resultSet.next())
                 readerList.add(createReader(resultSet));
             return readerList;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return null;
         }
     }
 
     @Override
-    public List<Reader> getAllReadersWhereEmailContains(String str) {
+    public List<Reader> getAllReadersWhereEmailContains(String str) throws SQLException {
         try(Connection connection = ConnectionDAOFactory.createConnection()) {
             List<Reader> readerList = new ArrayList<>();
             PreparedStatement statement = connection.prepareStatement(QUERY_SELECT_ALL_READERS_LIKE);
@@ -55,16 +52,13 @@ public class ReaderDAOImpl implements ReaderDAO {
             while (resultSet.next())
                 readerList.add(createReader(resultSet));
             return readerList;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return null;
         }
     }
 
 
 
     @Override
-    public Reader findReaderById(Long id) {
+    public Reader findReaderById(Long id) throws SQLException {
         try(Connection connection = ConnectionDAOFactory.createConnection()) {
             Reader reader = null;
             PreparedStatement statement = connection.prepareStatement(QUERY_SELECT_READER_BY_ID);
@@ -74,14 +68,11 @@ public class ReaderDAOImpl implements ReaderDAO {
                 reader = createReader(resultSet);
             }
             return reader;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return null;
         }
     }
 
     @Override
-    public Reader existsByEmail(String email) {
+    public Reader existsByEmail(String email) throws SQLException {
         try(Connection connection = ConnectionDAOFactory.createConnection()) {
             PreparedStatement statement = connection.prepareStatement(QUERY_EXIST_BY_EMAIL);
             statement.setString(1, email);
@@ -89,28 +80,24 @@ public class ReaderDAOImpl implements ReaderDAO {
             while (resultSet.next()){
                 return createReader(resultSet);
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
         }
         return null;
     }
 
     @Override
-    public void updateFirstAndLastNameByEmail(String email, BorrowRecordJSON rec) {
+    public void updateFirstAndLastNameByEmail(String email, BorrowRecordJSON rec) throws SQLException {
         try(Connection connection = ConnectionDAOFactory.createConnection()) {
             PreparedStatement statement = connection.prepareStatement(QUERY_UPDATE_FNAME_AND_LNAME_BY_EMAIL);
             statement.setString(1, rec.getFName());
             statement.setString(2, rec.getLName());
             statement.setString(3, email);
             statement.executeUpdate();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
         }
 
     }
 
     @Override
-    public void addReader(BorrowRecordJSON rec) {
+    public void addReader(BorrowRecordJSON rec) throws SQLException {
         try(Connection connection = ConnectionDAOFactory.createConnection()) {
             PreparedStatement statement = connection.prepareStatement(QUERY_INSERT_INTO_READERS);
             statement.setString(1, rec.getEmail());
@@ -119,13 +106,11 @@ public class ReaderDAOImpl implements ReaderDAO {
             statement.setDate(4, Date.valueOf(LocalDate.now()));
             statement.setString(5, String.valueOf(Gender.UNDEFINED));
             statement.executeUpdate();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
         }
     }
 
     @Override
-    public Reader findReaderByEmail(String email) {
+    public Reader findReaderByEmail(String email) throws SQLException {
         try(Connection connection = ConnectionDAOFactory.createConnection()) {
             PreparedStatement statement = connection.prepareStatement(QUERY_FIND_BY_EMAIL);
             statement.setString(1, email);
@@ -133,10 +118,8 @@ public class ReaderDAOImpl implements ReaderDAO {
             while (resultSet.next()){
                 return createReader(resultSet);
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
         return null;
+        }
     }
 
     @Override
@@ -154,7 +137,7 @@ public class ReaderDAOImpl implements ReaderDAO {
     }
 
     @Override
-    public void updateReader(Reader reader) {
+    public void updateReader(Reader reader) throws SQLException {
         try(Connection connection = ConnectionDAOFactory.createConnection()) {
             PreparedStatement statement = connection.prepareStatement(QUERY_UPDATE_READER);
             statement.setString(1, reader.getEmail());
@@ -165,13 +148,11 @@ public class ReaderDAOImpl implements ReaderDAO {
             statement.setString(6, String.valueOf(reader.getGender()));
             statement.setLong(7, reader.getId());
             statement.executeUpdate();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
         }
     }
 
     @Override
-    public List<Reader> getReadersAfter(int offset) {
+    public List<Reader> getReadersAfter(int offset) throws SQLException {
         List<Reader> readers = new ArrayList<>();
         try(Connection connection = ConnectionDAOFactory.createConnection()) {
             PreparedStatement statement = connection.prepareStatement(QUERY_SELECT_TEN_READERS_AFTER);
@@ -180,14 +161,11 @@ public class ReaderDAOImpl implements ReaderDAO {
             while (resultSet.next())
                 readers.add(createReader(resultSet));
             return readers;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return null;
         }
     }
 
     @Override
-    public List<ReaderMessageInfo> getMailedToDueReaderInfo(){
+    public List<ReaderMessageInfo> getMailedToDueReaderInfo() throws SQLException {
         List<ReaderMessageInfo> readerMessageInfo = new ArrayList<>();
         String query = "select readers.firstname, readers.secondname, readers.email, books.title, books.isbn, DATE_PART('day', due_date) - DATE_PART('day', ?::date) as daysToDue from book_readers " +
                 "inner join readers on readers.id = book_readers.reader_id " +
@@ -202,14 +180,11 @@ public class ReaderDAOImpl implements ReaderDAO {
             while (resultSet.next())
                 readerMessageInfo.add(createMessageInfo(resultSet));
             return readerMessageInfo;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return null;
         }
     }
 
     @Override
-    public List<ReaderMessageInfo> getMailedToReturnReaderInfo(){
+    public List<ReaderMessageInfo> getMailedToReturnReaderInfo() throws SQLException {
         List<ReaderMessageInfo> readerMessageInfo = new ArrayList<>();
         String query = "select readers.firstname, readers.secondname, readers.email, books.title, books.isbn, DATE_PART('day', ?::date) - DATE_PART('day', due_date::date) as daysToDue from book_readers \n" +
                 "                inner join readers on readers.id = book_readers.reader_id \n" +
@@ -223,9 +198,6 @@ public class ReaderDAOImpl implements ReaderDAO {
             while (resultSet.next())
                 readerMessageInfo.add(createMessageInfo(resultSet));
             return readerMessageInfo;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return null;
         }
     }
 

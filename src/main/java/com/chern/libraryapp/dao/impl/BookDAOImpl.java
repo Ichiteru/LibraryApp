@@ -34,7 +34,7 @@ public class BookDAOImpl implements BookDAO {
 
 
     @Override
-    public List<Book> getAllBooks() {
+    public List<Book> getAllBooks() throws SQLException {
         List<Book> bookList = new ArrayList<>();
         try(Connection connection = ConnectionDAOFactory.createConnection()) {
             Statement statement = connection.createStatement();
@@ -42,14 +42,11 @@ public class BookDAOImpl implements BookDAO {
             while (resultSet.next())
                 bookList.add(createBook(resultSet));
             return bookList;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return null;
         }
     }
 
     @Override
-    public Book findBookById(Long id) {
+    public Book findBookById(Long id) throws SQLException {
         try(Connection connection = ConnectionDAOFactory.createConnection()) {
             PreparedStatement statement = connection.prepareStatement(QUERY_FIND_BOOK_BY_ID);
             statement.setLong(1, id);
@@ -57,14 +54,11 @@ public class BookDAOImpl implements BookDAO {
             while (resultSet.next())
                book = createBook(resultSet);
             return book;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return null;
         }
     }
 
     @Override
-    public Book findBookByISBN(String isbn) {
+    public Book findBookByISBN(String isbn) throws SQLException {
         try(Connection connection = ConnectionDAOFactory.createConnection()) {
             PreparedStatement statement = connection.prepareStatement(QUERY_FIND_BOOK_BY_ISBN);
             statement.setString(1, isbn);
@@ -72,14 +66,11 @@ public class BookDAOImpl implements BookDAO {
             while (resultSet.next())
                 book = createBook(resultSet);
             return book;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return null;
         }
     }
 
     @Override
-    public Book findBookByTitle(String title) {
+    public Book findBookByTitle(String title) throws SQLException {
         try(Connection connection = ConnectionDAOFactory.createConnection()) {
             PreparedStatement statement = connection.prepareStatement(QUERY_FIND_BOOK_BY_TITLE);
             statement.setString(1, title);
@@ -87,14 +78,11 @@ public class BookDAOImpl implements BookDAO {
             while (resultSet.next())
                 book = createBook(resultSet);
             return book;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return null;
         }
     }
 
     @Override
-    public List<Long> findBooksIdByTitle(String title) {
+    public List<Long> findBooksIdByTitle(String title) throws SQLException {
         try(Connection connection = ConnectionDAOFactory.createConnection()) {
             List<Long> booksId = new ArrayList<>();
             PreparedStatement statement = connection.prepareStatement(QUERY_FIND_BOOKS_ID_BY_TITLE);
@@ -103,14 +91,11 @@ public class BookDAOImpl implements BookDAO {
             while (resultSet.next())
                 booksId.add(resultSet.getLong("id"));
             return booksId;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return null;
         }
     }
 
     @Override
-    public List<Long> findBooksIdWhereDescriptionLike(String description) {
+    public List<Long> findBooksIdWhereDescriptionLike(String description) throws SQLException {
         try(Connection connection = ConnectionDAOFactory.createConnection()) {
             List<Long> booksId = new ArrayList<>();
             PreparedStatement statement = connection.prepareStatement("SELECT id FROM books WHERE description LIKE '%" + description + "%'");
@@ -118,14 +103,11 @@ public class BookDAOImpl implements BookDAO {
             while (resultSet.next())
                 booksId.add(resultSet.getLong("id"));
             return booksId;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return new ArrayList<>();
         }
     }
 
     @Override
-    public void updateBook(Book book) {
+    public void updateBook(Book book) throws SQLException {
         try(Connection connection = ConnectionDAOFactory.createConnection()) {
             PreparedStatement statement = connection.prepareStatement(QUERY_UPDATE_BOOK);
             statement.setString(1, book.getIsbn());
@@ -139,13 +121,11 @@ public class BookDAOImpl implements BookDAO {
             statement.setString(9, book.getCover());
             statement.setLong(10, book.getId());
             statement.executeUpdate();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
         }
     }
 
     @Override
-    public void addNewBook(Book book) {
+    public void addNewBook(Book book) throws SQLException {
         try(Connection connection = ConnectionDAOFactory.createConnection()) {
             PreparedStatement statement = connection.prepareStatement(QUERY_ADD_NEW_BOOK);
             statement.setString(1, book.getIsbn());
@@ -157,13 +137,11 @@ public class BookDAOImpl implements BookDAO {
             statement.setDate(7, new Date(book.getPublishDate().getTime()));
             statement.setString(8, book.getDescription());
             statement.execute();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
         }
     }
 
     @Override
-    public void deleteBooksByID(String[] idList) {
+    public void deleteBooksByID(String[] idList) throws SQLException {
         try (Connection connection = ConnectionDAOFactory.createConnection()){
             connection.setAutoCommit(false);
             PreparedStatement preparedStatement = connection.prepareStatement(QUERY_DELETE_BOOK);
@@ -174,13 +152,11 @@ public class BookDAOImpl implements BookDAO {
             }
             preparedStatement.executeBatch();
             connection.commit();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
         }
     }
 
     @Override
-    public List<Book> getBooksAfter(Integer offset) {
+    public List<Book> getBooksAfter(Integer offset) throws SQLException {
         List<Book> bookList = new ArrayList<>();
         try(Connection connection = ConnectionDAOFactory.createConnection()) {
             PreparedStatement statement = connection.prepareStatement(QUERY_SELECT_TEN_BOOKS_AFTER);
@@ -189,14 +165,11 @@ public class BookDAOImpl implements BookDAO {
             while (resultSet.next())
                 bookList.add(createBook(resultSet));
             return bookList;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return null;
         }
     }
 
     @Override
-    public List<Long> getBooksIdBy(String authorID, String query) {
+    public List<Long> getBooksIdBy(String authorID, String query) throws SQLException {
         try(Connection connection = ConnectionDAOFactory.createConnection()) {
             List<Long> booksId = new ArrayList<>();
             PreparedStatement statement = connection.prepareStatement(query);
@@ -205,9 +178,6 @@ public class BookDAOImpl implements BookDAO {
             while (resultSet.next())
                 booksId.add(resultSet.getLong("book_id"));
             return booksId;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return new ArrayList<>();
         }
     }
 

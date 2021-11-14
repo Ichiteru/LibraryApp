@@ -3,6 +3,7 @@ package com.chern.libraryapp.service.util;
 import com.chern.libraryapp.dao.DAOFactory;
 import com.chern.libraryapp.model.Author;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class AuthorHelper {
         return listInitials;
     }
 
-    public List<Author> getNewAuthors(List<Author> authorList){
+    public List<Author> getNewAuthors(List<Author> authorList) throws SQLException {
         List<Author> allAuthors = DAOFactory.authorDAO().getAllAuthors();
         List<Author> al = new ArrayList<>(authorList);
         for (Author author:

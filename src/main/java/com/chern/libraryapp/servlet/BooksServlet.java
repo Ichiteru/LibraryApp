@@ -41,7 +41,7 @@ public class BooksServlet extends HttpServlet {
             JobDetail returnJob = JobBuilder.newJob(ReturnMailer.class)
                     .build();
 
-            Trigger dueTrigger = (SimpleTrigger) TriggerBuilder.newTrigger()
+            Trigger dueTrigger =  TriggerBuilder.newTrigger()
                     .withIdentity("DueTrigger", "group1")
                     .startNow()
                     .withSchedule(simpleSchedule()
@@ -49,7 +49,7 @@ public class BooksServlet extends HttpServlet {
                             .repeatForever())
                     .build();
 
-            Trigger returnTrigger = (SimpleTrigger) TriggerBuilder.newTrigger()
+            Trigger returnTrigger =  TriggerBuilder.newTrigger()
                     .withIdentity("ReturnTrigger", "group2")
                     .startNow()
                     .withSchedule(simpleSchedule()
@@ -61,6 +61,7 @@ public class BooksServlet extends HttpServlet {
             scheduler.scheduleJob(returnJob, returnTrigger);
         } catch (SchedulerException e) {
             e.printStackTrace();
+            // TODO: 14.11.2021 log
         }
     }
 

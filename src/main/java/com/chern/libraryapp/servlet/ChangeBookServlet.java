@@ -52,10 +52,12 @@ public class ChangeBookServlet extends HttpServlet {
         if (oldIsbn.equals(newIsbn) || bookService.findBookByIsbn(newIsbn) == null) {
             bookService.updateBook(updatedBook, newBookAuthors, newBookGenres);
             bookService.updateBookBorrowRecords(existRecords, newRecords, updatedBook.getId());
+            resp.sendRedirect("/books/" + updatedBook.getId());
         } else {
-            // TODO: 08.11.2021 if isbn exists
+            req.setAttribute("heading", "Oops!");
+            req.setAttribute("message", "Book with ISBN : " + newIsbn + " already exists!");
+            resp.sendError(409);
         }
-        resp.sendRedirect("/books/" + updatedBook.getId());
     }
 
     private Book createBookWithNewParams(HttpServletRequest req) {

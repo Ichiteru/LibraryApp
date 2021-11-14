@@ -32,34 +32,28 @@ public class AuthorDAOImpl implements AuthorDAO {
     public static final String QUERY_DELETE_OLD_AUTHORS = "delete from book_authors where book_id=?";
 
     @Override
-    public List<Author> getBookAuthorsById(Long id) {
+    public List<Author> getBookAuthorsById(Long id) throws SQLException {
         List<Author> authorList = new ArrayList<>();
         try (Connection connection = ConnectionDAOFactory.createConnection()){
             PreparedStatement statement = connection.prepareStatement(QUERY_SELECT_FROM_AUTHORS_TO_CURRENT_BOOK);
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             return createAuthor(authorList, resultSet);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return null; // FIXME: 12.10.2021 fix return statement
         }
     }
 
     @Override
-    public List<Author> getAllAuthors() {
+    public List<Author> getAllAuthors() throws SQLException {
         List<Author> authorList = new ArrayList<>();
         try (Connection connection = ConnectionDAOFactory.createConnection()){
             PreparedStatement statement = connection.prepareStatement(QUERY_SELECT_ALL_AUTHORS);
             ResultSet resultSet = statement.executeQuery();
             return createAuthor(authorList, resultSet);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return null; // FIXME: 12.10.2021 fix return statement
         }
     }
 
     @Override
-    public void addSeveralAuthors(List<Author> authors) {
+    public void addSeveralAuthors(List<Author> authors) throws SQLException {
         try (Connection connection = ConnectionDAOFactory.createConnection()){
             connection.setAutoCommit(false);
             PreparedStatement preparedStatement = connection.prepareStatement(QUERY_INSERT_NEW_AUTHOR);
@@ -71,15 +65,13 @@ public class AuthorDAOImpl implements AuthorDAO {
             }
             preparedStatement.executeBatch();
             connection.commit();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
         }
     }
 
 
 
     @Override
-    public void addNewAuthors(List<Author> authors) {
+    public void addNewAuthors(List<Author> authors) throws SQLException {
         try (Connection connection = ConnectionDAOFactory.createConnection()){
             PreparedStatement preparedStatement = connection.prepareStatement(QUERY_INSERT_IF_EXISTS);
             connection.setAutoCommit(false);
@@ -93,13 +85,11 @@ public class AuthorDAOImpl implements AuthorDAO {
             }
             preparedStatement.executeBatch();
             connection.commit();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
         }
     }
 
     @Override
-    public List<Author> getNewAuthorsWithId(List<Author> authors) {
+    public List<Author> getNewAuthorsWithId(List<Author> authors) throws SQLException {
             List<Author> authorList = new ArrayList<>();
             try (Connection connection = ConnectionDAOFactory.createConnection()){
                 PreparedStatement preparedStatement = connection.prepareStatement(QUERY_SELECT_AUTHORS_BY_FNAME_AND_LNAME);
@@ -117,14 +107,11 @@ public class AuthorDAOImpl implements AuthorDAO {
                     }
                 }
                 return authorList;
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-                return null;
             }
     }
 
     @Override
-    public void addNewAuthorsToBook(List<Author> authors, Long bookId) {
+    public void addNewAuthorsToBook(List<Author> authors, Long bookId) throws SQLException {
         try (Connection connection = ConnectionDAOFactory.createConnection()){
             PreparedStatement preparedStatement = connection.prepareStatement(QUERY_INSERT_NEW_AUTHORS_TO_BOOK);
             connection.setAutoCommit(false);
@@ -136,19 +123,15 @@ public class AuthorDAOImpl implements AuthorDAO {
             }
             preparedStatement.executeBatch();
             connection.commit();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
         }
     }
 
     @Override
-    public void deleteOldAuthors(Long bookId) {
+    public void deleteOldAuthors(Long bookId) throws SQLException {
         try (Connection connection = ConnectionDAOFactory.createConnection()){
             PreparedStatement preparedStatement = connection.prepareStatement(QUERY_DELETE_OLD_AUTHORS);
             preparedStatement.setLong(1, bookId);
             preparedStatement.execute();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
         }
     }
 

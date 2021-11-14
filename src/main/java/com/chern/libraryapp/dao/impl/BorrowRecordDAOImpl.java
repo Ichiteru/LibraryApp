@@ -24,7 +24,7 @@ public class BorrowRecordDAOImpl implements BorrowRecordDAO {
             "(book_id, reader_id, borrow_date, due_date, comment, timeperiod) values (?,?,?,?,?,?)";
 
     @Override
-    public List<BorrowRecord> getAllBookBorrowRecords(Long book_id) {
+    public List<BorrowRecord> getAllBookBorrowRecords(Long book_id) throws SQLException {
         try (Connection connection = ConnectionDAOFactory.createConnection()){
             List<BorrowRecord> borrowRecords = new ArrayList<>();
             PreparedStatement preparedStatement = connection.prepareStatement(QUERY_SELECT_ALL_BOOK_BORROW_RECORDS);
@@ -33,29 +33,22 @@ public class BorrowRecordDAOImpl implements BorrowRecordDAO {
             while (resultSet.next())
                 borrowRecords.add(createBorrowRecord(resultSet));
             return borrowRecords;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return null;
         }
     }
 
     @Override
-    public void updateReturnDateAndStatus(BorrowRecordJSON rec) {
+    public void updateReturnDateAndStatus(BorrowRecordJSON rec) throws SQLException, ParseException {
         try (Connection connection = ConnectionDAOFactory.createConnection()){
             PreparedStatement statement = connection.prepareStatement(QUERY_UPDATE_RETURN_DATE_AND_STATUS_BY_ID);
             statement.setDate(1, new Date(new SimpleDateFormat("yyyy-MM-dd").parse(rec.getReturnDate()).getTime()));
             statement.setString(2, rec.getReturnStatus());
             statement.setLong(3, rec.getId());
             statement.executeUpdate();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
         }
     }
 
     @Override
-    public void addRecord(Long id, Long bookId, BorrowRecordJSON rec) {
+    public void addRecord(Long id, Long bookId, BorrowRecordJSON rec) throws SQLException, ParseException {
         try (Connection connection = ConnectionDAOFactory.createConnection()){
             PreparedStatement statement;
             if (rec.getReturnDate().equals("")){
@@ -80,10 +73,6 @@ public class BorrowRecordDAOImpl implements BorrowRecordDAO {
                 statement.setString(8, rec.getReturnStatus());
             }
             statement.executeUpdate();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
         }
     }
 

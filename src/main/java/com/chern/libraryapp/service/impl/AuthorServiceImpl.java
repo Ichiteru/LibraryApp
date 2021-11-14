@@ -5,6 +5,7 @@ import com.chern.libraryapp.model.Author;
 import com.chern.libraryapp.service.AuthorService;
 import com.chern.libraryapp.service.util.AuthorHelper;
 
+import java.sql.SQLException;
 import java.util.*;
 
 public class AuthorServiceImpl implements AuthorService {
@@ -17,17 +18,32 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public List<Author> getAllAuthors() {
-        return DAOFactory.authorDAO().getAllAuthors();
+        try {
+            return DAOFactory.authorDAO().getAllAuthors();
+        } catch (SQLException throwables) {
+            // TODO: 14.11.2021 log
+            throw new RuntimeException();
+        }
     }
 
     @Override
     public List<Author> getBookAuthorsById(Long id) {
-        return DAOFactory.authorDAO().getBookAuthorsById(id);
+        try {
+            return DAOFactory.authorDAO().getBookAuthorsById(id);
+        } catch (SQLException throwables) {
+            // TODO: 14.11.2021 log
+            throw new RuntimeException();
+        }
     }
 
     @Override
     public void addNewAuthors(List<Author> authors) {
-        DAOFactory.authorDAO().addNewAuthors(authors);
+        try {
+            DAOFactory.authorDAO().addNewAuthors(authors);
+        } catch (SQLException throwables) {
+            // TODO: 14.11.2021 log
+            throw new RuntimeException();
+        }
     }
 
     @Override

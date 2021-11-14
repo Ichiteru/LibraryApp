@@ -5,6 +5,7 @@ import com.chern.libraryapp.model.Genre;
 import com.chern.libraryapp.service.GenreService;
 import com.chern.libraryapp.service.util.GenreHelper;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class GenreServiceImpl implements GenreService {
@@ -17,15 +18,30 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public List<Genre> getAllGenres(){
-        return DAOFactory.genreDao().getAllGenres();
+        try {
+            return DAOFactory.genreDao().getAllGenres();
+        } catch (SQLException throwables) {
+            // TODO: 14.11.2021 log
+            throw new RuntimeException();
+        }
     }
 
     @Override
     public List<Genre> getBookGenresById(Long id) {
-        return DAOFactory.genreDao().getBookGenresById(id);
+        try {
+            return DAOFactory.genreDao().getBookGenresById(id);
+        } catch (SQLException throwables) {
+            // TODO: 14.11.2021 log
+            throw new RuntimeException();
+        }
     }
 
     public List<Genre> getNewBookGenresList(String[] newGenres){
-        return DAOFactory.genreDao().getNewGenres(validator.transformToList(newGenres));
+        try {
+            return DAOFactory.genreDao().getNewGenres(validator.transformToList(newGenres));
+        } catch (SQLException throwables) {
+            // TODO: 14.11.2021 log
+            throw new RuntimeException();
+        }
     }
 }

@@ -22,7 +22,9 @@ public class DeleteBooksServlet extends HttpServlet {
             bookService.deleteBooksByID(booksId);
             resp.sendRedirect("/books");
         } else {
-            // TODO: 14.11.2021 error page
+            req.setAttribute("heading", "Oops!");
+            req.setAttribute("message", "You forgot to chose a books for delete!");
+            resp.sendError(409);
         }
     }
 }
