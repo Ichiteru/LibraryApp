@@ -3,12 +3,8 @@ let selGenre = document.getElementById('select-genre');
 
 
 function addReader() {
-    // document.getElementsByName('authorId').forEach(author => {
-    //     if (author.value == selAuthor.value)
-    //         alert('exists')
-    // });
     if (isExist('authorId', selAuthor.value)){
-        alert('exist');
+        showAlertModal('Validation error!', 'This author already exists in list.')
     } else {
         let hidden = document.createElement('input');
         hidden.type = 'hidden';
@@ -30,7 +26,7 @@ function addReader() {
 
 function addGenre() {
     if (isExist('genreId', selGenre.value)){
-        alert('exist');
+        showAlertModal('Validation error!', 'This genre already exists in list.');
     } else{
 
         let hidden = document.createElement('input');
@@ -69,7 +65,7 @@ function isAllInputsEmpty() {
     document.getElementsByName('genreId').length == 0 &&
     document.getElementById('title').value == '' &&
     document.getElementById('description').value == ''){
-        alert('error submit form');
+        showAlertModal('Validation error!', 'At least one field should be not empty');
         return false;
     } else return true;
 }

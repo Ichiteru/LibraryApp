@@ -45,22 +45,22 @@ function openReaderModal(th) {
 }
 
 function addReader(){
-    if (!isEmailValid() ) alert('Email is incorrect.');
-    else if (!isEmailUnique()) alert('This email already is use.');
-    else  if (!isFNameValid()) alert('Name is incorrect');
-    else  if (!isLNameValid()) alert('Surname is incorrect');
-    else if (!isPhoneNumberValid()) alert('Phone number is incorrect.');
+    if (!isEmailValid() ) showAlertModal('Validation error!', 'Email is incorrect!');
+    else if (!isEmailUnique()) showAlertModal('Validation error!', 'This email already in use!');
+    else  if (!isFNameValid()) showAlertModal('Validation error!', 'Name is incorrect!');
+    else  if (!isLNameValid()) showAlertModal('Validation error!', 'Surname is incorrect!');
+    else if (!isPhoneNumberValid()) showAlertModal('Validation error!', 'Phone number is incorrect!');
     else {
         readerForm.submit();
     }
 }
 
 function editReader() {
-    if (!isEmailValid() ) alert('Email is incorrect.');
-    else if (!isEmailUnique() && readerForm.querySelector('input[id="email"]').value != chosenEmail) alert('This email already is use.');
-    else  if (!isFNameValid()) alert('Name is incorrect');
-    else  if (!isLNameValid()) alert('Surname is incorrect');
-    else if (!isPhoneNumberValid()) alert('Phone number is incorrect.');
+    if (!isEmailValid() ) showAlertModal('Validation error!', 'Email is incorrect!');
+    else if (!isEmailUnique() && readerForm.querySelector('input[id="email"]').value != chosenEmail) showAlertModal('Validation error!', 'This email already in use!');
+    else  if (!isFNameValid()) showAlertModal('Validation error!', 'Name is incorrect!');
+    else  if (!isLNameValid()) showAlertModal('Validation error!', 'Surname is incorrect!')
+    else if (!isPhoneNumberValid()) showAlertModal('Validation error!', 'Phone number is incorrect!');
     else {
         readerForm.submit();
     }

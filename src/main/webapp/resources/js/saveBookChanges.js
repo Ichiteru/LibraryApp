@@ -5,23 +5,23 @@ function saveBookChanges() {
     let authors = document.getElementsByName('authorName');
 
     if (genres.length == 0 || authors.length == 0){
-        alert("Book must have one more genre and author");
+        showAlertModal('Validation error!', 'Book should contains one more author and genre.');
         return false;
     }
     else if(isEmpty(document.getElementsByName('title')[0].value)){
-        alert("Title can't be empty.");
+        showAlertModal('Validation error!', 'Title cannot be empty.');
         return false;
     }
     else if(isEmpty(document.getElementsByName('publisher')[0].value)){
-        alert("Publisher can't be empty.");
+        showAlertModal('Validation error!', 'Publisher cannot be empty.');
         return false;
     }
     else if(!isDateValid( document.getElementsByName('publishDate')[0].value)){
-        alert("Publish date can't be empty or invalid.");
+        showAlertModal('Validation error!', 'Publish date cannot be empty and should be correct.');
         return false;
     }
     else if(!isNumberValid(document.getElementsByName('pageCount')[0].value, 0, 1500)){
-        alert('Page count should be in 0-1500 range and not empty');
+        showAlertModal('Validation error!', 'Page count should be in 0-1500 range and not empty.');
         return false;
     }
     else if(!isValidAndNotEmpty(/^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$/, document.getElementsByName('isbn')[0].value)){
@@ -29,7 +29,7 @@ function saveBookChanges() {
         return false;
     }
     else if(!isNumberValid(document.getElementsByName('totalAmount')[0].value, 0, 1500)){
-        alert('Total amount should be in 0-1500 range and not empty');
+        showAlertModal('Validation error!', 'Total amount should be in 0-1500 range and not empty.');
         return false;
     }
     else {
@@ -99,6 +99,6 @@ function getRecordsData(){
 function isTotalAmountMoreThanRented(th){
     if(th.value < rentedBooksHidden.value){
         th.value = rentedBooksHidden.value;
-        alert("Books total amount can't be less than rented books amount.")
+        showAlertModal('Validation error!', 'Books total amount cannot be less than rented books amount.');
     }
 }

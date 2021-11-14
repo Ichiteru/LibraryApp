@@ -14,6 +14,7 @@
 </head>
 <body>
 <c:import url="navbar.jsp"/>
+<c:import url="error-modal.jsp"></c:import>
 <div class="container mt-5">
     <div class="row">
         <div class="col-12">
@@ -129,5 +130,6 @@
 </div>
 
 <script src="./../resources/js/searchBooks.js"></script>
+<script src="../resources/js/errorModal.js"></script>
 </body>
 </html>

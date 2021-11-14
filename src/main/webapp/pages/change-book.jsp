@@ -29,6 +29,7 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
 <c:set var="book" value="${book}"></c:set>
+<c:import url="add-author-modal.jsp"></c:import>
 <c:import url="add-borrower-modal.jsp"></c:import>
 <c:import url="edit-borrow-status-modal.jsp"></c:import>
 <form id="changeBookInfo" method="post"
@@ -114,13 +115,11 @@
                                                         </select>
                                                     </div>
                                                     <div class="col-sm">
-                                                            <button type="button" class="btn btn-success"
-                                                                    onclick="addExistingBookAuthor()">Add author
+                                                            <button type="button" id="add-existing-author" class="btn btn-success">Add author
                                                             </button>
                                                             <button id="w-change-location" type="button"
                                                                     class="btn btn-primary" data-toggle="modal"
                                                                     data-target="#locModal">New author</button>
-                                                            <c:import url="add-author-modal.jsp"></c:import>
                                                     </div>
                                                 </div>
 

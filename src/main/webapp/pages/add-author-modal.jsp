@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<div class="modal fade" id="locModal" tabindex="-1" role="dialog" aria-labelledby="locModalLabel"
+<div class="modal fade" id="locModalAuthor" tabindex="-1" role="dialog" aria-labelledby="locModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -19,11 +19,11 @@
                 <form action="" id="w-form">
                     <div class="form-group">
                         <label for="firstName"> Name </label>
-                        <input pattern="^[a-z](?!.* {2})[ \w.-]{2,24}$" type="text" class="form-control" id="firstName">
+                        <input type="text" class="form-control" id="firstName">
                     </div>
                     <div class="form-group">
                         <label for="lastName"> Surname </label>
-                        <input pattern="^[a-z](?!.* {2})[ \w.-]{2,24}$" type="text" class="form-control" id="lastName">
+                        <input type="text" class="form-control" id="lastName">
                     </div>
                 </form>
             </div>

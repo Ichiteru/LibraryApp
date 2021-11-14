@@ -1,12 +1,11 @@
 var btnSave = document.getElementById('btn-save');
 btnSave.addEventListener('click',addNewAuthor);
 
+document.getElementById('add-existing-author').addEventListener('click', addExistingBookAuthor);
+
 
 function addExistingBookAuthor() {
-    if (checkCoincidenceAuthor(document.getElementsByName('authorName')) == true){
-        alert("This author already exists in book authors list");
-    } else{
-        // let genreDiv = document.getElementById("authorDiv");
+    if (checkCoincidenceAuthor(document.getElementsByName('authorName')) == false){
         let divElement = document.createElement('div');
         divElement.setAttribute('class', 'row mt-1 ml-1');
         document.getElementById("authorDiv").appendChild(divElement);
@@ -24,13 +23,16 @@ function addExistingBookAuthor() {
         button.setAttribute('value', 'D');
         button.onclick = function () {deleteAuthor(this);};
         divElement.appendChild(button);
+    } else {
+        showAlertModal('Validation error!', 'Author already exists.');
     }
+
 }
 
 function checkCoincidenceAuthor(list){
         for (let i = 0; i < list.length; i++) {
-                // alert(list[i].value == document.getElementById('selectAuthor').value);
                 if (list[i].value == document.getElementById('selectAuthor').value){
+                        // showAlertModal('Validation error!', 'Author already exists.');
                         return true;
                 }
         }
@@ -38,18 +40,20 @@ function checkCoincidenceAuthor(list){
 }
 
 function deleteAuthor(th) {
-    alert("delete");
     if (document.getElementsByName("authorName").length === 1){
-        alert("One more authors are required to be");
+        showAlertModal('Validation error!', 'One more authors are required to be');
     } else {
         let parentNode = th.parentNode.remove();
     }
 }
 
 function addNewAuthor() {
-    if (checkCoincidenceNewAuthor(document.getElementsByName('authorName')) == true){
-        alert("This author already exists in book authors list");
-    } else {
+    if (!isValidAndNotEmpty(/^[a-zA-Z0-9.\-_$@*!]{2,20}$/, document.getElementById('firstName').value)){
+        showAlertModal('Validation error!', 'Author name should be correct(without spaces!!!).');
+    } else if (!isValidAndNotEmpty(/^[a-zA-Z0-9.\-_$@*!]{2,20}$/, document.getElementById('lastName').value)){
+        showAlertModal('Validation error!', 'Author surname should be correct(without spaces!!!).');
+    }
+    else if (checkCoincidenceNewAuthor(document.getElementsByName('authorName')) == false){
         let divElement = document.createElement('div');
         divElement.setAttribute('class', 'row mt-1 ml-1');
         document.getElementById("authorDiv").appendChild(divElement);
@@ -69,8 +73,8 @@ function addNewAuthor() {
         button.setAttribute('value', 'D');
         button.onclick = function () {deleteAuthor(this);};
         divElement.appendChild(button);
-        locModal.style.display = "none";
-        locModal.className="modal fade";
+        locModalAuthor.style.display = "none";
+        locModalAuthor.className="modal fade";
     }
 }
 

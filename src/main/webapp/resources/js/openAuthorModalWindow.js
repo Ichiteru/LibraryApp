@@ -1,17 +1,17 @@
-var locModal = document.getElementById('locModal');
-var btnclose = document.getElementById('w-change-close');
-var btnShow= document.getElementById('w-change-location');
+var locModalAuthor = document.getElementById('locModalAuthor');
+var btnCloseAuthor = document.getElementById('w-change-close');
+var btnShowAuthor = document.getElementById('w-change-location');
 
 
 //show the modal
-btnShow.addEventListener('click', (e) => {
-    locModal.style.display = "block";
-    locModal.style.paddingRight = "17px";
-    locModal.className="modal fade show";
+btnShowAuthor.addEventListener('click', (e) => {
+    locModalAuthor.style.display = "block";
+    locModalAuthor.style.paddingRight = "17px";
+    locModalAuthor.className="modal fade show";
 });
 //hide the modal
-btnclose.addEventListener('click', (e) => {
-    locModal.style.display = "none";
-    locModal.className="modal fade";
+btnCloseAuthor.addEventListener('click', (e) => {
+    locModalAuthor.style.display = "none";
+    locModalAuthor.className="modal fade";
 });
 

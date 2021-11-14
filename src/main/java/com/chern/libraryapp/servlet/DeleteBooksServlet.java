@@ -17,12 +17,12 @@ public class DeleteBooksServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String[] booksId = req.getParameterValues("booksId");
-//        List<Long> isbnList = Arrays.stream(booksId).mapToLong(str -> Long.getLong(str)).boxed().collect(Collectors.toList());
-
-        bookService.deleteBooksByID(booksId);
-        resp.sendRedirect("/books");
-        // TODO: 04.10.2021  create delete request to db
-        // TODO: 04.10.2021 pagination on /books 
+        if (req.getParameterMap().containsKey("booksId")){
+            String[] booksId = req.getParameterValues("booksId");
+            bookService.deleteBooksByID(booksId);
+            resp.sendRedirect("/books");
+        } else {
+            // TODO: 14.11.2021 error page
+        }
     }
 }

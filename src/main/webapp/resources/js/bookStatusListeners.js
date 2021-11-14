@@ -17,8 +17,6 @@ function setBookStatus() {
     })
     rented_ = rented;
     rentedBooksHidden.value = rented;
-    // alert(rented === totalAmountInput.value);
-    // alert(isRentedEqualsTotalAmount());
     if (rented < totalAmountInput.value){
         bookAvailableStatus.value = 'AVAILABLE';
         statusDiv.textContent = bookAvailableStatus.value + "(" + (totalAmountInput.value - rented) + " out of " + totalAmountInput.value + ")";
@@ -31,10 +29,7 @@ function setBookStatus() {
             statusDiv.textContent = bookAvailableStatus.value + "(expected to become available on " + getEarlierAvailabilityDate() + ")";
         }
     }
-
-    //добавить проверку если rented === totalAmount
     let returnStatuses = document.getElementsByName('record_returnStatus');
-
 }
 
 function isRentedEqualsTotalAmount(){

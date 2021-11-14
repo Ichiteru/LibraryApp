@@ -9,6 +9,7 @@
 </head>
 <body>
     <c:import url="navbar.jsp"/>
+    <c:import url="error-modal.jsp"></c:import>
     <div class="container mt-5" style="padding-top: 200px">
 
         <table class="table table-bordered table-hover" id="booksTable">
@@ -75,7 +76,7 @@
             </div>
             <div class="col-sm">
                 <form onclick="deleteSelectedBooks()" id="deleteForm" action="/delete" method="post" >
-                    <input  type="submit" class="btn btn-outline-primary" value="Delete selected books" style="float: right"></input>
+                    <input  type="submit" class="btn btn-outline-primary" value="Delete selected books" onclick=" return deleteSelectedBooks()" style="float: right"></input>
                 </form>
             </div>
         </div>
@@ -84,5 +85,6 @@
 
 <script src="../resources/js/deleteSelectedBooks.js"></script>
 <script src="./../resources/js/booksPagination.js"></script>
+    <script src="../resources/js/errorModal.js"></script>
 </body>
 </html>

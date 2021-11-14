@@ -20,6 +20,9 @@ btnclose.addEventListener('click', (e) => {
 //hide the modal
 
 btnShow.addEventListener('click', (e) => {
+    // document.getElementById('borrowerFirstName').value = null;
+    // document.getElementById('borrowerLastName').value = null;
+    // document.getElementById('dropdownEmailSearch').value = null;
     locModal.style.display = "block";
     locModal.style.paddingRight = "17px";
     locModal.className="modal fade show";
@@ -40,24 +43,24 @@ async function checkExistingEmail() {
             }
         });
         const json = await response.json();
-        a = json;
+        // a = json;
         document.getElementsByName("borrowerEmail").forEach(a => likeEmailsDiv.removeChild(a));
         json.forEach(el => {
-            let a = document.createElement('a');
-            a.setAttribute('class', 'dropdown-item');
-            a.setAttribute('name', 'borrowerEmail');
-            a.setAttribute('href', '#');
-            a.onclick = function () {setReaderName(this);};
-            a.textContent = el.email;
-            likeEmailsDiv.appendChild(a);
+            let aEl = document.createElement('a');
+            aEl.setAttribute('class', 'dropdown-item');
+            aEl.setAttribute('name', 'borrowerEmail');
+            aEl.setAttribute('href', '#');
+            aEl.onclick = function () {setReaderName(this, json);};
+            aEl.textContent = el.email;
+            likeEmailsDiv.appendChild(aEl);
         });
 
     }
 }
 
-function setReaderName(th) {
+function setReaderName(th, json) {
     // alert("work");
-    a.forEach(reader =>{
+    json.forEach(reader =>{
         if (reader.email === th.textContent){
             fnameInput.setAttribute('value', reader.firstName);
             lnameInput.setAttribute('value', reader.lastName);
@@ -68,11 +71,11 @@ function setReaderName(th) {
 
 
 function addNewRowToBorrowersTable(){
-    if (checkEmailValidation() === false) alert("invalid email");
-    else if (checkFNameValidation() === false) alert("invalid first name");
-    else if (checkLNameValidation() === false) alert("invalid last name");
-    else if (timePeriodInput.value === '') alert("select a borrow time period");
-    else if (isRecordLimit() === true) alert("There are not available copies of this book in the library");
+    if (checkEmailValidation() === false)  showAlertModal('Validation error!', 'Email should be correct.');
+    else if (checkFNameValidation() === false)  showAlertModal('Validation error!', 'Borrower name should be correct(without spaces!!!).');
+    else if (checkLNameValidation() === false) showAlertModal('Validation error!', 'Borrower surname should be correct(without spaces!!!).');
+    else if (timePeriodInput.value === '') showAlertModal('Validation error!', 'Please, select a time period!');
+    else if (isRecordLimit() === true) showAlertModal('Validation error!', 'There are not available books in the library.');
     else{
         // alert(timePeriodInput.value);
         let tbody = document.getElementById("borrowersTable").getElementsByTagName('tbody')[0];

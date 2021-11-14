@@ -9,6 +9,7 @@
 </head>
 <body>
 <c:import url="navbar.jsp"/>
+<c:import url="error-modal.jsp"></c:import>
 <c:import url="reader-modal.jsp"></c:import>
 <div class="container mt-5" >
 
@@ -49,7 +50,7 @@
   </table>
   <div class="row">
     <div class="col" style="max-width: 20%">
-        <button class="btn btn-outline-primary" onclick="openReaderModal(this)">Add book</button>
+        <button class="btn btn-outline-primary" onclick="openReaderModal(this)">Add reader</button>
     </div>
     <div class="col">
       <nav aria-label="Page navigation example">
@@ -79,5 +80,6 @@
 <script src="./../resources/js/readerModalWindow.js"></script>
 <script src="../resources/js/moment.js"></script>
 <script src="../resources/js/readersPagination.js"></script>
+<script src="../resources/js/errorModal.js"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 function addBookGenre() {
     if (checkCoincidenceGenre(document.getElementsByName('bookGenre')) == true){
-        alert("This genre already exists in book genres list");
+        showAlertModal('Validation error!', 'This genre already exists in book genres list');
     } else{
         let elementsByName = document.getElementsByName('bookGenre');
         let genreDiv = document.getElementById("genreDiv");
