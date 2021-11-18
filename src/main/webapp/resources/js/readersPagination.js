@@ -6,21 +6,21 @@ async function displayReaders(th){
     let readersAmount = document.getElementById('readersAmount').value;
     if (th.id == 'prevPage'){
         if (pagination_reader_counter != 0){
-            pagination_reader_counter = pagination_reader_counter - 2;
+            pagination_reader_counter = pagination_reader_counter - 10;
         }
     }
     else if (th.id == 'firstPage'){
         pagination_reader_counter = 0;
     }
     else if (th.id == 'secondPage'){
-        pagination_reader_counter = 2
+        pagination_reader_counter = 10
     }
     else if (th.id == 'thirdPage'){
-        pagination_reader_counter = 4;
+        pagination_reader_counter = 20;
     }
     if (th.id == 'nextPage'){
-        if (pagination_reader_counter + 2 < readersAmount){
-            pagination_reader_counter = pagination_reader_counter + 2;
+        if (pagination_reader_counter + 10 < readersAmount){
+            pagination_reader_counter = pagination_reader_counter + 10;
         }
     }
     const response = await fetch('/get/ten/readers', {

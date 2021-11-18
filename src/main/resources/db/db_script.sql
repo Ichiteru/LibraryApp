@@ -1,7 +1,7 @@
 create table books (
                        id serial unique not null,
                        isbn varchar(20) unique not null,
-                       cover bytea,
+                       cover text,
                        title varchar(50) not null,
                        publisher varchar(50) not null,
                        pageCount integer not null,
@@ -45,7 +45,7 @@ create table readers(
                         firstName varchar(30) not null,
                         secondName varchar(30) not null,
                         registrationDate date not null,
-                        phone varchar(20) unique,
+                        phone varchar(20),
                         gender varchar(10) not null,
                         primary key(id)
 );

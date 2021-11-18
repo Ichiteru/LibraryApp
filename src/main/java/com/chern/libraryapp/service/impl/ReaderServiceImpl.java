@@ -26,7 +26,7 @@ public class ReaderServiceImpl implements ReaderService {
         try {
             return DAOFactory.readerDAO().getAllReaders();
         } catch (SQLException throwables) {
-            log.error(throwables.getMessage());
+            log.error("Cannot get all readers from database", throwables);
             throw new RuntimeException();
         }
     }
@@ -36,7 +36,7 @@ public class ReaderServiceImpl implements ReaderService {
         try {
             return DAOFactory.readerDAO().getAllReadersWhereEmailContains(str);
         } catch (SQLException throwables) {
-            log.error(throwables.getMessage());
+            log.error("Cannot get all readers where email contains '" + str + "' from database", throwables);
             throw new RuntimeException();
         }
     }
@@ -46,7 +46,7 @@ public class ReaderServiceImpl implements ReaderService {
         try {
             return DAOFactory.readerDAO().existsByEmail(email) != null;
         } catch (SQLException throwables) {
-            log.error(throwables.getMessage());
+            log.error("Cannot get reader by email from database", throwables);
             throw new RuntimeException();
         }
     }
@@ -56,7 +56,7 @@ public class ReaderServiceImpl implements ReaderService {
         try {
             DAOFactory.readerDAO().addReader(reader);
         } catch (SQLException throwables) {
-            log.error(throwables.getMessage());
+            log.error("Cannot add reader to database", throwables);
             throw new RuntimeException();
         }
     }
@@ -66,7 +66,7 @@ public class ReaderServiceImpl implements ReaderService {
         try {
             return DAOFactory.readerDAO().existsByEmail(email);
         } catch (SQLException throwables) {
-            log.error(throwables.getMessage());
+            log.error("Cannot get reader by email from database", throwables);
             throw new RuntimeException();
         }
     }
@@ -76,7 +76,7 @@ public class ReaderServiceImpl implements ReaderService {
         try {
             DAOFactory.readerDAO().updateReader(reader);
         } catch (SQLException throwables) {
-            log.error(throwables.getMessage());
+            log.error("Cannot update reader", throwables);
             throw new RuntimeException();
         }
     }
@@ -86,7 +86,7 @@ public class ReaderServiceImpl implements ReaderService {
         try {
             return DAOFactory.readerDAO().getReadersAfter(offset);
         } catch (SQLException throwables) {
-            log.error(throwables.getMessage());
+            log.error("Cannot get next number of authors from database", throwables);
             throw new RuntimeException();
         }
     }
@@ -96,7 +96,7 @@ public class ReaderServiceImpl implements ReaderService {
         try {
             return DAOFactory.readerDAO().getMailedToDueReaderInfo();
         } catch (SQLException throwables) {
-            log.error(throwables.getMessage());
+            log.error("Cannot get mailed reader info from database", throwables);
             throw new RuntimeException();
         }
     }
@@ -106,7 +106,7 @@ public class ReaderServiceImpl implements ReaderService {
         try {
             return DAOFactory.readerDAO().getMailedToReturnReaderInfo();
         } catch (SQLException throwables) {
-            log.error(throwables.getMessage());
+            log.error("Cannot get mailed reader info from database", throwables);
             throw new RuntimeException();
         }
     }

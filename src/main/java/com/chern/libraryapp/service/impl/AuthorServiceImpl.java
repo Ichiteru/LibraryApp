@@ -30,7 +30,7 @@ public class AuthorServiceImpl implements AuthorService {
         try {
             return DAOFactory.authorDAO().getAllAuthors();
         } catch (SQLException throwables) {
-            log.error(throwables.getMessage());
+            log.error("Cannot get authors from database", throwables);
             throw new RuntimeException();
         }
     }
@@ -40,7 +40,7 @@ public class AuthorServiceImpl implements AuthorService {
         try {
             return DAOFactory.authorDAO().getBookAuthorsById(id);
         } catch (SQLException throwables) {
-            log.error(throwables.getMessage());
+            log.error("Cannot get authors by book id from database", throwables);
             throw new RuntimeException();
         }
     }
@@ -50,7 +50,7 @@ public class AuthorServiceImpl implements AuthorService {
         try {
             DAOFactory.authorDAO().addNewAuthors(authors);
         } catch (SQLException throwables) {
-            log.error(throwables.getMessage());
+            log.error("Cannot add new author to database", throwables);
             throw new RuntimeException();
         }
     }

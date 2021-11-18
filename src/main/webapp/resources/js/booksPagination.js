@@ -6,21 +6,21 @@ async function display(th){
     let bookAmount = document.getElementById('bookAmount').value;
     if (th.id == 'prevPage'){
         if (pagination_counter != 0){
-            pagination_counter = pagination_counter - 2;
+            pagination_counter = pagination_counter - 10;
         }
     }
     else if (th.id == 'firstPage'){
         pagination_counter = 0;
     }
     else if (th.id == 'secondPage'){
-        pagination_counter = 2
+        pagination_counter = 10
     }
     else if (th.id == 'thirdPage'){
-        pagination_counter = 4;
+        pagination_counter = 20;
     }
     if (th.id == 'nextPage'){
-        if (pagination_counter + 2 < bookAmount){
-            pagination_counter = pagination_counter + 2;
+        if (pagination_counter + 10 < bookAmount){
+            pagination_counter = pagination_counter + 10;
         }
     }
     const response = await fetch('/get/ten/books', {

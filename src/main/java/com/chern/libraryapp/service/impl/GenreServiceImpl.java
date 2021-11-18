@@ -28,7 +28,7 @@ public class GenreServiceImpl implements GenreService {
         try {
             return DAOFactory.genreDao().getAllGenres();
         } catch (SQLException throwables) {
-            log.error(throwables.getMessage());
+            log.error("Cannot get all genres from database", throwables);
             throw new RuntimeException();
         }
     }
@@ -38,7 +38,7 @@ public class GenreServiceImpl implements GenreService {
         try {
             return DAOFactory.genreDao().getBookGenresById(id);
         } catch (SQLException throwables) {
-            log.error(throwables.getMessage());
+            log.error("Cannot get genres by book ID from database", throwables);
             throw new RuntimeException();
         }
     }
@@ -47,7 +47,7 @@ public class GenreServiceImpl implements GenreService {
         try {
             return DAOFactory.genreDao().getNewGenres(validator.transformToList(newGenres));
         } catch (SQLException throwables) {
-            log.error(throwables.getMessage());
+            log.error("Cannot get new genres from database", throwables);
             throw new RuntimeException();
         }
     }

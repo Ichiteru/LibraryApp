@@ -46,7 +46,7 @@ public class BookServiceImpl implements BookService {
         try {
             books = DAOFactory.bookDAO().getAllBooks();
         } catch (SQLException throwables) {
-            log.error(throwables.getMessage());
+            log.error("Cannot get books from database", throwables);
             throw new RuntimeException();
         }
         return books;
@@ -57,7 +57,7 @@ public class BookServiceImpl implements BookService {
         try {
             book = DAOFactory.bookDAO().findBookById(id);
         } catch (SQLException throwables) {
-            log.error(throwables.getMessage());
+            log.error("Cannot find book by ID in database", throwables);
             throw new RuntimeException();
         }
         return book;
@@ -68,7 +68,7 @@ public class BookServiceImpl implements BookService {
         try {
             return DAOFactory.bookDAO().findBookByISBN(isbn);
         } catch (SQLException throwables) {
-            log.error(throwables.getMessage());
+            log.error("Cannot find book by ISBN in database", throwables);
             throw new RuntimeException();
         }
     }
@@ -78,7 +78,7 @@ public class BookServiceImpl implements BookService {
         try {
             return DAOFactory.bookDAO().findBookByTitle(title);
         } catch (SQLException throwables) {
-            log.error(throwables.getMessage());
+            log.error("Cannot find book by title in database", throwables);
             throw new RuntimeException();
         }
     }
@@ -109,7 +109,7 @@ public class BookServiceImpl implements BookService {
             DAOFactory.authorDAO().deleteOldAuthors(book.getId());
             DAOFactory.authorDAO().addNewAuthorsToBook(newAuthorsWithId, book.getId());
         } catch (SQLException throwables) {
-            log.error(throwables.getMessage());
+            log.error("Cannot update book", throwables);
             throw new RuntimeException();
         }
 
@@ -123,7 +123,7 @@ public class BookServiceImpl implements BookService {
         try {
             DAOFactory.bookDAO().addNewBook(book);
         } catch (SQLException throwables) {
-            log.error(throwables.getMessage());
+            log.error("Cannot add new book to database", throwables);
             throw new RuntimeException();
         }
         Book bookByISBN; // получаем книгу с ид
@@ -134,7 +134,7 @@ public class BookServiceImpl implements BookService {
             DAOFactory.authorDAO().addNewAuthorsToBook(newAuthorsWithId, bookByISBN.getId()); // добавляем авторов для книги
             DAOFactory.genreDao().addNewGenresToBook(book.getGenres(), bookByISBN.getId()); // добавляем жанры для книги
         } catch (SQLException throwables) {
-            log.error(throwables.getMessage());
+            log.error("Cannot add authors/genres to new book", throwables);
             throw new RuntimeException();
         }
     }
@@ -144,7 +144,7 @@ public class BookServiceImpl implements BookService {
         try {
             return DAOFactory.bookDAO().getBooksAfter(offset);
         } catch (SQLException throwables) {
-            log.error(throwables.getMessage());
+            log.error("Cannot get next number of books from database", throwables);
             throw new RuntimeException();
         }
     }
@@ -154,7 +154,7 @@ public class BookServiceImpl implements BookService {
         try {
             DAOFactory.bookDAO().deleteBooksByID(idList);
         } catch (SQLException throwables) {
-            log.error(throwables.getMessage());
+            log.error("Cannot delete books by ID's from database", throwables);
             throw new RuntimeException();
         }
     }
@@ -181,7 +181,7 @@ public class BookServiceImpl implements BookService {
                 }
             }
         } catch (SQLException | ParseException throwables) {
-            log.error(throwables.getMessage());
+            log.error("Cannot update book borrow records", throwables);
             throw new RuntimeException();
         }
     }
@@ -192,7 +192,7 @@ public class BookServiceImpl implements BookService {
         try {
             DAOFactory.bookDAO().getAllBooks().forEach(book -> allBooksID.add(book.getId()));
         } catch (SQLException throwables) {
-            log.error(throwables.getMessage());
+            log.error("Cannot get all books from database", throwables);
             throw new RuntimeException();
         }
         final List<Long>[] booksIdByTitle = new List[]{new ArrayList<>()};
@@ -204,7 +204,7 @@ public class BookServiceImpl implements BookService {
                 try {
                     booksIdByTitle[0] = DAOFactory.bookDAO().findBooksIdByTitle(parameterMap.get(k)[0]);
                 } catch (SQLException throwables) {
-                    log.error(throwables.getMessage());
+                    log.error("Cannot find book by title in search operation", throwables);
                     throw new RuntimeException();
                 }
             } else if (k.equals("authorId")) {
@@ -215,7 +215,7 @@ public class BookServiceImpl implements BookService {
                 try {
                     booksIdByDescription[0] = DAOFactory.bookDAO().findBooksIdWhereDescriptionLike(parameterMap.get(k)[0]);
                 } catch (SQLException throwables) {
-                    log.error(throwables.getMessage());
+                    log.error("Cannot get book by description in search operation", throwables);
                     throw new RuntimeException();
                 }
             }
@@ -250,7 +250,7 @@ public class BookServiceImpl implements BookService {
                 return booksId;
             }
         } catch (SQLException throwables) {
-            log.error(throwables.getMessage());
+            log.error("Cannot get retained books from database", throwables);
             throw new RuntimeException();
         }
     }
@@ -263,7 +263,7 @@ public class BookServiceImpl implements BookService {
                 try {
                     searchedBooksList.add(DAOFactory.bookDAO().findBookById(aLong));
                 } catch (SQLException throwables) {
-                    log.error(throwables.getMessage());
+                    log.error("Cannot get book by ID from database", throwables);
                     throw new RuntimeException();
                 }
             }

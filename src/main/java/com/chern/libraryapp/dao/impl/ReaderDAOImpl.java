@@ -28,7 +28,7 @@ public class ReaderDAOImpl implements ReaderDAO {
             "values (?,?,?,?,?,?)";
     private final String QUERY_UPDATE_READER = "update readers set " +
             "email=?, firstname=?, secondname=?, registrationdate=?, phone=?, gender=? where id=?";
-    private final String QUERY_SELECT_TEN_READERS_AFTER = "select * from readers offset ? rows fetch first 2 row only";
+    private final String QUERY_SELECT_TEN_READERS_AFTER = "select * from readers offset ? rows fetch first 9 row only";
 
     @Override
     public List<Reader> getAllReaders() throws SQLException {
